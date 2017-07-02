@@ -1,0 +1,10 @@
+require "config"
+
+require "prototypes.fluid"
+require "prototypes.pollution-block"
+require "prototypes.deaerosolizer"
+require "prototypes.vent"
+--require "prototypes.waterdump"
+require "prototypes.wellstorage"
+require "prototypes.pollution-processing"
+require "prototypes.tech"
