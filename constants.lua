@@ -56,4 +56,4 @@ attackGreenlightingTypes = {
 	["stone-wall"] = 5,
 }
 
-pollutionLiquidProductionFactor = 2 --to make it more difficult, or even infeasible, to just store pollution in more and more tanks
+pollutionLiquidProductionFactor = 1 --to make it more difficult, or even infeasible, to just store pollution in more and more tanks; not really necessary given the 10x

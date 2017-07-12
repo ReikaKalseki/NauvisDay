@@ -1,6 +1,6 @@
 require "constants"
 
-local function createFilter(tier, speedFactor)
+local function createFilter(tier, speedFactor, efficiency) --efficiency can be > 1
 	local ret =
 	{
     type = "assembling-machine",
@@ -57,7 +57,7 @@ local function createFilter(tier, speedFactor)
     crafting_categories = {"air-cleaning"},
     source_inventory_size = 1,
     result_inventory_size = 1,
-    crafting_speed = 1*speedFactor,
+    crafting_speed = 1*speedFactor/efficiency,
     energy_source =
     {
       type = "electric",
@@ -74,10 +74,10 @@ end
 local overallFactor = 0.5
 
 data:extend({
-	createFilter(1, 0.25*overallFactor),
-	createFilter(2, 0.5*overallFactor),
-	createFilter(3, 1*overallFactor),
-	createFilter(4, 2*overallFactor),
+	createFilter(1, 0.25*overallFactor, 0.75),
+	createFilter(2, 0.5*overallFactor, 1),
+	createFilter(3, 1*overallFactor, 1.5),
+	createFilter(4, 2*overallFactor, 2.5),
 })
 
 for tier = 1,4 do

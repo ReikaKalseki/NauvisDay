@@ -29,7 +29,9 @@ local well = util.table.deepcopy(data.raw.resource["crude-oil"])
 well.name = "pollution-well"
 well.autoplace = nil
 well.category = "empty-well"
-well.minable.fluid_amount = 10*pollutionLiquidProductionFactor
+well.map_color = {r=0.33, g=0.36, b=0.16}
+well.highlight = false
+well.minable.fluid_amount = 20*pollutionLiquidProductionFactor
 well.minable.required_fluid = "waste"
 --well.infinite_depletion_amount = 0
 well.minable.results =
@@ -72,7 +74,7 @@ for name,tile in pairs(data.raw.tile) do
 		water.map_color={r=64, g=77, b=29}
 		water.collision_mask =
     {
-      --"water-tile", --removing this prevents offshore pumps from working on it
+      --"water-tile", --removing this prevents offshore pumps from being placed on it
       "item-layer",
       "resource-layer",
       "player-layer",
