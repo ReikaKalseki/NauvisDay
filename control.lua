@@ -26,22 +26,6 @@ local function onGameTick(event)
 	if game.forces.enemy.evolution_factor < 0 then
 		game.forces.enemy.evolution_factor = 0
 	end
-	
-	--[[
-	local src = "dirt-dark"
-	local tgt = "grass-purple-fade"
-	for x = -1,1 do
-		for y = -1,1 do
-			local dx = game.players[1].position.x+x
-			local dy = game.players[1].position.y+y
-			local tile = game.players[1].surface.get_tile(dx, dy).name
-			if tile == src then
-				game.players[1].surface.set_tiles({{name=tgt, position={dx, dy}}})
-				game.print("Replaced tile @ " .. dx .. ", " .. dy)
-			end
-		end
-	end
-	--]]
 end
 
 script.on_event(defines.events.on_entity_died, onEntityRemoved)

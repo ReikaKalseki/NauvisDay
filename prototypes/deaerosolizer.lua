@@ -71,7 +71,7 @@ local function createFilter(tier, speedFactor, efficiency) --efficiency can be >
   return ret
 end
 
-local overallFactor = 0.5
+local overallFactor = 0.0625--0.5
 
 data:extend({
 	createFilter(1, 0.25*overallFactor, 0.75),
