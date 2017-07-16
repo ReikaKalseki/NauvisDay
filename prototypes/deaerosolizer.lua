@@ -1,5 +1,7 @@
 require "constants"
 
+local overallFactor = 0.0625--0.5
+
 local function createFilter(tier, speedFactor, efficiency) --efficiency can be > 1
 	local ret =
 	{
@@ -44,7 +46,7 @@ local function createFilter(tier, speedFactor, efficiency) --efficiency can be >
       frame_count = 32,
       line_length = 8,
       shift = {0.4, -0.06},
-	  animation_speed = 1/speedFactor,
+	  animation_speed = 1/speedFactor/overallFactor,
     },
     open_sound = { filename = "__base__/sound/machine-open.ogg", volume = 0.85 },
     close_sound = { filename = "__base__/sound/machine-close.ogg", volume = 0.75 },
@@ -57,7 +59,7 @@ local function createFilter(tier, speedFactor, efficiency) --efficiency can be >
     crafting_categories = {"air-cleaning"},
     source_inventory_size = 1,
     result_inventory_size = 1,
-    crafting_speed = 1*speedFactor/efficiency,
+    crafting_speed = 1*speedFactor*overallFactor/efficiency,
     energy_source =
     {
       type = "electric",
@@ -71,13 +73,11 @@ local function createFilter(tier, speedFactor, efficiency) --efficiency can be >
   return ret
 end
 
-local overallFactor = 0.0625--0.5
-
 data:extend({
-	createFilter(1, 0.25*overallFactor, 0.75),
-	createFilter(2, 0.5*overallFactor, 1),
-	createFilter(3, 1*overallFactor, 1.5),
-	createFilter(4, 2*overallFactor, 2.5),
+	createFilter(1, 0.25, 0.75),
+	createFilter(2, 0.5, 1),
+	createFilter(3, 1, 1.5),
+	createFilter(4, 2, 2.5),
 })
 
 for tier = 1,4 do

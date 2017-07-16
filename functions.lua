@@ -1,13 +1,10 @@
 require "config"
 require "constants"
 
-function onFirstTick(tick)
-	setPollutionAndEvoSettings()
-end
-
 function setPollutionAndEvoSettings()
 	for category, params in pairs(pollutionAndEvo) do
 		for entry, val in pairs(params) do
+			--game.print("Checking param " .. entry .. "...map val = " .. game.map_settings[category][entry] .. ", target = " .. val)
 			if game.map_settings[category][entry] ~= val then
 				game.print("NauvisDay: Re-setting " .. category .. "." .. entry .. " to " .. val .. " (was " .. game.map_settings[category][entry] .. ")")
 				game.map_settings[category][entry] = val

@@ -34,5 +34,14 @@ data:extend({
             order = "r",
 			localised_name = "Polluted water tile cleanup",
 			localised_description = "The amount of air pollution removed when a water tile turns polluted and, if cleaned, released when it turns back.",
-        },
+        },--[[
+        {
+            type = "bool-setting",
+            name = "use-depleted-oil-for-well",
+            setting_type = "startup",
+            default_value = true,
+            order = "r",
+			localised_name = "Use depleted oil fields for waste storage wells",
+			localised_description = "Whether oil that reaches its minimum value should be converted to an empty well for pollution wells. If false, empty wells (reskinned) generate in the world instead.",
+        },--]]
 })
