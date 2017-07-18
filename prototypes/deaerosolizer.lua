@@ -1,7 +1,5 @@
 require "constants"
 
-local overallFactor = 0.0625--0.5
-
 local function createFilter(tier, speedFactor, efficiency) --efficiency can be > 1
 	local ret =
 	{
@@ -46,7 +44,7 @@ local function createFilter(tier, speedFactor, efficiency) --efficiency can be >
       frame_count = 32,
       line_length = 8,
       shift = {0.4, -0.06},
-	  animation_speed = 1/speedFactor/overallFactor,
+	  animation_speed = 1/speedFactor/overallAerosolizerWasteGenSpeed,
     },
     open_sound = { filename = "__base__/sound/machine-open.ogg", volume = 0.85 },
     close_sound = { filename = "__base__/sound/machine-close.ogg", volume = 0.75 },
@@ -59,7 +57,7 @@ local function createFilter(tier, speedFactor, efficiency) --efficiency can be >
     crafting_categories = {"air-cleaning"},
     source_inventory_size = 1,
     result_inventory_size = 1,
-    crafting_speed = 1*speedFactor*overallFactor/efficiency,
+    crafting_speed = 1*speedFactor*overallAerosolizerWasteGenSpeed/efficiency,
     energy_source =
     {
       type = "electric",

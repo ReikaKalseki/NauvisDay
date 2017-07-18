@@ -6,6 +6,8 @@ firePollutionScale = 2*(1+(f-1)/2)
 coalPollutionScale = 4*f
 pollutionSpawnIncrease = 1.5
 
+overallAerosolizerWasteGenSpeed = 0.0625--0.5
+
 --These forcibly override map settings at all times to get the intended effect
 pollutionAndEvo = {
 	["pollution"] = {

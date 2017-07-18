@@ -13,57 +13,9 @@ function createSprite()
         direction_count = 1,
         --shift = util.by_pixel(0, -8.5),
         --run_mode = "forward-then-backward",
-		--[[
-        hr_version = {
-          priority = "extra-high",
-          filename = "__NauvisDay__/graphics/entity/storage/hr-storage-machine.png",
-          line_length = 8,
-          width = 196,
-          height = 226,
-          frame_count = 64,
-          animation_speed = 0.5,
-          direction_count = 1,
-          shift = util.by_pixel(0, -8),
-          --run_mode = "forward-then-backward",
-          scale = 0.5
-        }--]]
 	}
 	return ret
 end
-
---[[
-function createShadowSprite()
-	local ret =
-	{
-        priority = "extra-high",
-        filename = "__NauvisDay__/graphics/entity/storage/storage-machine-N-drill-shadow.png",
-        flags = { "shadow" },
-        line_length = 8,
-        width = 101,
-        height = 111,
-        frame_count = 64,
-        animation_speed = 0.5,
-        direction_count = 1,
-        shift = util.by_pixel(1.5, -7.5),
-        run_mode = "forward-then-backward",
-        hr_version = {
-          priority = "extra-high",
-          filename = "__NauvisDay__/graphics/entity/storage/hr-storage-machine-N-drill-shadow.png",
-          flags = { "shadow" },
-          line_length = 8,
-          width = 201,
-          height = 223,
-          frame_count = 64,
-          animation_speed = 0.5,
-          direction_count = 1,
-          shift = util.by_pixel(1.25, -7.25),
-          run_mode = "forward-then-backward",
-          scale = 0.5
-        }
-	}
-	return ret
-end
-	--]]
 
 data:extend(
 {
@@ -80,7 +32,7 @@ data:extend(
     selection_box = {{ -1.5, -1.5}, {1.5, 1.5}},
     input_fluid_box =
     {
-      production_type = "input-output",
+      production_type = "input", --was "input-output"
       pipe_picture = assembler2pipepictures(),
       pipe_covers = pipecoverspictures(),
       base_area = 1,
@@ -110,14 +62,7 @@ data:extend(
       east = createSprite(),
       south = createSprite(),
       west = createSprite()
-	},--[[
-    shadow_animations =
-    {
-      north = createShadowSprite(),
-      east = createShadowSprite(),
-      south = createShadowSprite(),
-      west = createShadowSprite()
-    },--]]
+	},
     input_fluid_patch_sprites =
     {
       north =

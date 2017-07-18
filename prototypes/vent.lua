@@ -55,7 +55,7 @@ data:extend({
     crafting_categories = {"pollution-venting"},
     source_inventory_size = 1,
     result_inventory_size = 1,
-    crafting_speed = 0.5,
+    crafting_speed = 0.5*overallAerosolizerWasteGenSpeed,
     energy_source =
     {
       type = "electric",

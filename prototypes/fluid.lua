@@ -26,11 +26,11 @@ data:extend(
 })
 
 local well = util.table.deepcopy(data.raw.resource["crude-oil"])
-well.name = "pollution-well"
+well.name = Config.depleteWells and "pollution-well" or "tectonic-well"
 well.autoplace = nil
 well.category = "empty-well"
-well.map_color = {r=0.33, g=0.36, b=0.16}
-well.highlight = false
+well.map_color = Config.depleteWells and {r=0.43, g=0.36, b=0.16} or {r=0.1,g=0.1,b=0.1}
+well.highlight = (not Config.depleteWells)--false
 well.minable.fluid_amount = 20*pollutionLiquidProductionFactor
 well.minable.required_fluid = "waste"
 --well.infinite_depletion_amount = 0
@@ -48,10 +48,10 @@ well.stages =
     {
       sheet =
       {
-        filename = "__NauvisDay__/graphics/entity/pollution-well.png",
+        filename = Config.depleteWells and "__NauvisDay__/graphics/entity/pollution-well.png" or "__NauvisDay__/graphics/entity/tectonic-well.png",
         priority = "extra-high",
-        width = 75,
-        height = 61,
+        width = Config.depleteWells and 75 or 90,
+        height = Config.depleteWells and 61 or 48,
         frame_count = 1,
         variation_count = 1
       }
