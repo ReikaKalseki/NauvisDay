@@ -24,6 +24,6 @@ Secondary Features:
 
 Protection from attacks in the very early game when they are guaranteed to be unsurvivable
 
-Oil wells are no longer infinite; when reaching their minimum value, they convert to an "empty" well for pollution disposal
+Oil wells are no longer infinite; when reaching their minimum value, they convert to an "empty" well for pollution disposal (optional; empty wells generate as worldgen if disabled)
 
 Destroying spawners unleashes a cluster of the spawner's progeny

@@ -3,8 +3,32 @@ require "constants"
 require "config"
 
 require "wellgen"
+require "pollutiondetection"
 
-local ranTick = false
+function initGlobal(force)
+	if not global.nvday then
+		global.nvday = {}
+	end
+	if force or global.nvday.loadTick == nil then
+		global.nvday.loadTick = false
+	end
+	if force or global.nvday.chunk_cache == nil then
+		global.nvday.chunk_cache = {}
+	end
+	if force or global.nvday.pollution_detectors == nil then
+		global.nvday.pollution_detectors = {}
+	end
+end
+
+initGlobal(true)
+
+script.on_init(function()
+	initGlobal(true)
+end)
+
+script.on_configuration_changed(function()
+	initGlobal(true)
+end)
 
 script.on_init(function()
 	setPollutionAndEvoSettings()
@@ -20,22 +44,34 @@ end)
 
 local function onEntityAdded(event)
 	--convertDepletedOilToWasteWell(event.created_entity)
+	addPollutionDetector(event.created_entity)
 end
 
 local function onEntityRemoved(event)
 	fluidSpill(event.entity)
 	checkPollutionBlock(event.entity)
 	doSpawnerDestructionSpawns(event.entity)
+	removePollutionDetector(event.entity)
 	--convertWasteWellToDepletedOil(event.entity)
 end
 
 local function onGameTick(event)
-	--doWaterPollution(tick) TOO LAGGY
+	initGlobal(false)
+	
+	if not global.nvday.loadTick then		
+		for chunk in game.surfaces["nauvis"].get_chunks() do
+			table.insert(global.nvday.chunk_cache, chunk)
+		end
+		global.nvday.loadTick = true
+	end
+	
 	local tick = game.tick
+	doWaterPollution(tick)
 	if tick%3600 == 0 then --check once every 60 seconds
 		setPollutionAndEvoSettings()
 	end
 	ensureNoEarlyAttacks(tick)
+	tickDetectors(tick)
 	if game.forces.enemy.evolution_factor < 0 then
 		game.forces.enemy.evolution_factor = 0
 	end
@@ -56,9 +92,12 @@ script.on_event(defines.events.on_resource_depleted, function(event)
 end)
 
 script.on_event(defines.events.on_chunk_generated, function(event)
+	initGlobal(false)
 	if Config.depleteWells then
 		return
 	end
+	
+	table.insert(global.nvday.chunk_cache, chunk)
 	
 	local rand = game.create_random_generator()
 	local x = (event.area.left_top.x+event.area.right_bottom.x)/2

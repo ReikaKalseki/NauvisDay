@@ -92,7 +92,28 @@ for name,tile in pairs(data.raw.tile) do
 				end
 			end
 		end
-
+		--[[
+		water.variants.inner_corner = {
+			picture = "__NauvisDay__/graphics/terrain/water/edges/water-inner-corner.png",
+			count = 6
+		}
+		water.variants.outer_corner = {
+			picture = "__NauvisDay__/graphics/terrain/water/edges/water-outer-corner.png",
+			count = 6
+		}
+		water.variants.side = {
+			picture = "__NauvisDay__/graphics/terrain/water/edges/water-side.png",
+			count = 8
+		}
+		water.variants.u_transition = {
+			picture = "__NauvisDay__/graphics/terrain/water/edges/water-u.png",
+			count = 6
+		}
+		water.variants.o_transition = {
+			picture = "__NauvisDay__/graphics/terrain/water/edges/water-o.png",
+			count = 6
+		}
+		--]]
 		--log(serpent.block(water))
 		table.insert(waters, water)
 	end

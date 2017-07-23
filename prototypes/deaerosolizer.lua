@@ -44,7 +44,7 @@ local function createFilter(tier, speedFactor, efficiency) --efficiency can be >
       frame_count = 32,
       line_length = 8,
       shift = {0.4, -0.06},
-	  animation_speed = 1/speedFactor/overallAerosolizerWasteGenSpeed,
+	  animation_speed = 1/speedFactor,
     },
     open_sound = { filename = "__base__/sound/machine-open.ogg", volume = 0.85 },
     close_sound = { filename = "__base__/sound/machine-close.ogg", volume = 0.75 },
@@ -57,12 +57,12 @@ local function createFilter(tier, speedFactor, efficiency) --efficiency can be >
     crafting_categories = {"air-cleaning"},
     source_inventory_size = 1,
     result_inventory_size = 1,
-    crafting_speed = 1*speedFactor*overallAerosolizerWasteGenSpeed/efficiency,
+    crafting_speed = 1*speedFactor/efficiency,
     energy_source =
     {
       type = "electric",
       usage_priority = "secondary-input",
-      emissions = -0.25*(1+(speedFactor-1)/2)
+      emissions = -0.25*(1+(speedFactor-1)/2)*3
     },
     energy_usage = (600*speedFactor) .. "kW",
     ingredient_count = 1,
@@ -107,7 +107,7 @@ data:extend({
     icon = "__NauvisDay__/graphics/icons/filter-air.png",
     category = "air-cleaning",
     order = "f[plastic-bar]-f[cleaning]",
-    energy_required = 0.2,
+    energy_required = 0.2/overallAerosolizerWasteGenSpeed,
     enabled = "false",
     ingredients =
     {

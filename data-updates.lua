@@ -78,3 +78,5 @@ for k,obj in pairs(data.raw.fire) do
 	obj.emissions_per_tick = obj.emissions_per_tick*pollutionScale*firePollutionScale
 	--log(serpent.block("Success"))
 end
+
+table.insert(data.raw.technology["circuit-network"].effects, {type="unlock-recipe", recipe="pollution-detector"})
