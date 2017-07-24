@@ -8,6 +8,15 @@ pollutionSpawnIncrease = 1.5
 
 overallAerosolizerWasteGenSpeed = 0.0625--0.5
 
+maxAttackSizeCurve = {
+	{0, 5},
+	{0.05, 10},
+	{0.1, 20},
+	{0.25, 50},
+	{0.5, 100},
+	{1, 200}
+}
+
 --These forcibly override map settings at all times to get the intended effect
 pollutionAndEvo = {
 	["pollution"] = {

@@ -21,7 +21,7 @@ local coalBurners = {"boiler", "furnace", "mining-drill"}--, "inserter", "car", 
 for idx,label in pairs(coalBurners) do
 	for k,obj in pairs(data.raw[label]) do
 		--log(serpent.block("Checking candidate coal burner '" .. k .. "'"))
-		if obj.energy_source.type == "burner" then
+		if obj.energy_source.type == "burner" and obj.energy_source.fuel_category == "chemical" then
 			--log(serpent.block("ID'ed coal burner '" .. k .. "', increasing emissions " .. pollutionScale*coalPollutionScale .. "x"))
 			if obj.energy_source.emissions then
 				obj.energy_source.emissions = obj.energy_source.emissions*pollutionScale*coalPollutionScale
@@ -45,8 +45,8 @@ end
 data.raw.recipe["firearm-magazine"].ingredients = {{"iron-plate", 3}} -- go from 4 plates to 1.5 plates each
 data.raw.recipe["firearm-magazine"].result_count = 2 --since attacks are going to be VERY frequent and early game resources are at a premium; since this ammo is obsoleted rapidly, does not affect mid to late game
 
+data.raw.unit["small-biter"].pollution_to_join_attack = 500 --was 200, then 400
 --[[
-data.raw.unit["small-biter"].pollution_to_join_attack = 400 --was 200
 data.raw.unit["small-biter"].max_health = 10 --was 15
 data.raw.unit["small-biter"].attack_parameters.ammo_type = make_unit_melee_ammo_type(5) --was 7
 --]]

@@ -72,6 +72,10 @@ local function onGameTick(event)
 	end
 	ensureNoEarlyAttacks(tick)
 	tickDetectors(tick)
+	if tick%60 == 0 then
+		local evo = game.forces.enemy.evolution_factor
+		game.map_settings.unit_group.max_unit_group_size = getMaxEnemyWaveSize(evo) --200 is vanilla
+	end
 	if game.forces.enemy.evolution_factor < 0 then
 		game.forces.enemy.evolution_factor = 0
 	end

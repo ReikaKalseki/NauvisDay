@@ -1,6 +1,20 @@
 require "config"
 require "constants"
 
+function getMaxEnemyWaveSize(evo)
+	local idx = 1
+	while idx <= #maxAttackSizeCurve and maxAttackSizeCurve[idx][1] < evo do
+		idx = idx+1
+	end
+	idx = idx-1
+	--game.print("Evo of " .. evo .. " > idx= " .. idx .. ": " .. maxAttackSizeCurve[idx][1] .. "," .. maxAttackSizeCurve[idx][2] .. " & " .. maxAttackSizeCurve[idx+1][1] .. "," .. maxAttackSizeCurve[idx+1][2])
+	local x1 = maxAttackSizeCurve[idx][1]
+	local x2 = maxAttackSizeCurve[idx+1][1]
+	local y1 = maxAttackSizeCurve[idx][2]
+	local y2 = maxAttackSizeCurve[idx+1][2]
+	return math.ceil(y1+(y2-y1)*((evo-x1)/(x2-x1)))
+end
+
 function setPollutionAndEvoSettings()
 	for category, params in pairs(pollutionAndEvo) do
 		for entry, val in pairs(params) do
