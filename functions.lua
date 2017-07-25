@@ -79,7 +79,9 @@ function tickGasBoilers(tick)
 					entry.input.fluidbox[1] = fluid
 				end
 				entry.boiler.burner.currently_burning = game.item_prototypes["coal"]
-				entry.boiler.burner.remaining_burning_fuel = 50000
+				entry.boiler.burner.remaining_burning_fuel = 8000000
+			else
+				entry.boiler.burner.remaining_burning_fuel = 0
 			end
 		end
 	--end
