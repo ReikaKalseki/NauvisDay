@@ -1,6 +1,178 @@
 require "config"
 require "constants"
 
+local function getOppositeDirection(dir) --direction is a number from 0 to 7
+	return (dir+4)%8
+end
+
+function tickSteamFurnaces(tick)
+	if tick%30 == 0 then
+		for _,entry in pairs(global.nvday.steam_furnaces) do
+			--entry.furnace.energy = 300
+			
+			--[[
+			local furnaces = furnace.surface.find_entities_filtered({name = furnace.name, area = {{furnace.position.x-8, furnace.position.y-8}, {furnace.position.x+8, furnace.position.y+8}}})
+			if #furnaces > 1 then
+				local totalsteam = 0
+				for _,furnace2 in pairs(furnaces) do
+					if furnace2.fluidbox[1] then
+						--game.print("Adding " .. furnace2.fluidbox[1].amount .. "steam")
+						totalsteam = totalsteam+furnace2.fluidbox[1].amount
+					end
+				end
+				local avgsteam = math.floor(totalsteam/#furnaces)
+				--game.print(#furnaces .. " > " .. totalsteam .. " > " .. avgsteam)
+				for _,furnace2 in pairs(furnaces) do
+					furnace2.fluidbox[1] = {type="steam", amount=avgsteam}
+				end
+			end
+			--]]
+		end
+	end
+end
+
+function tickGasBoilers(tick)
+	--if tick%15 == 0 then
+		for _,entry in pairs(global.nvday.gas_boilers) do
+			entry.input.recipe = entry.input.force.recipes["gas-boiler-input"] --just to be safe
+			local fluid = entry.input.fluidbox[1]
+			if fluid and fluid.type == "petroleum-gas" and fluid.amount >= 1 then
+				--game.print("Adding gas to boiler")
+				if tick%4 == 0 then
+					fluid.amount = fluid.amount-1
+					entry.input.fluidbox[1] = fluid
+				end
+				entry.boiler.burner.currently_burning = game.item_prototypes["coal"]
+				entry.boiler.burner.remaining_burning_fuel = 500
+			end
+		end
+	--end
+end
+
+local function getGasBoilerEntry(entity)
+	if entity.name == "gas-boiler" then
+		for i, entry in ipairs(global.nvday.gas_boilers) do
+			if entry.boiler.position.x == entity.position.x and entry.boiler.position.y == entity.position.y then
+				return entry
+			end
+		end
+	end
+	return nil
+end
+
+function rotateGasBoiler(entity)
+  if entity.name == "gas-boiler" then
+	local entry = getGasBoilerEntry(entity)
+	local fluid = entry.input.fluidbox[1]
+	local pos = entity.position
+	if entity.direction == defines.direction.north then
+		pos.y = pos.y+1
+	end
+	if entity.direction == defines.direction.south then
+		pos.y = pos.y-1
+	end
+	if entity.direction == defines.direction.east then
+		pos.x = pos.x-1
+	end
+	if entity.direction == defines.direction.west then
+		pos.x = pos.x+1
+	end
+	entry.input.destroy()
+	local gasinput = entity.surface.create_entity({name = "gas-boiler-input", position = pos, force = entity.force, direction = getOppositeDirection(entity.direction)})
+	gasinput.recipe = entity.force.recipes["gas-boiler-input"]
+	gasinput.fluidbox[1] = fluid
+	entry.input = gasinput
+  end
+end
+
+function addGasBoiler(entity)
+  if entity.name == "gas-boiler" then
+	--entity.operable = false
+	local pos = entity.position
+	--local pipepos = {x=pos.x, y=pos.y}
+	if entity.direction == defines.direction.north then
+		pos.y = pos.y+1
+		--pipepos.y = pipepos.y+2
+	end
+	if entity.direction == defines.direction.south then
+		pos.y = pos.y-1
+		--pipepos.y = pipepos.y-2
+	end
+	if entity.direction == defines.direction.east then
+		pos.x = pos.x-1
+		--pipepos.x = pipepos.x-2
+	end
+	if entity.direction == defines.direction.west then
+		pos.x = pos.x+1
+		--pipepos.x = pipepos.x+2
+	end
+	local gasinput = entity.surface.create_entity({name = "gas-boiler-input", position = pos, force = entity.force, direction = getOppositeDirection(entity.direction)})
+	table.insert(global.nvday.gas_boilers, {boiler = entity, input = gasinput})
+	gasinput.recipe = entity.force.recipes["gas-boiler-input"]
+	--local pipes = entity.surface.find_entities_filtered{position = pipepos}
+  end
+end
+
+function removeGasBoiler(entity)
+	if entity.name == "gas-boiler" then
+		for i, entry in ipairs(global.nvday.gas_boilers) do
+			if entry.boiler.position.x == entity.position.x and entry.boiler.position.y == entity.position.y then
+				--local gasinputs = entity.surface.find_entities_filtered{name = "gas-boiler-input", position = entity.position}
+				--gasinput.destroy()
+				entry.input.destroy()
+				table.remove(global.nvday.gas_boilers, i)
+				break
+			end
+		end
+	end
+end
+
+local function findNearbyRecipes(entity)
+	local ret = nil
+	local retct = 0
+	local recipes = {}
+	local furnaces = entity.surface.find_entities_filtered({name = entity.name, area = {{entity.position.x-8, entity.position.y-8}, {entity.position.x+8, entity.position.y+8}}})
+	for _,furnace in pairs(furnaces) do
+		if furnace.recipe then
+			if recipes[furnace.recipe.name] == nil then
+				recipes[furnace.recipe.name] = 0
+			end
+			recipes[furnace.recipe.name] = recipes[furnace.recipe.name]+1
+		end
+	end
+	for recipe,count in pairs(recipes) do
+		--game.print(recipe .. ": " .. count)
+		if ret == nil or count > retct then
+			ret = recipe
+			retct = count
+		end
+	end
+	return ret and entity.force.recipes[ret] or nil
+end
+
+function addSteamFurnace(entity)
+  if entity.name == "steam-furnace" then
+	entity.recipe = findNearbyRecipes(entity)
+	
+	--local pole = entity.surface.create_entity({name = "furnace-electric-pole", position = entity.position, force = entity.force})
+	--local interface = entity.surface.create_entity({name = "furnace-energy-interface", position = entity.position, force = entity.force})	
+	--table.insert(global.nvday.steam_furnaces, entity--[[{furnace=entity, pole=pole, energy=interface}--]])
+  end
+end
+
+function removeSteamFurnace(entity)
+	if entity.name == "steam-furnace" then
+		for i,--[[entry--]]furnace in ipairs(global.nvday.steam_furnaces) do
+			if --[[entry.--]]furnace.position.x == entity.position.x and --[[entry.--]]furnace.position.y == entity.position.y then
+				--entry.pole.destroy()
+				--entry.energy.destroy()
+				table.remove(global.nvday.steam_furnaces, i)
+				break
+			end
+		end
+	end
+end
+
 function getMaxEnemyWaveSize(evo)
 	local idx = 1
 	while idx <= #maxAttackSizeCurve and maxAttackSizeCurve[idx][1] < evo do

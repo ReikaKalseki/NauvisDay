@@ -18,6 +18,12 @@ function initGlobal(force)
 	if force or global.nvday.pollution_detectors == nil then
 		global.nvday.pollution_detectors = {}
 	end
+	if force or global.nvday.gas_boilers == nil then
+		global.nvday.gas_boilers = {}
+	end
+	if force or global.nvday.steam_furnaces == nil then
+		global.nvday.steam_furnaces = {}
+	end
 end
 
 initGlobal(true)
@@ -42,9 +48,16 @@ script.on_event(defines.events.on_console_command, function(event)
 	setPollutionAndEvoSettings()
 end)
 
+local function onEntityRotated(event)
+	--convertDepletedOilToWasteWell(event.created_entity)
+	rotateGasBoiler(event.entity)
+end
+
 local function onEntityAdded(event)
 	--convertDepletedOilToWasteWell(event.created_entity)
 	addPollutionDetector(event.created_entity)
+	addGasBoiler(event.created_entity)
+	addSteamFurnace(event.created_entity)
 end
 
 local function onEntityRemoved(event)
@@ -52,6 +65,8 @@ local function onEntityRemoved(event)
 	checkPollutionBlock(event.entity)
 	doSpawnerDestructionSpawns(event.entity)
 	removePollutionDetector(event.entity)
+	removeGasBoiler(event.entity)
+	--removeSteamFurnace(event.entity)
 	--convertWasteWellToDepletedOil(event.entity)
 end
 
@@ -61,6 +76,16 @@ local function onGameTick(event)
 	if not global.nvday.loadTick then		
 		for chunk in game.surfaces["nauvis"].get_chunks() do
 			table.insert(global.nvday.chunk_cache, chunk)
+		end
+		--[[
+		local furnaces = game.surfaces["nauvis"].find_entities_filtered({name="steam-furnace"})
+		for _,furnace in pairs(furnaces) do
+			addSteamFurnace(furnace)
+		end
+		--]]
+		local boilers = game.surfaces["nauvis"].find_entities_filtered({name="gas-boiler"})
+		for _,boiler in pairs(boilers) do
+			addGasBoiler(boiler)
 		end
 		global.nvday.loadTick = true
 	end
@@ -72,6 +97,8 @@ local function onGameTick(event)
 	end
 	ensureNoEarlyAttacks(tick)
 	tickDetectors(tick)
+	tickGasBoilers(tick)
+	--tickSteamFurnaces(tick)
 	if tick%60 == 0 then
 		local evo = game.forces.enemy.evolution_factor
 		game.map_settings.unit_group.max_unit_group_size = getMaxEnemyWaveSize(evo) --200 is vanilla
@@ -87,6 +114,8 @@ script.on_event(defines.events.on_robot_pre_mined, onEntityRemoved)
 
 script.on_event(defines.events.on_built_entity, onEntityAdded)
 script.on_event(defines.events.on_robot_built_entity, onEntityAdded)
+
+script.on_event(defines.events.on_player_rotated_entity, onEntityRotated)
 
 script.on_event(defines.events.on_resource_depleted, function(event)
 	if Config.depleteWells and event.entity.prototype.resource_category == "basic-fluid" then

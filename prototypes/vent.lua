@@ -74,7 +74,8 @@ data:extend({
     },
     energy_usage = "50kW",
     ingredient_count = 1,
-    module_slots = 0
+    module_slots = 0,
+    allowed_effects = nil, --no modules
   }
 })
 

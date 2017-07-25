@@ -21,10 +21,10 @@ local coalBurners = {"boiler", "furnace", "mining-drill"}--, "inserter", "car", 
 for idx,label in pairs(coalBurners) do
 	for k,obj in pairs(data.raw[label]) do
 		--log(serpent.block("Checking candidate coal burner '" .. k .. "'"))
-		if obj.energy_source.type == "burner" and obj.energy_source.fuel_category == "chemical" then
-			--log(serpent.block("ID'ed coal burner '" .. k .. "', increasing emissions " .. pollutionScale*coalPollutionScale .. "x"))
+		if obj.energy_source.type == "burner" and obj.energy_source.fuel_category == "chemical" and (obj.name ~= "gas-boiler" and obj.name ~= "steam-furnace") then
+			--log(serpent.block("ID'ed coal burner '" .. k .. "', increasing emissions " .. coalPollutionScale .. "x"))
 			if obj.energy_source.emissions then
-				obj.energy_source.emissions = obj.energy_source.emissions*pollutionScale*coalPollutionScale
+				obj.energy_source.emissions = obj.energy_source.emissions*coalPollutionScale
 				--log(serpent.block("Success"))
 			else
 				--log(serpent.block("Entity had no emissions parameter. Entity: "))
@@ -80,3 +80,19 @@ for k,obj in pairs(data.raw.fire) do
 end
 
 table.insert(data.raw.technology["circuit-network"].effects, {type="unlock-recipe", recipe="pollution-detector"})
+table.insert(data.raw.technology["advanced-electronics"].effects, {type="unlock-recipe", recipe="gas-boiler"})
+table.insert(data.raw.technology["advanced-material-processing"].effects, {type="unlock-recipe", recipe="steam-furnace"})
+
+--[[
+table.insert(data.raw.technology["advanced-material-processing"].effects, {type="unlock-recipe", recipe="steam-furnace-flipped"})
+
+local base = data.raw["assembling-machine"]["steam-furnace"]
+local flipsteam = table.deepcopy(base)
+flipsteam.name = flipsteam.name .. "-flipped"
+flipsteam.localised_name = base.localised_name
+flipsteam.fluid_boxes[1].pipe_connections[1] = {type = "input", positions = {{-0.5, -1.5}, {1.5, 0.5}, {-0.5, 1.5}, {-1.5, 0.5}}}
+
+data:extend({
+	flipsteam
+})
+--]]

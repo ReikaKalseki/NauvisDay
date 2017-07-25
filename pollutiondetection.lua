@@ -1,5 +1,3 @@
-local ticks = 61
-
 function addPollutionDetector(entity)
   if entity.name == "pollution-detector" then
     disableOperableIfPD(entity)
@@ -21,12 +19,10 @@ function removePollutionDetector(entity)
 end
 
 function tickDetectors(tick)
-  ticks = ticks + 1
-  if ticks >= 60 then
-    ticks = 0
+  if tick%60 == 0 then
     for i, pollution_detector in ipairs(global.nvday.pollution_detectors) do
-     setPollutionValue(pollution_detector)
-   end   
+      setPollutionValue(pollution_detector)
+    end   
   end
 end
 

@@ -44,4 +44,18 @@ data:extend({
 			--localised_name = "Use depleted oil fields for waste storage wells",
 			--localised_description = "Whether oil that reaches its minimum value should be converted to an empty well for pollution wells. If false, empty wells (reskinned) generate in the world instead. You do NOT want to change this on existing worlds, as the internal entity names are different.",
         },
+        {
+            type = "bool-setting",
+            name = "steam-furnace",
+            setting_type = "startup",
+            default_value = true,
+            order = "r",
+		},
+        {
+            type = "bool-setting",
+            name = "gas-boiler",
+            setting_type = "startup",
+            default_value = true,
+            order = "r",
+		},
 })

@@ -10,10 +10,10 @@ overallAerosolizerWasteGenSpeed = 0.0625--0.5
 
 maxAttackSizeCurve = {
 	{0, 5},
-	{0.05, 10},
-	{0.1, 20},
-	{0.25, 50},
-	{0.5, 100},
+	{0.05, 20},--{0.05, 10},
+	{0.1, 40},--{0.1, 20},
+	{0.25, 100},--{0.25, 50},
+	{0.5, 200},--{0.5, 100},
 	{1, 200}
 }
 
@@ -51,7 +51,7 @@ waterConversionPatterns = { --weighted random
 
 extraPollution = { --Further multipliers on a few entities
 	["furnace"] = {
-		["steel-furnace"] = 1.5, --stacks with the previous 16x
+		["steel-furnace"] = 2, --stacks with the previous 16x
 	},
 	["assembling-machine"] = {
 		["assembling-machine-1"] = 4,

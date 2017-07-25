@@ -66,7 +66,8 @@ local function createFilter(tier, speedFactor, efficiency) --efficiency can be >
     },
     energy_usage = (600*speedFactor) .. "kW",
     ingredient_count = 1,
-    module_slots = 0
+    module_slots = 0,
+    allowed_effects = nil, --no modules
   }
   return ret
 end
