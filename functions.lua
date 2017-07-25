@@ -5,9 +5,45 @@ local function getOppositeDirection(dir) --direction is a number from 0 to 7
 	return (dir+4)%8
 end
 
+local function hasIngredients(furnace)
+	local inv = furnace.get_inventory(defines.inventory.furnace_source)
+	local fluids = {}
+	for i= 1,#furnace.fluidbox do
+		local fluid = furnace.fluidbox[i]
+		if fluid then
+			fluids[fluid.type] = fluid.amount
+		end
+	end
+	for _,ingredient in pairs(furnace.recipe.ingredients) do
+		if ingredient.type == "item" then
+			local has = inv.get_item_count(ingredient.name)
+			if has < ingredient.amount then
+				return false
+			end
+		end
+		if ingredient.type == "fluid" and ingredient.name ~= "steam" then
+			if fluids[ingredient.name] < ingredient.amount then
+				return false
+			end
+		end
+	end
+	return true
+end
+
 function tickSteamFurnaces(tick)
 	if tick%30 == 0 then
-		for _,entry in pairs(global.nvday.steam_furnaces) do
+		for _,furnace in pairs(global.nvday.steam_furnaces) do
+			if furnace.recipe and hasIngredients(furnace) then
+				furnace.crafting_progress = math.max(furnace.crafting_progress, 0.005)
+			end
+			local fluid = furnace.fluidbox[1]
+			if fluid and fluid.type == "steam" and fluid.amount >= 5 then
+				furnace.burner.currently_burning = game.item_prototypes["coal"]
+				furnace.burner.remaining_burning_fuel = 50000000
+			else
+				furnace.burner.remaining_burning_fuel = 0
+			end
+		
 			--entry.furnace.energy = 300
 			
 			--[[
@@ -43,7 +79,7 @@ function tickGasBoilers(tick)
 					entry.input.fluidbox[1] = fluid
 				end
 				entry.boiler.burner.currently_burning = game.item_prototypes["coal"]
-				entry.boiler.burner.remaining_burning_fuel = 500
+				entry.boiler.burner.remaining_burning_fuel = 50000
 			end
 		end
 	--end
@@ -156,7 +192,7 @@ function addSteamFurnace(entity)
 	
 	--local pole = entity.surface.create_entity({name = "furnace-electric-pole", position = entity.position, force = entity.force})
 	--local interface = entity.surface.create_entity({name = "furnace-energy-interface", position = entity.position, force = entity.force})	
-	--table.insert(global.nvday.steam_furnaces, entity--[[{furnace=entity, pole=pole, energy=interface}--]])
+	table.insert(global.nvday.steam_furnaces, entity--[[{furnace=entity, pole=pole, energy=interface}--]])
   end
 end
 

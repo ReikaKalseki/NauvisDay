@@ -66,7 +66,7 @@ local function onEntityRemoved(event)
 	doSpawnerDestructionSpawns(event.entity)
 	removePollutionDetector(event.entity)
 	removeGasBoiler(event.entity)
-	--removeSteamFurnace(event.entity)
+	removeSteamFurnace(event.entity)
 	--convertWasteWellToDepletedOil(event.entity)
 end
 
@@ -77,12 +77,10 @@ local function onGameTick(event)
 		for chunk in game.surfaces["nauvis"].get_chunks() do
 			table.insert(global.nvday.chunk_cache, chunk)
 		end
-		--[[
 		local furnaces = game.surfaces["nauvis"].find_entities_filtered({name="steam-furnace"})
 		for _,furnace in pairs(furnaces) do
 			addSteamFurnace(furnace)
 		end
-		--]]
 		local boilers = game.surfaces["nauvis"].find_entities_filtered({name="gas-boiler"})
 		for _,boiler in pairs(boilers) do
 			addGasBoiler(boiler)
@@ -98,7 +96,7 @@ local function onGameTick(event)
 	ensureNoEarlyAttacks(tick)
 	tickDetectors(tick)
 	tickGasBoilers(tick)
-	--tickSteamFurnaces(tick)
+	tickSteamFurnaces(tick)
 	if tick%60 == 0 then
 		local evo = game.forces.enemy.evolution_factor
 		game.map_settings.unit_group.max_unit_group_size = getMaxEnemyWaveSize(evo) --200 is vanilla

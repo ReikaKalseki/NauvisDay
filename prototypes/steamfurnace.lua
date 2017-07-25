@@ -129,9 +129,21 @@ data:extend({
 	ingredient_count = 2,
     energy_source =
     {
-      type = "electric",
-      usage_priority = "secondary-input",
-      emissions = 0.32*15/power --totals 1/6th of a steel furnace when coal and other multipliers are applied, at 15kW power consumption
+      type = "burner",
+      fuel_category = "chemical",
+      effectivity = 1,
+      emissions = 0.32*15/power, --totals 1/6th of a steel furnace when coal and other multipliers are applied, at 15kW power consumption
+      fuel_inventory_size = 0,
+      smoke =
+      {
+        {
+          name = "smoke",
+          frequency = 10,
+          position = {0.7, -1.2},
+          starting_vertical_speed = 0.08,
+          starting_frame_deviation = 60
+        }
+      }
     },
     animation =
     {
