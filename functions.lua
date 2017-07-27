@@ -74,7 +74,7 @@ function tickGasBoilers(tick)
 			local fluid = entry.input.fluidbox[1]
 			if fluid and fluid.type == "petroleum-gas" and fluid.amount >= 1 then
 				--game.print("Adding gas to boiler")
-				if tick%4 == 0 then
+				if entry.boiler.fluidbox[1] and entry.boiler.fluidbox[1].type == "water" and entry.boiler.fluidbox[1].amount > 10 and tick%4 == 0 then
 					fluid.amount = fluid.amount-1
 					entry.input.fluidbox[1] = fluid
 				end
@@ -91,6 +91,13 @@ local function getGasBoilerEntry(entity)
 	if entity.name == "gas-boiler" then
 		for i, entry in ipairs(global.nvday.gas_boilers) do
 			if entry.boiler.position.x == entity.position.x and entry.boiler.position.y == entity.position.y then
+				return entry
+			end
+		end
+	end
+	if entity.name == "gas-boiler-input" then
+		for i, entry in ipairs(global.nvday.gas_boilers) do
+			if entry.input.position.x == entity.position.x and entry.input.position.y == entity.position.y then
 				return entry
 			end
 		end
@@ -125,7 +132,6 @@ end
 
 function addGasBoiler(entity)
   if entity.name == "gas-boiler" then
-	--entity.operable = false
 	local pos = entity.position
 	--local pipepos = {x=pos.x, y=pos.y}
 	if entity.direction == defines.direction.north then
@@ -148,6 +154,24 @@ function addGasBoiler(entity)
 	table.insert(global.nvday.gas_boilers, {boiler = entity, input = gasinput})
 	gasinput.recipe = entity.force.recipes["gas-boiler-input"]
 	--local pipes = entity.surface.find_entities_filtered{position = pipepos}
+  end
+  if entity.type == "pipe" or entity.type == "pipe-to-ground" then
+	local gasinputs = entity.surface.find_entities_filtered({name = "gas-boiler-input", area = {{entity.position.x-1, entity.position.y-1}, {entity.position.x+1, entity.position.y+1}}, force = entity.force})
+	for _,input in pairs(gasinputs) do
+		local e = input.energy
+		local fluid = input.fluidbox[1]
+		local dir = input.direction
+		local pos = input.position
+		local entry = getGasBoilerEntry(input)
+		local rec = input.recipe
+		input.destroy()
+		local repl = entity.surface.create_entity({name = "gas-boiler-input", force = entity.force, direction = dir, position = pos})
+		repl.energy = e
+		repl.recipe = rec
+		repl.fluidbox[1] = fluid
+		entry.input = repl
+		--game.print(repl.unit_number .. " : " .. (fluid and (fluid.type .. ":" .. fluid.amount) or "nil") .. " > " .. (entry.input.fluidbox[1] and (entry.input.fluidbox[1].type .. ":" .. entry.input.fluidbox[1].amount) or "nil"))
+	end
   end
 end
 
