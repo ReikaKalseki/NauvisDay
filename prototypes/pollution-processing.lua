@@ -36,6 +36,24 @@ data:extend({
     {
       {type="fluid", name="sulfuric-acid", amount=50}
     },
+  },
+   {
+    type = "recipe",
+    name = "asphalt",
+    category = "chemistry",
+    --order = "f[plastic-bar]-f[venting]",
+    energy_required = 30,
+    enabled = "false",
+    ingredients =
+    {
+      {type="fluid", name="waste", amount=120*pollutionLiquidProductionFactor},
+      {type="fluid", name="heavy-oil", amount=1},
+      {type="item", name="stone", amount=20}
+    },
+    results=
+    {
+      {type="item", name="asphalt", amount=50}
+    },
   }
 })
 
@@ -56,6 +74,6 @@ data:extend({
     {
       {type="item", name="pollution-block", amount=1}
     },
-  }
+  },
 })
 

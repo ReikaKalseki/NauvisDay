@@ -26,7 +26,7 @@ data:extend(
     flags = {"placeable-neutral", "player-creation"},
     minable = {mining_time = 1, result = "storage-machine"},
     max_health = 300,
-    resource_categories = {"empty-well"},
+    resource_categories = {"empty-well", "borehole"},
     corpse = "big-remnants",
     collision_box = {{ -1.4, -1.4}, {1.4, 1.4}},
     selection_box = {{ -1.5, -1.5}, {1.5, 1.5}},
@@ -35,9 +35,9 @@ data:extend(
       production_type = "input", --was "input-output"
       pipe_picture = assembler2pipepictures(),
       pipe_covers = pipecoverspictures(),
-      base_area = 1,
-      height = 2,
-      base_level = -1,
+      base_area = 25,
+      height = 1,
+      base_level = -2,
       pipe_connections =
       {
         { position = {-2, 0} },
@@ -45,6 +45,16 @@ data:extend(
         { position = {0, 2} },
         { position = {0, -2} },
       }
+    },
+    output_fluid_box =
+    {
+      base_area = 1,
+      base_level = 1,
+      pipe_covers = pipecoverspictures(),
+      pipe_connections =
+      {
+	  
+      },
     },
     vehicle_impact_sound =  { filename = "__base__/sound/car-metal-impact.ogg", volume = 0.65 },
     working_sound =
@@ -663,6 +673,7 @@ data:extend(
     {
       module_slots = 0
     },
+	allowed_effects = nil,
     radius_visualisation_picture =
     {
       filename = "__NauvisDay__/graphics/entity/storage/storage-radius-visualization.png",

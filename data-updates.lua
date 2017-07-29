@@ -58,6 +58,10 @@ for idx,label in pairs(polluters) do
 		--log(serpent.block("ID'ed polluter '" .. k .. "', increasing emissions " .. pollutionScale .. "x"))
 		if obj.energy_source.emissions then
 			obj.energy_source.emissions = obj.energy_source.emissions*pollutionScale
+			if label == "mining-drill" then
+				obj.energy_source.emissions = obj.energy_source.emissions*miningPollutionScale
+				--log(serpent.block("ID'ed mining polluter '" .. k .. "', increasing emissions again " .. miningPollutionScale .. "x"))
+			end
 			--log(serpent.block(extraPollution[label]))
 			if extraPollution[label] and extraPollution[label][k] then
 				local f = extraPollution[label][k]
@@ -82,6 +86,10 @@ end
 table.insert(data.raw.technology["circuit-network"].effects, {type="unlock-recipe", recipe="pollution-detector"})
 table.insert(data.raw.technology["advanced-electronics"].effects, {type="unlock-recipe", recipe="gas-boiler"})
 table.insert(data.raw.technology["advanced-material-processing"].effects, {type="unlock-recipe", recipe="steam-furnace"})
+
+if data.raw.item.glass then
+	table.insert(data.raw.recipe.greenhouse.ingredients, {"glass", 30})
+end
 
 --[[
 table.insert(data.raw.technology["advanced-material-processing"].effects, {type="unlock-recipe", recipe="steam-furnace-flipped"})

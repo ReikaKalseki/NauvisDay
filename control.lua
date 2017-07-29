@@ -24,6 +24,12 @@ function initGlobal(force)
 	if force or global.nvday.steam_furnaces == nil then
 		global.nvday.steam_furnaces = {}
 	end
+	if force or global.nvday.boreholes == nil then
+		global.nvday.boreholes = {}
+	end
+	if force or global.nvday.borers == nil then
+		global.nvday.borers = {}
+	end
 end
 
 initGlobal(true)
@@ -58,6 +64,9 @@ local function onEntityAdded(event)
 	addPollutionDetector(event.created_entity)
 	addGasBoiler(event.created_entity)
 	addSteamFurnace(event.created_entity)
+	addGreenhouse(event.created_entity)
+	addBorehole(event.created_entity)
+	addBoreholeMaker(event.created_entity)
 end
 
 local function onEntityRemoved(event)
@@ -67,6 +76,8 @@ local function onEntityRemoved(event)
 	removePollutionDetector(event.entity)
 	removeGasBoiler(event.entity)
 	removeSteamFurnace(event.entity)
+	removeBorehole(event.entity)
+	removeBoreholeMaker(event.entity)
 	--convertWasteWellToDepletedOil(event.entity)
 end
 
@@ -97,6 +108,8 @@ local function onGameTick(event)
 	tickDetectors(tick)
 	tickGasBoilers(tick)
 	tickSteamFurnaces(tick)
+	tickBoreholes(tick)
+	tickBoreholeMakers(tick)
 	if tick%60 == 0 then
 		local evo = game.forces.enemy.evolution_factor
 		game.map_settings.unit_group.max_unit_group_size = getMaxEnemyWaveSize(evo) --200 is vanilla
@@ -118,6 +131,10 @@ script.on_event(defines.events.on_player_rotated_entity, onEntityRotated)
 script.on_event(defines.events.on_resource_depleted, function(event)
 	if Config.depleteWells and event.entity.prototype.resource_category == "basic-fluid" then
 		event.entity.surface.create_entity{name="pollution-well", position=event.entity.position, amount=1}
+		event.entity.destroy()
+	end
+	if event.entity.prototype.resource_category == "borehole" then
+		event.entity.surface.create_entity{name="filled-borehole", position=event.entity.position, amount=1, force = event.entity.force}
 		event.entity.destroy()
 	end
 end)

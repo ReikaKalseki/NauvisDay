@@ -21,3 +21,5 @@ end
 for _,recipe in pairs(recipes) do
 	data:extend({recipe})
 end
+
+data.raw.item.asphalt.stack_size = data.raw.item.concrete.stack_size

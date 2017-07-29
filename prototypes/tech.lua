@@ -141,8 +141,37 @@ data:extend(
       },
       {
         type = "unlock-recipe",
+        recipe = "asphalt"
+      },
+      {
+        type = "unlock-recipe",
         recipe = "pollution-binding"
       },
+    },
+    unit =
+    {
+      count = 60,
+      ingredients =
+      {
+        {"science-pack-1", 1},
+        {"science-pack-2", 1},
+        {"science-pack-3", 1}
+      },
+      time = 30
+    },
+    order = "[steam]-2",
+	icon_size = 128,
+  },
+    {
+    type = "technology",
+    name = "pollution-storage",
+    prerequisites =
+    {
+		"pollution-capture",
+    },
+    icon = "__NauvisDay__/graphics/technology/pollution.png",
+    effects =
+    {
       {
         type = "unlock-recipe",
         recipe = "storage-machine"
@@ -157,7 +186,40 @@ data:extend(
         {"science-pack-2", 1},
         {"science-pack-3", 1}
       },
-      time = 30
+      time = 45
+    },
+    order = "[steam]-2",
+	icon_size = 128,
+  },
+    {
+    type = "technology",
+    name = "pollution-storage-2",
+    prerequisites =
+    {
+		"pollution-storage",
+    },
+    icon = "__NauvisDay__/graphics/technology/pollution.png",
+    effects =
+    {
+      {
+        type = "unlock-recipe",
+        recipe = "borer"
+      },
+      {
+        type = "unlock-recipe",
+        recipe = "boring-action"
+      },
+    },
+    unit =
+    {
+      count = 200,
+      ingredients =
+      {
+        {"science-pack-1", 1},
+        {"science-pack-2", 1},
+        {"science-pack-3", 1}
+      },
+      time = 60
     },
     order = "[steam]-2",
 	icon_size = 128,

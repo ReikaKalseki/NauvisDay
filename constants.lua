@@ -4,9 +4,12 @@ local f = math.max(1, Config.basePollutionFactor)
 pollutionScale = 4*f
 firePollutionScale = 2*(1+(f-1)/2)
 coalPollutionScale = 4*f
-pollutionSpawnIncrease = 1.5
+miningPollutionScale = 2*f
+pollutionSpawnIncrease = 1.75
 
 overallAerosolizerWasteGenSpeed = 0.0625--0.5
+
+maxBoreholeSize = 1000000 --since fluids are x10, max size is this, but only has 1/10th as many "cycles"
 
 maxAttackSizeCurve = {
 	{0, 5},
@@ -34,7 +37,7 @@ pollutionAndEvo = {
 	["enemy_evolution"] = {
 		time_factor = -0.000025,-- -0.00003,--0 --default is 0.000004
 		destroy_factor = 0.0075, --default is 0.002
-		pollution_factor = 0.000015/pollutionScale*pollutionSpawnIncrease/1.25, --/1.25 to account for dramatic pollution increase --default is 0.000015
+		pollution_factor = 0.000015/pollutionScale*pollutionSpawnIncrease, --default is 0.000015
 	}
 }
 
@@ -57,6 +60,9 @@ extraPollution = { --Further multipliers on a few entities
 		["assembling-machine-1"] = 4,
 		["oil-refinery"] = 60, --was 3, then 12, then 40; needs to be a LOT
 		["chemical-plant"] = 2,
+	},
+	["boiler"] = {
+		["boiler"] = 3,
 	},
 }
 

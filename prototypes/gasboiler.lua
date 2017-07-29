@@ -38,7 +38,7 @@ data:extend({
 			{type = "fluid", name = "petroleum-gas", amount = 5},
 		},
 		results = {
-			{type = "item", name = "coal", amount = 0},
+			{type = "fluid", name = "steam", amount = 0},
 		},
 	}
 })
@@ -140,7 +140,7 @@ data:extend({
       fuel_category = "chemical",
       effectivity = 0.5,
       fuel_inventory_size = 0,
-      emissions = (0.1 / 6.5) / 1.5, --the actual emissions of the entire gas boiler; 1/1.5 becomes 1/6th because of coal-burning x4
+      emissions = (0.1 / 6.5) / 1.5*2, --the actual emissions of the entire gas boiler; 1/1.5*2 becomes 1/9th because of coal-burning x4 then boiler-specific x3
       smoke =
       {
         {
@@ -556,16 +556,16 @@ data:extend({
         base_level = -1,
         pipe_connections = {{ type="input", position = {0, -0.5} }},
         secondary_draw_orders = { north = -1 }
-      },--[[
+      },
       {
-        production_type = "input",
+        production_type = "output",
         pipe_picture = nil,
         pipe_covers = nil,
-        base_area = 0,
+        base_area = 1,
         base_level = 1,
-        pipe_connections = {{ type="output", position = {0, 0.5} }},
+        pipe_connections = {},
         secondary_draw_orders = { north = -1 }
-      },--]]
+      },
       off_when_no_fluid_recipe = false
     },
     animation =

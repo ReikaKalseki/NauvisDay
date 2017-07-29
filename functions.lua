@@ -235,7 +235,123 @@ function removeSteamFurnace(entity)
 	end
 end
 
+function addGreenhouse(entity)
+  if entity.name == "greenhouse" then
+	entity.recipe = entity.force.recipes["greenhouse-action"]
+  end
+end
+
+function addBorehole(entity)
+  if entity.name == "storage-machine" then
+	local hole = entity.surface.find_entities_filtered({type = "resource", area = {{entity.position.x-1, entity.position.y-1}, {entity.position.x+1, entity.position.y+1}}})
+	if #hole == 1 then
+		if game.entity_prototypes[hole[1].name].resource_category == "borehole" then
+			table.insert(global.nvday.boreholes, {well=entity, hole=hole[1]})
+		end
+	end
+  end
+end
+
+function removeBorehole(entity)
+  if entity.name == "storage-machine" then
+	for i,entry in ipairs(global.nvday.boreholes) do
+		if entry.well.position.x == entity.position.x and entry.well.position.y == entity.position.y then
+			table.remove(global.nvday.boreholes, i)
+			break
+		end
+	end
+  end
+end
+
+function tickBoreholes(tick)
+  if #global.nvday.boreholes > 0 and tick%30 == 0 then
+	  for i=#global.nvday.boreholes,1,-1 do
+		local entry = global.nvday.boreholes[i]
+		if entry.hole.valid and entry.hole.name == "borehole" and entry.well.mining_progress > 0 then
+			local pos = entry.hole.position
+			local amt = entry.hole.amount
+			local force = entry.hole.force
+			entry.hole.destroy()
+			entry.hole = entry.well.surface.create_entity{name="used-borehole", position=pos, amount=amt, force = force}
+			local amt = entry.well.fluidbox[2] and entry.well.fluidbox[2].amount or 0
+			entry.well.fluidbox[2] = {type="waste", amount=amt+2000}
+			table.remove(global.nvday.boreholes, i)
+		end
+	  end
+  end
+end
+
+function addBoreholeMaker(entity)
+  if entity.name == "borer" then
+	entity.recipe = entity.force.recipes["boring-action"]
+	local holes = entity.surface.find_entities_filtered({type = "resource", name = "borehole", area = {{entity.position.x-1, entity.position.y-1}, {entity.position.x+1, entity.position.y+1}}})
+	table.insert(global.nvday.borers, {borer=entity, size = 0, hole=#holes == 1 and holes[1] or nil}) --set size to zero, since products_finished is read only
+  end
+end
+
+function removeBoreholeMaker(entity)
+  if entity.name == "borer" then
+	for i,entry in ipairs(global.nvday.borers) do
+		if entry.borer.position.x == entity.position.x and entry.borer.position.y == entity.position.y then
+			table.remove(global.nvday.borers, i)
+			break
+		end
+	end
+  end
+end
+--[[ do not use while resettable by break-and-replace
+local function getBoreholeDrillTimeSubtraction(slot)
+	local level = math.floor(slot/10)
+	local factor = 1+level*0.0005+level*level*0.0000001
+	local subtr = 1-(1/factor)
+	return subtr
+end
+--]]
+
+local function disableBorer(borer)
+	local inv = borer.get_inventory(defines.inventory.assembling_machine_input)
+	for i=1,#inv do
+		local item = inv[i]
+		borer.surface.spill_item_stack(borer.position, item, true)
+	end
+	borer.recipe = nil
+	borer.crafting_progress = math.min(borer.crafting_progress, 0.01)
+	borer.order_deconstruction(borer.force)
+end
+
+function tickBoreholeMakers(tick)
+  if #global.nvday.borers and tick%10 == 0 then
+	  for _,entry in pairs(global.nvday.borers) do
+		entry.borer.recipe = entry.borer.force.recipes["boring-action"]
+		--game.print(entry.borer.products_finished .. " / " .. entry.size)
+		--entry.borer.crafting_progress = math.max(0, entry.borer.crafting_progress-getBoreholeDrillTimeSubtraction(entry.size))
+		if entry.hole.amount < maxBoreholeSize then
+			if entry.borer.products_finished > entry.size then
+				entry.size = entry.size+1
+				local hole = entry.hole
+				if hole == nil then
+					hole = entry.borer.surface.create_entity{name="borehole", position=entry.borer.position, amount=10, force=game.forces.neutral} --fluid resources use units of 10
+					--game.print("Creating new borehole")
+					entry.hole = hole
+				else
+					hole.amount = hole.amount+10
+					--game.print("Deepening borehole to " .. hole.amount)
+				end
+				if hole.amount >= maxBoreholeSize then
+					disableBorer(entry.borer)
+				end
+			end
+		else
+			disableBorer(entry.borer)
+		end
+	  end
+  end
+end
+
 function getMaxEnemyWaveSize(evo)
+	if evo <= 0 then
+		return maxAttackSizeCurve[1][2]
+	end
 	local idx = 1
 	while idx <= #maxAttackSizeCurve and maxAttackSizeCurve[idx][1] < evo do
 		idx = idx+1

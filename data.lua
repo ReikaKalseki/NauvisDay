@@ -1,16 +1,24 @@
 require "config"
 
 require "prototypes.deaerosolizer"
+require "prototypes.greenhouse" --make work better in certain biomes?
+
 require "prototypes.vent"
 --require "prototypes.waterdump"
 require "prototypes.wellstorage"
+require "prototypes.borer" --have a "borer" (assembling machine), which digs a hole, aka making a resource and setting its amount++; make each unit take more time than the last, at first linear, then quadratic; has limit on size, say 1M units; can be removed early, but will lock to that size if used (see below); autodeconstructs if reaches maxsize
+--require "prototypes.borestorage" --another mining drill, like wellstorage, but converts the borehole to a "used borehole" (on first completion), aka "can never be expanded again", takes sludge and decrements resource amount
+--not necessary; reuse well
 
 require "prototypes.detector"
-require "prototypes.steamfurnace" --be like mining drills, can share steam; smelting is just recipes that use some steam; iterate over smelting recipe list; make pollute very little, maybe 8-12 = 1 steel furnace; crafting speed is betwene stone and steel
-require "prototypes.gasboiler" --basis is just reskinned chemical plant; have be like boiler with new fluid input on 'back' for natural gas (aka petroleum gas); make gen 1/6 the pollution of a coal boiler (taking all multipliers into account, meaning =1/1.5 base since coal is x4 pollution)
+require "prototypes.steamfurnace"
+require "prototypes.gasboiler"
 
 require "prototypes.fluid"
+require "prototypes.borehole"
+
 require "prototypes.pollution-block"
+require "prototypes.asphalt"
 require "prototypes.pollution-processing"
 
 require "prototypes.tech"
