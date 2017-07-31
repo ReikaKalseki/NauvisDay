@@ -10,31 +10,34 @@ data:extend({
     fast_replaceable_group = "borer",
     max_health = 400,
     corpse = "big-remnants",
-    collision_box = {{-2.2, -2.2}, {2.2, 2.2}},
-    selection_box = {{-2.5, -2.5}, {2.5, 2.5}},
+    collision_box = {{-2.3, -2.7}, {2.3, 1.9}},
+    selection_box = {{-2.5, -2.9}, {2.5, 2.1}},
     animation =
     {
        priority = "extra-high",
-       width = 87,
-       height = 95,
+       width = 159,
+       height = 115,
        line_length = 4,
-       shift = util.by_pixel(2.5, 0.5),
-       filename = "__NauvisDay__/graphics/entity/borer.png",
+       shift = {0.6, -0.4},
+       filename = "__NauvisDay__/graphics/entity/borer-anim.png",
        frame_count = 32,
+	   scale = 1.25,
        animation_speed = 1.0,
        --run_mode = "forward-then-backward",
+	   --[[
        hr_version = {
          priority = "extra-high",
          width = 173,
          height = 188,
          line_length = 4,
-         shift = util.by_pixel(2.75, 0.5),
+         shift = {0, -1},
          filename = "__NauvisDay__/graphics/entity/hr-borer.png",
          frame_count = 32,
          animation_speed = 1.0,
          --run_mode = "forward-then-backward",
-         scale = 0.5
+         scale = 1.0
         }
+		--]]
     },
     open_sound = { filename = "__base__/sound/machine-open.ogg", volume = 0.85 },
     close_sound = { filename = "__base__/sound/machine-close.ogg", volume = 0.75 },

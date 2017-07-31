@@ -325,12 +325,12 @@ function tickBoreholeMakers(tick)
 		entry.borer.recipe = entry.borer.force.recipes["boring-action"]
 		--game.print(entry.borer.products_finished .. " / " .. entry.size)
 		--entry.borer.crafting_progress = math.max(0, entry.borer.crafting_progress-getBoreholeDrillTimeSubtraction(entry.size))
-		if entry.hole.amount < maxBoreholeSize then
+		if entry.hole == nil or entry.hole.amount < maxBoreholeSize then
 			if entry.borer.products_finished > entry.size then
 				entry.size = entry.size+1
 				local hole = entry.hole
 				if hole == nil then
-					hole = entry.borer.surface.create_entity{name="borehole", position=entry.borer.position, amount=10, force=game.forces.neutral} --fluid resources use units of 10
+					hole = entry.borer.surface.create_entity{name="borehole", position={entry.borer.position.x, entry.borer.position.y+1}, amount=10, force=game.forces.neutral} --fluid resources use units of 10
 					--game.print("Creating new borehole")
 					entry.hole = hole
 				else
