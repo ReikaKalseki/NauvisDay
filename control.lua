@@ -5,6 +5,8 @@ require "config"
 require "wellgen"
 require "pollutiondetection"
 
+require "entitytracker"
+
 function initGlobal(force)
 	if not global.nvday then
 		global.nvday = {}
@@ -40,13 +42,11 @@ end)
 
 script.on_configuration_changed(function()
 	initGlobal(true)
-end)
-
-script.on_init(function()
 	setPollutionAndEvoSettings()
 end)
 
-script.on_configuration_changed(function()
+script.on_init(function()
+	initGlobal(true)
 	setPollutionAndEvoSettings()
 end)
 
@@ -61,24 +61,41 @@ end
 
 local function onEntityAdded(event)
 	--convertDepletedOilToWasteWell(event.created_entity)
+	
+	--[[
 	addPollutionDetector(event.created_entity)
 	addGasBoiler(event.created_entity)
 	addSteamFurnace(event.created_entity)
 	addGreenhouse(event.created_entity)
 	addBorehole(event.created_entity)
 	addBoreholeMaker(event.created_entity)
+	--]]
+	
+	local func = tracker["add"][event.created_entity.name]
+	if func then
+		func(event.created_entity)
+	end
 end
 
 local function onEntityRemoved(event)
 	fluidSpill(event.entity)
 	checkPollutionBlock(event.entity)
 	doSpawnerDestructionSpawns(event.entity)
+	
+	--convertWasteWellToDepletedOil(event.entity)
+	
+	--[[
 	removePollutionDetector(event.entity)
 	removeGasBoiler(event.entity)
 	removeSteamFurnace(event.entity)
 	removeBorehole(event.entity)
 	removeBoreholeMaker(event.entity)
-	--convertWasteWellToDepletedOil(event.entity)
+	--]]
+	
+	local func = tracker["remove"][event.entity.name]
+	if func then
+		func(event.entity)
+	end
 end
 
 local function onGameTick(event)
@@ -88,13 +105,11 @@ local function onGameTick(event)
 		for chunk in game.surfaces["nauvis"].get_chunks() do
 			table.insert(global.nvday.chunk_cache, chunk)
 		end
-		local furnaces = game.surfaces["nauvis"].find_entities_filtered({name="steam-furnace"})
-		for _,furnace in pairs(furnaces) do
-			addSteamFurnace(furnace)
-		end
-		local boilers = game.surfaces["nauvis"].find_entities_filtered({name="gas-boiler"})
-		for _,boiler in pairs(boilers) do
-			addGasBoiler(boiler)
+		for name,func in pairs(tracker["add"]) do
+			local entities = game.surfaces["nauvis"].find_entities_filtered({name=name})
+			for _,entity in pairs(entities) do
+				func(entity)
+			end
 		end
 		global.nvday.loadTick = true
 	end
@@ -105,11 +120,18 @@ local function onGameTick(event)
 		setPollutionAndEvoSettings()
 	end
 	ensureNoEarlyAttacks(tick)
+	
+	for name,func in pairs(tracker["tick"]) do
+		func(tick)
+	end
+	--[[
 	tickDetectors(tick)
 	tickGasBoilers(tick)
 	tickSteamFurnaces(tick)
 	tickBoreholes(tick)
 	tickBoreholeMakers(tick)
+	--]]
+	
 	if tick%60 == 0 then
 		local evo = game.forces.enemy.evolution_factor
 		game.map_settings.unit_group.max_unit_group_size = getMaxEnemyWaveSize(evo) --200 is vanilla
@@ -132,10 +154,12 @@ script.on_event(defines.events.on_resource_depleted, function(event)
 	if Config.depleteWells and event.entity.prototype.resource_category == "basic-fluid" then
 		event.entity.surface.create_entity{name="pollution-well", position=event.entity.position, amount=1}
 		event.entity.destroy()
+		return
 	end
 	if event.entity.prototype.resource_category == "borehole" then
 		event.entity.surface.create_entity{name="filled-borehole", position=event.entity.position, amount=1, force = event.entity.force}
 		event.entity.destroy()
+		return
 	end
 end)
 

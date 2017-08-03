@@ -1,6 +1,5 @@
 function addPollutionDetector(entity)
   if entity.name == "pollution-detector" then
-    disableOperableIfPD(entity)
     addPDToTable(entity)
   end
 end
@@ -26,11 +25,8 @@ function tickDetectors(tick)
   end
 end
 
-function disableOperableIfPD(entity)
-  entity.operable = false
-end
-
 function addPDToTable(entity)
+  entity.operable = false
   table.insert(global.nvday.pollution_detectors, entity)
 end
 

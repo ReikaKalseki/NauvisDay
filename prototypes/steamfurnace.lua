@@ -108,7 +108,7 @@ data:extend({
       type = "burner",
       fuel_category = "chemical",
       effectivity = 1,
-      emissions = 0.32*15/power, --totals 1/6th of a steel furnace when coal and other multipliers are applied, at 15kW power consumption
+      emissions = 0.32*3*15/power, --totals 1/8th of a steel furnace when coal and other multipliers are applied, at 15kW power consumption
       fuel_inventory_size = 0,
       smoke =
       {

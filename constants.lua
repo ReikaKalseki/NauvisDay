@@ -52,7 +52,7 @@ waterConversionPatterns = { --weighted random
 	{5, {{0, 0, 1, 0, 0}, {0, 1, 1, 1, 0}, {1, 1, 1, 1, 1}, {0, 1, 1, 1, 0}, {0, 0, 1, 0, 0}}},
 }
 
-extraPollution = { --Further multipliers on a few entities
+extraPollution = { --Further multipliers on a few entities or categories/group
 	["furnace"] = {
 		["steel-furnace"] = 2, --stacks with the previous 16x
 	},
@@ -62,9 +62,25 @@ extraPollution = { --Further multipliers on a few entities
 		["chemical-plant"] = 2,
 	},
 	["boiler"] = {
-		["boiler"] = 3,
+		["*"] = 1.2, --do across category
+	},
+	["mining-drill"] = {
+		["pumpjack_*"] = 4, --anything with "pumpjack" in the name
 	},
 }
+
+pollutionIncreaseExclusion = { --some machines to skip pollution modification for; either technical entities, native already-chosen ones, or ones that do not ACTUALLY do what the pollution boost is designed to "punish"
+	"greenhouse", "air-filter-machine-1", "air-filter-machine-2", "air-filter-machine-3", "air-filter-machine-4", "venting-machine", "storage-machine", "gas-boiler", "gas-boiler-input", "steam-furnace", "geothermal-well", "geothermal-heat-exchanger", "tf-field"
+}
+
+for cat,entry in pairs(extraPollution) do
+	for name,entry2 in pairs(entry) do
+		if string.find(name, "_*", 1, true) then
+			entry["HAS_WILDCARD"] = true
+			--log("Adding wildcard check to category " .. cat .. " since found in " .. name)
+		end
+	end
+end
 
  --entity types, that if placed in sufficient number, give a 'green light' to biter attacks, signifying sufficient progression to make them reasonably survivable. As long as ANY have been met the attacks are permitted.
 attackGreenlightingTypes = {

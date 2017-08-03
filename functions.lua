@@ -70,18 +70,24 @@ end
 function tickGasBoilers(tick)
 	--if tick%15 == 0 then
 		for _,entry in pairs(global.nvday.gas_boilers) do
-			entry.input.recipe = entry.input.force.recipes["gas-boiler-input"] --just to be safe
-			local fluid = entry.input.fluidbox[1]
-			if fluid and fluid.type == "petroleum-gas" and fluid.amount >= 1 then
-				--game.print("Adding gas to boiler")
-				if entry.boiler.fluidbox[1] and entry.boiler.fluidbox[1].type == "water" and entry.boiler.fluidbox[1].amount > 10 and tick%4 == 0 then
-					fluid.amount = fluid.amount-1
-					entry.input.fluidbox[1] = fluid
+			if entry.input.valid then -- can be called before remove if race condition
+				entry.input.recipe = entry.input.force.recipes["gas-boiler-input"] --just to be safe
+				local fluid = entry.input.fluidbox[1]
+				if fluid and fluid.type == "petroleum-gas" and fluid.amount >= 1 then
+					--game.print("Adding gas to boiler")
+					if entry.boiler.fluidbox[1] and entry.boiler.fluidbox[1].type == "water" and entry.boiler.fluidbox[1].amount > 10 and tick%4 == 0 then
+						fluid.amount = fluid.amount-1
+						entry.input.fluidbox[1] = fluid
+					end
+					entry.boiler.burner.currently_burning = game.item_prototypes["coal"]
+					entry.boiler.burner.remaining_burning_fuel = 8000000
+				else
+					entry.boiler.burner.remaining_burning_fuel = 0
 				end
-				entry.boiler.burner.currently_burning = game.item_prototypes["coal"]
-				entry.boiler.burner.remaining_burning_fuel = 8000000
 			else
-				entry.boiler.burner.remaining_burning_fuel = 0
+				if entry.boiler.valid then
+					entry.boiler.burner.remaining_burning_fuel = 0
+				end
 			end
 		end
 	--end

@@ -130,6 +130,7 @@ data:extend({
     category = "boring",
     order = "f[plastic-bar]-f[boring]",
     energy_required = 15,
+	hidden = true,
     enabled = "false",
     ingredients =
     {

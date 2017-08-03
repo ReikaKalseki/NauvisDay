@@ -33,6 +33,7 @@ data:extend({
 		name = "gas-boiler-input",
 		category = "gas-boiler-input",
 		enabled = "true",
+		hidden = true,
 		energy_required = 1000000,
 		ingredients = {
 			{type = "fluid", name = "petroleum-gas", amount = 5},
@@ -140,7 +141,7 @@ data:extend({
       fuel_category = "chemical",
       effectivity = 0.5,
       fuel_inventory_size = 0,
-      emissions = (0.1 / 6.5) / 1.5*2, --the actual emissions of the entire gas boiler; 1/1.5*2 becomes 1/9th because of coal-burning x4 then boiler-specific x3
+      emissions = (0.1 / 6.5) / 1.5*2*1.2, --the actual emissions of the entire gas boiler; 1/1.5*2*1.2 becomes 1/12th because of coal-burning x4, then overall x4, then boiler-specific x1.2
       smoke =
       {
         {
