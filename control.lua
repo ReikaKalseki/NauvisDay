@@ -53,7 +53,15 @@ end)
 script.on_event(defines.events.on_console_command, function(event)
 	setPollutionAndEvoSettings()
 end)
-
+--[[
+local function onTilesBuilt(event)
+	local surface = game.surfaces[event.surface_index]
+	local positions = event.positions
+	for _,pos in pairs(positions) do
+	
+	end
+end
+--]]
 local function onEntityRotated(event)
 	--convertDepletedOilToWasteWell(event.created_entity)
 	rotateGasBoiler(event.entity)
@@ -147,6 +155,11 @@ script.on_event(defines.events.on_robot_pre_mined, onEntityRemoved)
 
 script.on_event(defines.events.on_built_entity, onEntityAdded)
 script.on_event(defines.events.on_robot_built_entity, onEntityAdded)
+
+--[[
+script.on_event(defines.events.on_built_tile, onTilesBuilt)
+script.on_event(defines.events.on_robot_built_tile, onTilesBuilt)
+--]]
 
 script.on_event(defines.events.on_player_rotated_entity, onEntityRotated)
 

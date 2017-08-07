@@ -14,6 +14,8 @@ require "prototypes.detector"
 require "prototypes.steamfurnace"
 require "prototypes.gasboiler"
 
+require "prototypes.rubberfloor"
+
 require "prototypes.fluid"
 require "prototypes.borehole"
 

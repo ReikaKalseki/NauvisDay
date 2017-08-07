@@ -23,3 +23,27 @@ for _,recipe in pairs(recipes) do
 end
 
 data.raw.item.asphalt.stack_size = data.raw.item.concrete.stack_size
+data.raw.item["rubber-floor"].stack_size = data.raw.item.concrete.stack_size
+
+if data.raw.item.rubber then
+	data.raw.recipe["rubber-floor"].ingredients = {{type="item", name="rubber", amount=20}}
+else
+	data.raw.item["rubber-floor"].localised_name = {"item-name.iron-floor"}
+	data.raw.tile["rubber-floor"].localised_name = {"tile-name.iron-floor"}
+end
+
+--[[
+local rubbers = {}
+for name,tile in pairs(data.raw.tile) do
+	local rubber = table.deepcopy(data.raw.tile["rubber-floor"])
+	rubber.ageing = tile.ageing
+	rubber.name = name .. "-" .. rubber.name
+	rubber.localised_name = "tile-name.rubber-floor"
+end
+
+for _,tile in pairs(rubbers) do
+	data:extend({
+		tile
+	})
+end
+--]]
