@@ -15,6 +15,7 @@ Extreme pollution in an area can pollute the water, causing it to jam offshore p
 Adds a pollution meter for the circuit network
 Adds a borehole-drilling machine for disposing of sludge underground
 Adds a greenhouse for weak early-game pollution reduction, with wood production as a bonus
+Adds rubber flooring which offers some speed boost (though less than concrete) but no pollution/plantkilling penalty
 
 
 Secondary Features:
