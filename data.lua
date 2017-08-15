@@ -3,6 +3,8 @@ require "config"
 require "prototypes.deaerosolizer"
 require "prototypes.greenhouse" --make work better in certain biomes?
 
+require "prototypes.fan"
+
 require "prototypes.vent"
 --require "prototypes.waterdump"
 require "prototypes.wellstorage"

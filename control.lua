@@ -4,6 +4,7 @@ require "config"
 
 require "wellgen"
 require "pollutiondetection"
+require "fans"
 
 require "entitytracker"
 
@@ -19,6 +20,9 @@ function initGlobal(force)
 	end
 	if force or global.nvday.pollution_detectors == nil then
 		global.nvday.pollution_detectors = {}
+	end
+	if force or global.nvday.pollution_fans == nil then
+		global.nvday.pollution_fans = {}
 	end
 	if force or global.nvday.gas_boilers == nil then
 		global.nvday.gas_boilers = {}

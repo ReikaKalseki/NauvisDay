@@ -1,8 +1,24 @@
 require "config"
 require "constants"
 
-local function getOppositeDirection(dir) --direction is a number from 0 to 7
+function directionToVector(dir)
+	if dir == defines.direction.north then
+		return {dx=0, dy=-1}
+	elseif dir == defines.direction.south then
+		return {dx=0, dy=1}
+	elseif dir == defines.direction.east then
+		return {dx=1, dy=0}
+	elseif dir == defines.direction.west then
+		return {dx=-1, dy=0}
+	end
+end
+
+function getOppositeDirection(dir) --direction is a number from 0 to 7
 	return (dir+4)%8
+end
+
+function getPerpendicularDirection(dir) --direction is a number from 0 to 7
+	return (dir+2)%8
 end
 
 local function hasIngredients(furnace)

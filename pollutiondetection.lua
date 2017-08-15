@@ -45,7 +45,7 @@ function setPollutionValue(entity)
   params = {parameters = {
     {
 		index = 1,
-		signal = {type = "item", name = "pollution"},
+		signal = {type = "virtual", name = "pollution"},
 		count = pollution_count
 	}
   }}

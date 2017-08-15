@@ -41,6 +41,11 @@ pollutionAndEvo = {
 	}
 }
 
+fanTickRate = 15
+fanPollutionMoveFactor = 0.025
+fanPollutionSpread =		{1,		0.975,	0.95,	0.85,	0.7,	0.5,	0.25,	0.15,	0.1,	0.05}
+fanPollutionLateralSpread =	{0.9,	0.85,	0.8,	0.7,	0.6,	0.5,	0.375,	0.25,	0.1,	0.05} --Combined with the above
+
 waterConversionPatterns = { --weighted random
 	{50, {{1}}},
 	{25, {{1, 1}, {1, 1}}},
@@ -60,6 +65,8 @@ extraPollution = { --Further multipliers on a few entities or categories/group
 		["assembling-machine-1"] = 4,
 		["oil-refinery"] = 60, --was 3, then 12, then 40; needs to be a LOT
 		["chemical-plant"] = 2,
+		["ore-washer"] = 12,
+		["ore-washing-plant"] = 12,
 	},
 	["boiler"] = {
 		["*"] = 1.2, --do across category

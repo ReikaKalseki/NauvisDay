@@ -1,6 +1,7 @@
 require "functions"
 require "constants"
 require "config"
+require "fans"
 
 tracker = {
 	["add"] = {},
@@ -20,3 +21,4 @@ addTracker("pollution-detector",	addPollutionDetector,	removePollutionDetector,	
 addTracker("borer",					addBoreholeMaker,		removeBoreholeMaker,		tickBoreholeMakers)
 addTracker("storage-machine",		addBorehole,			removeBorehole,				tickBoreholes)
 addTracker("greenhouse",			addGreenhouse,			nil,						nil)
+addTracker("pollution-fan",			addFan,					removeFan,					tickFans)

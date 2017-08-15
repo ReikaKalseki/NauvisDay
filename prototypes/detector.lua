@@ -158,36 +158,11 @@ data:extend({
     stack_size= 50,
   },
   { --for display in the circuit gui
-    type = "capsule",
+    type = "virtual-signal",
     name = "pollution",
     icon = "__NauvisDay__/graphics/icons/pollution.png",
-    flags = { "goes-to-main-inventory" },
-    subgroup = "raw-resource",
-    order = "g[plastic-bar]-h[pollution]",
-    capsule_action = {
-      type = "use-on-self",
-      attack_parameters = {
-        type = "projectile",
-        ammo_category = "capsule",
-        cooldown = 30,
-        range = 0,
-        ammo_type = {
-          category = "capsule",
-          target_type = "position",
-          action = {
-            type = "direct",
-            action_delivery = {
-              type = "instant",
-              target_effects = {
-                type = "damage",
-                damage = {type = "physical", amount = 20}
-              }
-            }
-          }
-        }
-      }
-    },
-    stack_size= 1000,
+    subgroup = "virtual-signal-special",
+    order = "pollution",
   }
 })
 
