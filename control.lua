@@ -75,6 +75,7 @@ end
 local function onEntityRotated(event)
 	--convertDepletedOilToWasteWell(event.created_entity)
 	rotateGasBoiler(event.entity)
+	rotatePollutionFan(event.entity)
 end
 
 local function onEntityAdded(event)

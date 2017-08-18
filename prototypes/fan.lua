@@ -162,7 +162,7 @@ data:extend({--[[
 		},
 
 		circuit_wire_max_distance = 0.1
-	},--]]
+	},
 	{
 		type = "mining-drill",
 		name = "pollution-fan",
@@ -271,7 +271,358 @@ data:extend({--[[
 		  get_circuit_connector_sprites({-1.3125, -0.3125},   {-1.3125, -0.3125},   6)
 		},
 		circuit_wire_max_distance = 12,
-	}
+	},--]]
+	{
+		type = "pump",
+		name = "pollution-fan",
+		icon = "__NauvisDay__/graphics/icons/fan.png",
+		flags = {"placeable-neutral", "player-creation"},
+		minable = {mining_time = 1, result = "pollution-fan"},
+		max_health = 180,
+		corpse = "big-remnants",
+		collision_box = {{-1.29, -1.29}, {1.29, 1.29}},
+		selection_box = {{-1.5, -1.5}, {1.5, 1.5}},
+		dying_explosion = "medium-explosion",
+		resistances =
+		{
+		  {
+			type = "fire",
+			percent = 90
+		  }
+		},
+		fluid_box =
+		{
+		  base_area = 1,
+		  height = 1,
+		  pipe_covers = pipecoverspictures(),
+		  pipe_connections =
+		  {
+			{ position = {0, -2}, type="output" },
+			{ position = {0, 2}, type="input" },
+		  },
+		},
+		energy_source =
+		{
+		  type = "electric",
+		  usage_priority = "secondary-input",
+		  emissions = 0,
+		},
+		energy_usage = "120kW",
+		working_sound = {
+		  sound = {
+			filename = "__NauvisDay__/sound/fan.ogg",
+			volume = 0.625
+		  },
+		  apparent_volume = 1.5,
+		},
+		pumping_speed = 0.1,
+		vehicle_impact_sound =  { filename = "__base__/sound/car-metal-impact.ogg", volume = 0.65 },
+
+		animations =
+		{
+		  north =
+		  {
+			filename = "__NauvisDay__/graphics/entity/fan/north.png",
+			width = 130,
+			height = 208,
+			line_length = 4,
+			frame_count = 8,
+			animation_speed = 1.25,
+			shift = {0, 0},
+			scale = 4/5,
+		  },
+		  south =
+		  {
+			filename = "__NauvisDay__/graphics/entity/fan/south.png",
+			width = 130,
+			height = 208,
+			line_length = 4,
+			frame_count = 8,
+			animation_speed = 1.25,
+			shift = {0, 0},
+			scale = 4/5,
+		  },
+		  west =
+		  {
+			filename = "__NauvisDay__/graphics/entity/fan/west.png",
+			width = 100,
+			height = 110,
+			line_length = 1,
+			frame_count = 1,
+			animation_speed = 1.25,
+			shift = {0, 0},
+			scale = 4/5,
+		  },
+		  east =
+		  {
+			filename = "__NauvisDay__/graphics/entity/fan/east.png",
+			width = 100,
+			height = 110,
+			line_length = 1,
+			frame_count = 1,
+			animation_speed = 1.25,
+			shift = {0, 0},
+			scale = 4/5,
+		  },
+		},
+
+		fluid_wagon_connector_frame_count = 1,
+		fluid_wagon_connector_graphics = nil,
+
+		fluid_animation =
+		{
+		  north =
+		  {
+			filename = "__core__/graphics/empty.png",
+			width = 1,
+			height = 1,
+			frame_count = 1,
+		  },
+
+		  east =
+		  {
+			filename = "__core__/graphics/empty.png",
+			width = 1,
+			height = 1,
+			frame_count = 1,
+		  },
+
+		  south =
+		  {
+			filename = "__core__/graphics/empty.png",
+			width = 1,
+			height = 1,
+			frame_count = 1,
+		  },
+		  west =
+		  {
+			filename = "__core__/graphics/empty.png",
+			width = 1,
+			height = 1,
+			frame_count = 1,
+		  }
+		},
+
+		glass_pictures =
+		{
+		  north = {
+			filename = "__core__/graphics/empty.png",
+			width = 1,
+			height = 1,
+			frame_count = 1,
+		  },
+		  east = {
+			filename = "__core__/graphics/empty.png",
+			width = 1,
+			height = 1,
+			frame_count = 1,
+		  },
+		  south = {
+			filename = "__core__/graphics/empty.png",
+			width = 1,
+			height = 1,
+			frame_count = 1,
+		  },
+		  west = {
+			filename = "__core__/graphics/empty.png",
+			width = 1,
+			height = 1,
+			frame_count = 1,
+		  }
+		},
+
+		circuit_wire_connection_points =
+		{
+		  {
+			shadow =
+			{
+			  red = {0.171875, 0.140625},
+			  green = {0.171875, 0.265625},
+			},
+			wire =
+			{
+			  red = {-0.53125, -0.15625},
+			  green = {-0.53125, 0},
+			}
+		  },
+		  {
+			shadow =
+			{
+			  red = {0.890625, 0.703125},
+			  green = {0.75, 0.75},
+			},
+			wire =
+			{
+			  red = {0.34375, 0.28125},
+			  green = {0.34375, 0.4375},
+			}
+		  },
+		  {
+			shadow =
+			{
+			  red = {0.15625, 0.0625},
+			  green = {0.09375, 0.125},
+			},
+			wire =
+			{
+			  red = {-0.53125, -0.09375},
+			  green = {-0.53125, 0.03125},
+			}
+		  },
+		  {
+			shadow =
+			{
+			  red = {0.796875, 0.703125},
+			  green = {0.625, 0.75},
+			},
+			wire =
+			{
+			  red = {0.40625, 0.28125},
+			  green = {0.40625, 0.4375},
+			}
+		  }
+		},
+		circuit_connector_sprites =
+		{
+		  get_circuit_connector_sprites({-0.40625, -0.3125}, nil, 24),
+		  get_circuit_connector_sprites({0.125, 0.21875}, {0.34375, 0.40625}, 18),
+		  get_circuit_connector_sprites({-0.40625, -0.25}, nil, 24),
+		  get_circuit_connector_sprites({0.203125, 0.203125}, {0.25, 0.40625}, 18),
+		},
+		circuit_wire_max_distance = 12
+	},
+	{
+		type = "storage-tank",
+		name = "pollution-fan-tank",
+		icon = "__base__/graphics/icons/storage-tank.png",
+		flags = {"placeable-player", "player-creation"},
+		--minable = {mining_time = 1.5, result = "storage-tank"},
+		selectable_in_game = false,
+		destructible = false,
+		collision_mask = {},
+		--corpse = "medium-remnants",
+		order = "z",
+		collision_box = {{-0.3, -0.3}, {0.3, 0.3}},
+		selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
+		fluid_box =
+		{
+		  base_area = 10,
+		  pipe_covers = nil,--pipecoverspictures(),
+		  pipe_connections =
+		  {
+			{position = {-0, -1}},
+		  },
+		},
+		window_bounding_box = {{-0.125, 0.6875}, {0.1875, 1.1875}},
+		pictures =
+		{
+		  picture =
+		  {
+			sheet =
+			{
+			  filename = "__core__/graphics/empty.png",
+			  frames = 1,
+			  frame_count = 1,
+			  width = 1,
+			  height = 1,
+			}
+		  },
+		  fluid_background =
+		  {
+			  filename = "__core__/graphics/empty.png",
+			  frames = 1,
+			  frame_count = 1,
+			  width = 1,
+			  height = 1,
+		  },
+		  window_background =
+		  {
+			  filename = "__core__/graphics/empty.png",
+			  frames = 1,
+			  frame_count = 1,
+			  width = 1,
+			  height = 1,
+		  },
+		  flow_sprite =
+		  {
+			  filename = "__core__/graphics/empty.png",
+			  frames = 1,
+			  frame_count = 1,
+			  width = 1,
+			  height = 1,
+		  },
+		  gas_flow =
+		  {
+			  filename = "__core__/graphics/empty.png",
+			  frames = 1,
+			  frame_count = 1,
+			  width = 1,
+			  height = 1,
+		  }
+		},
+		flow_length_in_ticks = 360,
+		vehicle_impact_sound =  { filename = "__base__/sound/car-metal-impact.ogg", volume = 0.65 },
+		working_sound = nil,
+		circuit_wire_connection_points =
+		{
+		  {
+			shadow =
+			{
+			  red = {2.35938, 0.890625},
+			  green = {2.29688, 0.953125},
+			},
+			wire =
+			{
+			  red = {-0.40625, -0.375},
+			  green = {-0.53125, -0.46875},
+			}
+		  },
+		  {
+			shadow =
+			{
+			  red = {2.35938, 0.890625},
+			  green = {2.29688, 0.953125},
+			},
+			wire =
+			{
+			  red = {0.46875, -0.53125},
+			  green = {0.375, -0.4375},
+			}
+		  },
+		  {
+			shadow =
+			{
+			  red = {2.35938, 0.890625},
+			  green = {2.29688, 0.953125},
+			},
+			wire =
+			{
+			  red = {-0.40625, -0.375},
+			  green = {-0.53125, -0.46875},
+			}
+		  },
+		  {
+			shadow =
+			{
+			  red = {2.35938, 0.890625},
+			  green = {2.29688, 0.953125},
+			},
+			wire =
+			{
+			  red = {0.46875, -0.53125},
+			  green = {0.375, -0.4375},
+			}
+		  },
+		},
+		circuit_connector_sprites =
+		{
+		  get_circuit_connector_sprites({-0.1875, -0.375}, nil, 7),
+		  get_circuit_connector_sprites({0.375, -0.53125}, nil, 1),
+		  get_circuit_connector_sprites({-0.1875, -0.375}, nil, 7),
+		  get_circuit_connector_sprites({0.375, -0.53125}, nil, 1),
+		},
+		circuit_wire_max_distance = 0.1
+	},
 })
 
 data:extend({
@@ -301,6 +652,6 @@ data:extend({
       {"engine-unit", 4},
       {"pipe", 20},
     },
-    result = "pollution-fan-placer"
+    result = "pollution-fan"
   }
 })

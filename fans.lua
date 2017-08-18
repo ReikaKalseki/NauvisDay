@@ -3,12 +3,7 @@ require "functions"
 
 function addFan(entity)
 	if entity.name == "pollution-fan" then
-		local ore = entity.surface.create_entity({name="fan-ore", position=entity.position, force=game.forces.neutral, amount=1000})
-		addFanToTable(entity, entity.surface.create_entity({name="pollution-fan-placer", position=entity.position, force=entity.force, direction=entity.direction}), ore)
-	end
-	if entity.name == "pollution-fan-placer" then
-		local ore = entity.surface.create_entity({name="fan-ore", position=entity.position, force=game.forces.neutral, amount=1000})
-		addFanToTable(entity.surface.create_entity({name="pollution-fan", position=entity.position, force=entity.force, direction=entity.direction}), entity, ore)
+		addFanToTable(entity)
 	end
 end
 
@@ -16,22 +11,8 @@ function removeFan(entity)
 	if entity.name == "pollution-fan" then
 		for i, entry in ipairs(global.nvday.pollution_fans) do
 			if entry.fan.position.x == entity.position.x and entry.fan.position.y == entity.position.y then
-				if entry.placer.valid then
-					entry.placer.destroy()
-				end
-				entry.ore.destroy()
-				table.remove(global.nvday.pollution_fans, i)
-				break
-			end
-		end
-	end
-	if entity.name == "pollution-fan-placer" then
-		for i, entry in ipairs(global.nvday.pollution_fans) do
-			if entry.placer.position.x == entity.position.x and entry.placer.position.y == entity.position.y then
-				if entry.fan.valid then
-					entry.fan.destroy()
-				end
-				entry.ore.destroy()
+				entry.input.destroy()
+				entry.output.destroy()
 				table.remove(global.nvday.pollution_fans, i)
 				break
 			end
@@ -45,6 +26,8 @@ function tickFans(tick)
 			local fan = entry.fan
 			if fan.valid then
 				if fan.energy > 0 then
+					entry.input.fluidbox[1] = {type=(game.fluid_prototypes["air"] and "air" or (game.fluid_prototypes["compressed-air"] and "compressed-air" or "steam")), amount = 1000}
+					entry.output.fluidbox[1] = nil
 					local pos = fan.position
 					local surface = fan.surface
 					local pollution = surface.get_pollution(pos)
@@ -66,15 +49,76 @@ function tickFans(tick)
 					end
 				end
 			else
-				entry.ore.destroy()
 				table.remove(global.nvday.pollution_fans, i)
 			end
 		end
 	end
 end
 
-function addFanToTable(entity, placer, ore)
-	entity.operable = false
-	placer.operable = false
-	table.insert(global.nvday.pollution_fans, {fan=entity, placer=placer, ore=ore})
+local function getPollutionFanEntry(entity)
+	if entity.name == "pollution-fan" then
+		for i, entry in ipairs(global.nvday.pollution_fans) do
+			if entry.fan.position.x == entity.position.x and entry.fan.position.y == entity.position.y then
+				return entry
+			end
+		end
+	end
+	if entity.name == "pollution-fan-tank" then
+		for i, entry in ipairs(global.nvday.pollution_fans) do
+			if entry.input.position.x == entity.position.x and entry.input.position.y == entity.position.y then
+				return entry
+			end
+			if entry.output.position.x == entity.position.x and entry.output.position.y == entity.position.y then
+				return entry
+			end
+		end
+	end
+	return nil
+end
+
+function rotatePollutionFan(entity)
+  if entity.name == "pollution-fan" then
+	local entry = getPollutionFanEntry(entity)
+	local dx = 0
+	local dy = 0
+	if entity.direction == defines.direction.north then
+		dy = -2
+	end
+	if entity.direction == defines.direction.south then
+		dy = 2
+	end
+	if entity.direction == defines.direction.east then
+		dx = 2
+	end
+	if entity.direction == defines.direction.west then
+		dx = -2
+	end
+	entry.input.destroy()
+	entry.output.destroy()
+	local inp = entity.surface.create_entity({name="pollution-fan-tank", position={entity.position.x-dx, entity.position.y-dy}, force=entity.force, direction = entity.direction})
+	local outp = entity.surface.create_entity({name="pollution-fan-tank", position={entity.position.x+dx, entity.position.y+dy}, force=entity.force, direction = getOppositeDirection(entity.direction)})
+	entry.input = inp
+	entry.output = outp
+  end
+end
+
+function addFanToTable(entity)
+	--entity.operable = false
+	local dx = 0
+	local dy = 0
+	if entity.direction == defines.direction.north then
+		dy = -2
+	end
+	if entity.direction == defines.direction.south then
+		dy = 2
+	end
+	if entity.direction == defines.direction.east then
+		dx = 2
+	end
+	if entity.direction == defines.direction.west then
+		dx = -2
+	end
+	local inp = entity.surface.create_entity({name="pollution-fan-tank", position={entity.position.x-dx, entity.position.y-dy}, force=entity.force, direction = entity.direction})
+	local outp = entity.surface.create_entity({name="pollution-fan-tank", position={entity.position.x+dx, entity.position.y+dy}, force=entity.force, direction = getOppositeDirection(entity.direction)})
+	table.insert(global.nvday.pollution_fans, {fan=entity, input = inp, output = outp})
 end

@@ -121,7 +121,7 @@ function tickBlockPollution(surface, chunk, tick, dx, dy)
 end
 
 function doAmbientPollutionEffects(tick)
-	if #game.players > 0 and math.random() < 0.02 then
+	if #game.players > 0 and math.random() < 0.01 then
 		spawnPollutionSmoke()
 	end
 	local n = #global.nvday.chunk_cache
