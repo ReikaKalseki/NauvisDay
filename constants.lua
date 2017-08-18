@@ -20,6 +20,13 @@ maxAttackSizeCurve = {
 	{1, 400}
 }
 
+pollutionFogSizes = {
+	{2500, "small"},
+	{15000, "medium"},
+	{48000, "big"},
+	{150000, "huge"},
+}
+
 --These forcibly override map settings at all times to get the intended effect
 pollutionAndEvo = {
 	["pollution"] = {

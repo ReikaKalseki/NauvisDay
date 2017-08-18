@@ -1,22 +1,43 @@
+require "constants"
+
+local function getPollutionFogSize(pollution)
+	if pollution <= 0 then
+		return nil
+	end
+	if pollution <= pollutionFogSizes[1][1] then
+		if math.random(0, pollutionFogSizes[1][1]) < pollution then
+			return pollutionFogSizes[1][2]
+		else
+			return nil
+		end
+	end
+	local idx = 1
+	while idx <= #pollutionFogSizes and pollutionFogSizes[idx][1] < pollution do
+		idx = idx+1
+	end
+	idx = idx-1
+	if idx == 1 then
+		return pollutionFogSizes[1][2]
+	end
+	--game.print("Pollution of " .. pollution .. " > idx= " .. idx .. ": " .. pollutionFogSizes[idx-1][1] .. "," .. pollutionFogSizes[idx-1][2] .. " & " .. pollutionFogSizes[idx][1] .. "," .. pollutionFogSizes[idx][2])
+	local x1 = pollutionFogSizes[idx][1]
+	local x2 = pollutionFogSizes[idx+1][1]
+	local y1 = pollutionFogSizes[idx-1][2]
+	local y2 = pollutionFogSizes[idx][2]
+	local f = math.random()
+	local ret = f < (pollution-x1)/(x2-x1) and y2 or y1
+	--game.print(f .. " of " .. (pollution-x1)/(x2-x1) .. " > " .. ret)
+	return f < (pollution-x1)/(x2-x1) and y2 or y1
+end
+
 local function spawnPollutionSmoke()
 	local player = game.players[math.random(1, #game.players)]
 	local surface = player.surface
 	local pos = {x=player.position.x+math.random(-100, 100), y=player.position.y+math.random(-100, 100)}
 	local pollution = surface.get_pollution(pos)
-	if pollution > 0 then
-		if pollution >= 1000 or math.random(0, 1000) < pollution then
-			local cloud = "pollution-fog-small"
-			if pollution > 10000 then
-				cloud = "pollution-fog-medium"
-			end
-			if pollution > 40000 then
-				cloud = "pollution-fog-big"
-			end
-			if pollution > 180000 then
-				cloud = "pollution-fog-huge"
-			end
-			surface.create_entity({name=cloud, position=pos, force = game.forces.neutral})
-		end
+	local cloud = getPollutionFogSize(pollution)
+	if cloud then
+		surface.create_entity({name="pollution-fog-" .. cloud, position=pos, force = game.forces.neutral})
 	end
 end
 

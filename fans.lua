@@ -26,27 +26,33 @@ function tickFans(nvday, tick)
 			local fan = entry.fan
 			if fan.valid then
 				if fan.energy > 0 then
-					entry.input.fluidbox[1] = {type=(game.fluid_prototypes["air"] and "air" or (game.fluid_prototypes["compressed-air"] and "compressed-air" or "steam")), amount = 1000}
-					entry.output.fluidbox[1] = nil
-					local pos = fan.position
-					local surface = fan.surface
-					local pollution = surface.get_pollution(pos)
-					local vec = directionToVector(fan.direction)
-					local vecperp = directionToVector(getPerpendicularDirection(fan.direction))
-					for i = 1,#fanPollutionSpread do
-						for k = -1,1 do
-							local pos2 = {pos.x+vec.dx*i*32+k*vecperp.dx*32, pos.y+vec.dy*i*32+k*vecperp.dy*32}
-							local poll2 = surface.get_pollution(pos2)
-							local move = fanPollutionSpread[i]*(pollution-poll2)*fanPollutionMoveFactor
-							if k ~= 0 then
-								move = move*fanPollutionLateralSpread[i]
-							end
-							if move > 0 then
-								surface.pollute(pos, -move/2*fanTickRate/60)
-								surface.pollute(pos2, move/2*fanTickRate/60)
+					fan.active = true
+					local control = fan.get_control_behavior()
+					if not (control and control.disabled) then
+						entry.input.fluidbox[1] = {type=(game.fluid_prototypes["air"] and "air" or (game.fluid_prototypes["compressed-air"] and "compressed-air" or "steam")), amount = 1000}
+						entry.output.fluidbox[1] = nil
+						local pos = fan.position
+						local surface = fan.surface
+						local pollution = surface.get_pollution(pos)
+						local vec = directionToVector(fan.direction)
+						local vecperp = directionToVector(getPerpendicularDirection(fan.direction))
+						for i = 1,#fanPollutionSpread do
+							for k = -1,1 do
+								local pos2 = {pos.x+vec.dx*i*32+k*vecperp.dx*32, pos.y+vec.dy*i*32+k*vecperp.dy*32}
+								local poll2 = surface.get_pollution(pos2)
+								local move = fanPollutionSpread[i]*(pollution-poll2)*fanPollutionMoveFactor
+								if k ~= 0 then
+									move = move*fanPollutionLateralSpread[i]
+								end
+								if move > 0 then
+									surface.pollute(pos, -move/2*fanTickRate/60)
+									surface.pollute(pos2, move/2*fanTickRate/60)
+								end
 							end
 						end
 					end
+				else
+					fan.active = false
 				end
 			else
 				table.remove(nvday.pollution_fans, i)
