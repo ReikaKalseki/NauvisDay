@@ -25,4 +25,6 @@ require "prototypes.pollution-block"
 require "prototypes.asphalt"
 require "prototypes.pollution-processing"
 
+require "prototypes.pollution-fog"
+
 require "prototypes.tech"

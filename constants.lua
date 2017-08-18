@@ -12,12 +12,12 @@ overallAerosolizerWasteGenSpeed = 0.0625--0.5
 maxBoreholeSize = 1000000 --since fluids are x10, max size is this, but only has 1/10th as many "cycles"
 
 maxAttackSizeCurve = {
-	{0, 5},
-	{0.05, 20},--{0.05, 10},
-	{0.1, 40},--{0.1, 20},
+	{0, 10},
+	{0.05, 25},--{0.05, 10},
+	{0.1, 50},--{0.1, 20},
 	{0.25, 100},--{0.25, 50},
 	{0.5, 200},--{0.5, 100},
-	{1, 200}
+	{1, 400}
 }
 
 --These forcibly override map settings at all times to get the intended effect
@@ -77,7 +77,10 @@ extraPollution = { --Further multipliers on a few entities or categories/group
 }
 
 pollutionIncreaseExclusion = { --some machines to skip pollution modification for; either technical entities, native already-chosen ones, or ones that do not ACTUALLY do what the pollution boost is designed to "punish"
-	"greenhouse", "air-filter-machine-1", "air-filter-machine-2", "air-filter-machine-3", "air-filter-machine-4", "venting-machine", "storage-machine", "gas-boiler", "gas-boiler-input", "steam-furnace", "geothermal-well", "geothermal-heat-exchanger", "tf-field"
+	"greenhouse", "air-filter-machine-1", "air-filter-machine-2", "air-filter-machine-3", "air-filter-machine-4", "venting-machine", "storage-machine",
+	"gas-boiler", "gas-boiler-input", "steam-furnace",
+	"geothermal-well", "geothermal-heat-exchanger",
+	"tf-field", "dead-bio-farm", "dead-greenhouse",
 }
 
 for cat,entry in pairs(extraPollution) do

@@ -4,6 +4,7 @@ require "config"
 
 require "wellgen"
 require "pollutiondetection"
+require "pollutionfx"
 require "fans"
 
 require "entitytracker"
@@ -36,6 +37,11 @@ function initGlobal(force)
 	if force or global.nvday.borers == nil then
 		global.nvday.borers = {}
 	end
+	--[[
+	if force or global.nvday.fanores == nil then --do not clear
+		global.nvday.fanores = {}
+	end
+	--]]
 end
 
 initGlobal(true)
@@ -93,6 +99,7 @@ local function onEntityRemoved(event)
 	fluidSpill(event.entity)
 	checkPollutionBlock(event.entity)
 	doSpawnerDestructionSpawns(event.entity)
+	doTreeFarmTreeDeath(event.entity)
 	
 	--convertWasteWellToDepletedOil(event.entity)
 	
@@ -127,7 +134,7 @@ local function onGameTick(event)
 	end
 	
 	local tick = game.tick
-	doWaterPollution(tick)
+	doAmbientPollutionEffects(tick)
 	if tick%3600 == 0 then --check once every 60 seconds
 		setPollutionAndEvoSettings()
 	end
@@ -151,6 +158,20 @@ local function onGameTick(event)
 	if game.forces.enemy.evolution_factor < 0 then
 		game.forces.enemy.evolution_factor = 0
 	end
+	
+	--[[
+	if tick%10 == 0 then
+		for _,fanore in pairs(global.nvday.fanores) do
+			fanore.destroy()
+		end
+		for _,player in pairs(game.players) do
+			if player.cursor_stack and player.cursor_stack.valid_for_read and player.cursor_stack.name == "pollution-fan" then
+				local ore = player.surface.create_entity({name="fan-ore", position=???, force=game.forces.neutral, amount=100000})
+				table.insert(global.nvday.fanores, ore)
+			end
+		end
+	end
+	--]]
 end
 
 script.on_event(defines.events.on_entity_died, onEntityRemoved)

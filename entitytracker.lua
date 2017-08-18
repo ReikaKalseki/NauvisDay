@@ -22,3 +22,4 @@ addTracker("borer",					addBoreholeMaker,		removeBoreholeMaker,		tickBoreholeMak
 addTracker("storage-machine",		addBorehole,			removeBorehole,				tickBoreholes)
 addTracker("greenhouse",			addGreenhouse,			nil,						nil)
 addTracker("pollution-fan",			addFan,					removeFan,					tickFans)
+addTracker("pollution-fan-placer",	addFan,					removeFan,					nil)

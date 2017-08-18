@@ -35,6 +35,10 @@ data:extend(
         type = "unlock-recipe",
         recipe = "pollution-venting-action"
       },
+      {
+        type = "unlock-recipe",
+        recipe = "pollution-fan"
+      },
     },
     unit =
     {

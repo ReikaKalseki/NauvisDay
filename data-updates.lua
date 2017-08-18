@@ -123,16 +123,96 @@ if data.raw.item.glass then
 	table.insert(data.raw.recipe.greenhouse.ingredients, {"glass", 30})
 end
 
---[[
-table.insert(data.raw.technology["advanced-material-processing"].effects, {type="unlock-recipe", recipe="steam-furnace-flipped"})
+if data.raw["assembling-machine"]["bi_bio_farm"] then
+	local dead = table.deepcopy(data.raw["assembling-machine"]["bi_bio_farm"])
+	dead.name = "dead-bio-farm"
+	dead.crafting_speed = 0
+	dead.energy_source =
+    {
+      type = "burner",
+	  fuel_category = "chemical",
+      effectivity = 0.05,
+      fuel_inventory_size = 0,
+      burnt_inventory_size = 0,
+      emissions = 0.03
+    }
+	dead.animation.filename = "__NauvisDay__/graphics/entity/treefarm/dead-biofarm.png"
+	dead.working_visualisations.animation.filename ="__NauvisDay__/graphics/entity/biofarm/dead-biofarm-active.png"
+	dead.working_visualisations.light = nil
+	dead.localised_name = {"entity-name.biofarm"}
+	
+	data:extend({dead})
+end
 
-local base = data.raw["assembling-machine"]["steam-furnace"]
-local flipsteam = table.deepcopy(base)
-flipsteam.name = flipsteam.name .. "-flipped"
-flipsteam.localised_name = base.localised_name
-flipsteam.fluid_boxes[1].pipe_connections[1] = {type = "input", positions = {{-0.5, -1.5}, {1.5, 0.5}, {-0.5, 1.5}, {-1.5, 0.5}}}
+if data.raw["assembling-machine"]["bob-greenhouse"] then
+	local dead = table.deepcopy(data.raw["assembling-machine"]["bob-greenhouse"])
+	dead.name = "dead-greenhouse"
+	dead.crafting_speed = 0
+	dead.energy_source =
+    {
+      type = "burner",
+	  fuel_category = "chemical",
+      effectivity = 0.05,
+      fuel_inventory_size = 0,
+      burnt_inventory_size = 0,
+      emissions = 0.03
+    }
+	dead.animation.filename = "__NauvisDay__/graphics/entity/treefarm/dead-greenhouse.png"
+	dead.working_visualisations.animation.filename ="__NauvisDay__/graphics/entity/biofarm/dead-greenhouse-active.png"
+	dead.working_visualisations.light = nil
+	dead.localised_name = {"entity-name.greenhouse"}
+	
+	data:extend({dead})
+end
 
-data:extend({
-	flipsteam
-})
---]]
+if data.raw.tree["tf-germling"] then
+	data:extend({
+	{
+      type = "simple-entity",
+      name = "dead-tf-tree",
+      icon = "__base__/graphics/icons/tree-01-stump.png",
+      flags = {"placeable-neutral", "not-on-map"},
+	  minable = {mining_time = 2, result=nil},
+	  collision_box = {{-0.7*0.75, -0.8*0.75}, {0.7*0.75, 0.8*0.75}},
+	  selection_box = {{-0.8*0.75, -2.2*0.75}, {0.8*0.75, 0.8*0.75}},
+      tile_width = 1,
+      tile_height = 1,
+      --selectable_in_game = false,
+      --time_before_removed = 60 * 60 * 15, -- 15 minutes
+      final_render_layer = "object",
+      render_layer = "object",
+      subgroup = "remnants",
+      order="d[remnants]-b[tree]",
+	  localised_name = {"entity-name.dead-tree"},
+      pictures = {
+		{
+			filename = "__NauvisDay__/graphics/entity/treefarm/dead-tree-01.png",
+			priority = "extra-high",
+			width = math.floor(155*0.75),
+			height = math.floor(118*0.75),
+			shift = {1.1*0.75, -1*0.75},
+			frame_count = 1,
+			direction_count = 1,
+		},
+		{
+			filename = "__NauvisDay__/graphics/entity/treefarm/dead-tree-05.png",
+			priority = "extra-high",
+			width = math.floor(156*0.75),
+			height = math.floor(154*0.75),
+			shift = {1.5*0.75, -1.7*0.75},
+			frame_count = 1,
+			direction_count = 1,
+		},
+		{
+			filename = "__NauvisDay__/graphics/entity/treefarm/dead-tree-06.png",
+			priority = "extra-high",
+			width = math.floor(113*0.75),
+			height = math.floor(111*0.75),
+			shift = {0.7*0.75, -0.9*0.75},
+			frame_count = 1,
+			direction_count = 1,
+		}
+	  }
+    }
+	})
+end
