@@ -294,7 +294,7 @@ data:extend({--[[
 		{
 		  base_area = 1,
 		  height = 1,
-		  pipe_covers = pipecoverspictures(),
+		  pipe_covers = nil,--pipecoverspictures(),
 		  pipe_connections =
 		  {
 			{ position = {0, -2}, type="output" },
