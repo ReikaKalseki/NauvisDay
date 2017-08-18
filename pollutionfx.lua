@@ -44,36 +44,38 @@ end
 local function destroyTreeFarms(surface, chunk, tick) --TreeFarm mod, Greenhouses, and BioIndustries
 	--Treefarm is already handled by pollution clouds
 	
-	local _area = {{chunk.x*32, chunk.y*32}, {chunk.x*32+32, chunk.y*32+32}}
-	local flag = false
-	local farms = surface.find_entities_filtered({name="bi_bio_farm", area = _area})
-	for _,farm in pairs(farms) do
-		local pos = farm.position
-		local force = farm.force
-		local dir = farm.direction
-		local rec = farm.recipe
-		farm.die()
-		local new = surface.create_entity({name="dead-bio-farm", position=pos, force = force, direction=dir})
-		new.recipe = rec
-		new.burner.currently_burning = game.item_prototypes["rocket-fuel"]
-		new.burner.remaining_burning_fuel = 100000000000
-		new.operable = false
-		flag = true
-	end
-	
-	farms = surface.find_entities_filtered({name="bob-greenhouse", area = _area})
-	for _,farm in pairs(farms) do
-		local pos = farm.position
-		local force = farm.force
-		local dir = farm.direction
-		local rec = farm.recipe
-		farm.die()
-		local new = surface.create_entity({name="dead-greenhouse", position=pos, force = force, direction=dir})
-		new.recipe = rec
-		new.burner.currently_burning = game.item_prototypes["rocket-fuel"]
-		new.burner.remaining_burning_fuel = 100000000000
-		new.operable = false
-		flag = true
+	if pollution > 40000 and math.random(40000, 120000) < pollution then
+		local _area = {{chunk.x*32, chunk.y*32}, {chunk.x*32+32, chunk.y*32+32}}
+		local flag = false
+		local farms = surface.find_entities_filtered({name="bi_bio_farm", area = _area})
+		for _,farm in pairs(farms) do
+			local pos = farm.position
+			local force = farm.force
+			local dir = farm.direction
+			local rec = farm.recipe
+			farm.die()
+			local new = surface.create_entity({name="dead-bio-farm", position=pos, force = force, direction=dir})
+			new.recipe = rec
+			new.burner.currently_burning = game.item_prototypes["rocket-fuel"]
+			new.burner.remaining_burning_fuel = 100000000000
+			new.operable = false
+			flag = true
+		end
+		
+		farms = surface.find_entities_filtered({name="bob-greenhouse", area = _area})
+		for _,farm in pairs(farms) do
+			local pos = farm.position
+			local force = farm.force
+			local dir = farm.direction
+			local rec = farm.recipe
+			farm.die()
+			local new = surface.create_entity({name="dead-greenhouse", position=pos, force = force, direction=dir})
+			new.recipe = rec
+			new.burner.currently_burning = game.item_prototypes["rocket-fuel"]
+			new.burner.remaining_burning_fuel = 100000000000
+			new.operable = false
+			flag = true
+		end
 	end
 	
 	return flag
