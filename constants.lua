@@ -22,9 +22,10 @@ maxAttackSizeCurve = {
 
 pollutionFogSizes = {
 	{2500, "small"},
-	{15000, "medium"},
-	{48000, "big"},
-	{150000, "huge"},
+	{12000, "medium"},
+	{45000, "big"},
+	{90000, "huge"},
+	{180000, ""}, --just here for a "100% huge at this value"
 }
 
 --These forcibly override map settings at all times to get the intended effect
