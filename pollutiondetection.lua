@@ -4,12 +4,12 @@ function addPollutionDetector(entity)
   end
 end
 
-function removePollutionDetector(entity)
+function removePollutionDetector(nvday, entity)
 	if entity.name == "pollution-detector" then
-		for i, pollution_detector in ipairs(global.nvday.pollution_detectors) do
+		for i, pollution_detector in ipairs(nvday.pollution_detectors) do
 			if notNil(pollution_detector, "position") then
 				if pollution_detector.position.x == entity.position.x and pollution_detector.position.y == entity.position.y then
-					table.remove(global.nvday.pollution_detectors, i)
+					table.remove(nvday.pollution_detectors, i)
 					break
 				end
 			end
@@ -17,17 +17,17 @@ function removePollutionDetector(entity)
 	end
 end
 
-function tickDetectors(tick)
+function tickDetectors(nvday, tick)
   if tick%60 == 0 then
-    for i, pollution_detector in ipairs(global.nvday.pollution_detectors) do
+    for i, pollution_detector in ipairs(nvday.pollution_detectors) do
       setPollutionValue(pollution_detector)
     end   
   end
 end
 
-function addPDToTable(entity)
+function addPDToTable(nvday, entity)
   entity.operable = false
-  table.insert(global.nvday.pollution_detectors, entity)
+  table.insert(nvday.pollution_detectors, entity)
 end
 
 function notNil(class, var)

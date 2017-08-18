@@ -1,28 +1,28 @@
 require "constants"
 require "functions"
 
-function addFan(entity)
+function addFan(nvday, entity)
 	if entity.name == "pollution-fan" then
-		addFanToTable(entity)
+		addFanToTable(nvday, entity)
 	end
 end
 
-function removeFan(entity)
+function removeFan(nvday, entity)
 	if entity.name == "pollution-fan" then
-		for i, entry in ipairs(global.nvday.pollution_fans) do
+		for i, entry in ipairs(nvday.pollution_fans) do
 			if entry.fan.position.x == entity.position.x and entry.fan.position.y == entity.position.y then
 				entry.input.destroy()
 				entry.output.destroy()
-				table.remove(global.nvday.pollution_fans, i)
+				table.remove(nvday.pollution_fans, i)
 				break
 			end
 		end
 	end
 end
 
-function tickFans(tick)
+function tickFans(nvday, tick)
 	if tick%fanTickRate == 0 then
-		for i,entry in ipairs(global.nvday.pollution_fans) do
+		for i,entry in ipairs(nvday.pollution_fans) do
 			local fan = entry.fan
 			if fan.valid then
 				if fan.energy > 0 then
@@ -49,22 +49,22 @@ function tickFans(tick)
 					end
 				end
 			else
-				table.remove(global.nvday.pollution_fans, i)
+				table.remove(nvday.pollution_fans, i)
 			end
 		end
 	end
 end
 
-local function getPollutionFanEntry(entity)
+local function getPollutionFanEntry(nvday, entity)
 	if entity.name == "pollution-fan" then
-		for i, entry in ipairs(global.nvday.pollution_fans) do
+		for i, entry in ipairs(nvday.pollution_fans) do
 			if entry.fan.position.x == entity.position.x and entry.fan.position.y == entity.position.y then
 				return entry
 			end
 		end
 	end
 	if entity.name == "pollution-fan-tank" then
-		for i, entry in ipairs(global.nvday.pollution_fans) do
+		for i, entry in ipairs(nvday.pollution_fans) do
 			if entry.input.position.x == entity.position.x and entry.input.position.y == entity.position.y then
 				return entry
 			end
@@ -102,7 +102,7 @@ function rotatePollutionFan(entity)
   end
 end
 
-function addFanToTable(entity)
+function addFanToTable(nvday, entity)
 	--entity.operable = false
 	local dx = 0
 	local dy = 0
@@ -120,5 +120,5 @@ function addFanToTable(entity)
 	end
 	local inp = entity.surface.create_entity({name="pollution-fan-tank", position={entity.position.x-dx, entity.position.y-dy}, force=entity.force, direction = entity.direction})
 	local outp = entity.surface.create_entity({name="pollution-fan-tank", position={entity.position.x+dx, entity.position.y+dy}, force=entity.force, direction = getOppositeDirection(entity.direction)})
-	table.insert(global.nvday.pollution_fans, {fan=entity, input = inp, output = outp})
+	table.insert(nvday.pollution_fans, {fan=entity, input = inp, output = outp})
 end

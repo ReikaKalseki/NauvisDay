@@ -46,9 +46,9 @@ local function hasIngredients(furnace)
 	return true
 end
 
-function tickSteamFurnaces(tick)
+function tickSteamFurnaces(nvday, tick)
 	if tick%30 == 0 then
-		for _,furnace in pairs(global.nvday.steam_furnaces) do
+		for _,furnace in pairs(nvday.steam_furnaces) do
 			if furnace.recipe and hasIngredients(furnace) then
 				furnace.crafting_progress = math.max(furnace.crafting_progress, 0.005)
 			end
@@ -83,9 +83,9 @@ function tickSteamFurnaces(tick)
 	end
 end
 
-function tickGasBoilers(tick)
+function tickGasBoilers(nvday, tick)
 	--if tick%15 == 0 then
-		for _,entry in pairs(global.nvday.gas_boilers) do
+		for _,entry in pairs(nvday.gas_boilers) do
 			if entry.input.valid then -- can be called before remove if race condition
 				entry.input.recipe = entry.input.force.recipes["gas-boiler-input"] --just to be safe
 				local fluid = entry.input.fluidbox[1]
@@ -109,16 +109,16 @@ function tickGasBoilers(tick)
 	--end
 end
 
-local function getGasBoilerEntry(entity)
+local function getGasBoilerEntry(nvday, entity)
 	if entity.name == "gas-boiler" then
-		for i, entry in ipairs(global.nvday.gas_boilers) do
+		for i, entry in ipairs(nvday.gas_boilers) do
 			if entry.boiler.position.x == entity.position.x and entry.boiler.position.y == entity.position.y then
 				return entry
 			end
 		end
 	end
 	if entity.name == "gas-boiler-input" then
-		for i, entry in ipairs(global.nvday.gas_boilers) do
+		for i, entry in ipairs(nvday.gas_boilers) do
 			if entry.input.position.x == entity.position.x and entry.input.position.y == entity.position.y then
 				return entry
 			end
@@ -127,9 +127,9 @@ local function getGasBoilerEntry(entity)
 	return nil
 end
 
-function rotateGasBoiler(entity)
+function rotateGasBoiler(nvday, entity)
   if entity.name == "gas-boiler" then
-	local entry = getGasBoilerEntry(entity)
+	local entry = getGasBoilerEntry(nvday, entity)
 	local fluid = entry.input.fluidbox[1]
 	local pos = entity.position
 	if entity.direction == defines.direction.north then
@@ -152,7 +152,7 @@ function rotateGasBoiler(entity)
   end
 end
 
-function addGasBoiler(entity)
+function addGasBoiler(nvday, entity)
   if entity.name == "gas-boiler" then
 	local pos = entity.position
 	--local pipepos = {x=pos.x, y=pos.y}
@@ -173,7 +173,7 @@ function addGasBoiler(entity)
 		--pipepos.x = pipepos.x+2
 	end
 	local gasinput = entity.surface.create_entity({name = "gas-boiler-input", position = pos, force = entity.force, direction = getOppositeDirection(entity.direction)})
-	table.insert(global.nvday.gas_boilers, {boiler = entity, input = gasinput})
+	table.insert(nvday.gas_boilers, {boiler = entity, input = gasinput})
 	gasinput.recipe = entity.force.recipes["gas-boiler-input"]
 	--local pipes = entity.surface.find_entities_filtered{position = pipepos}
   end
@@ -197,14 +197,14 @@ function addGasBoiler(entity)
   end
 end
 
-function removeGasBoiler(entity)
+function removeGasBoiler(nvday, entity)
 	if entity.name == "gas-boiler" then
-		for i, entry in ipairs(global.nvday.gas_boilers) do
+		for i, entry in ipairs(nvday.gas_boilers) do
 			if entry.boiler.position.x == entity.position.x and entry.boiler.position.y == entity.position.y then
 				--local gasinputs = entity.surface.find_entities_filtered{name = "gas-boiler-input", position = entity.position}
 				--gasinput.destroy()
 				entry.input.destroy()
-				table.remove(global.nvday.gas_boilers, i)
+				table.remove(nvday.gas_boilers, i)
 				break
 			end
 		end
@@ -234,61 +234,61 @@ local function findNearbyRecipes(entity)
 	return ret and entity.force.recipes[ret] or nil
 end
 
-function addSteamFurnace(entity)
+function addSteamFurnace(nvday, entity)
   if entity.name == "steam-furnace" then
 	entity.recipe = findNearbyRecipes(entity)
 	
 	--local pole = entity.surface.create_entity({name = "furnace-electric-pole", position = entity.position, force = entity.force})
 	--local interface = entity.surface.create_entity({name = "furnace-energy-interface", position = entity.position, force = entity.force})	
-	table.insert(global.nvday.steam_furnaces, entity--[[{furnace=entity, pole=pole, energy=interface}--]])
+	table.insert(nvday.steam_furnaces, entity--[[{furnace=entity, pole=pole, energy=interface}--]])
   end
 end
 
-function removeSteamFurnace(entity)
+function removeSteamFurnace(nvday, entity)
 	if entity.name == "steam-furnace" then
-		for i,--[[entry--]]furnace in ipairs(global.nvday.steam_furnaces) do
+		for i,--[[entry--]]furnace in ipairs(nvday.steam_furnaces) do
 			if --[[entry.--]]furnace.position.x == entity.position.x and --[[entry.--]]furnace.position.y == entity.position.y then
 				--entry.pole.destroy()
 				--entry.energy.destroy()
-				table.remove(global.nvday.steam_furnaces, i)
+				table.remove(nvday.steam_furnaces, i)
 				break
 			end
 		end
 	end
 end
 
-function addGreenhouse(entity)
+function addGreenhouse(nvday, entity)
   if entity.name == "greenhouse" then
 	entity.recipe = entity.force.recipes["greenhouse-action"]
   end
 end
 
-function addBorehole(entity)
+function addBorehole(nvday, entity)
   if entity.name == "storage-machine" then
 	local hole = entity.surface.find_entities_filtered({type = "resource", area = {{entity.position.x-1, entity.position.y-1}, {entity.position.x+1, entity.position.y+1}}})
 	if #hole == 1 then
 		if game.entity_prototypes[hole[1].name].resource_category == "borehole" then
-			table.insert(global.nvday.boreholes, {well=entity, hole=hole[1]})
+			table.insert(nvday.boreholes, {well=entity, hole=hole[1]})
 		end
 	end
   end
 end
 
-function removeBorehole(entity)
+function removeBorehole(nvday, entity)
   if entity.name == "storage-machine" then
-	for i,entry in ipairs(global.nvday.boreholes) do
+	for i,entry in ipairs(nvday.boreholes) do
 		if entry.well.position.x == entity.position.x and entry.well.position.y == entity.position.y then
-			table.remove(global.nvday.boreholes, i)
+			table.remove(nvday.boreholes, i)
 			break
 		end
 	end
   end
 end
 
-function tickBoreholes(tick)
-  if #global.nvday.boreholes > 0 and tick%30 == 0 then
-	  for i=#global.nvday.boreholes,1,-1 do
-		local entry = global.nvday.boreholes[i]
+function tickBoreholes(nvday, tick)
+  if #nvday.boreholes > 0 and tick%30 == 0 then
+	  for i=#nvday.boreholes,1,-1 do
+		local entry = nvday.boreholes[i]
 		if entry.hole.valid and entry.hole.name == "borehole" and entry.well.mining_progress > 0 then
 			local pos = entry.hole.position
 			local amt = entry.hole.amount
@@ -297,25 +297,25 @@ function tickBoreholes(tick)
 			entry.hole = entry.well.surface.create_entity{name="used-borehole", position=pos, amount=amt, force = force}
 			local amt = entry.well.fluidbox[2] and entry.well.fluidbox[2].amount or 0
 			entry.well.fluidbox[2] = {type="waste", amount=amt+2000}
-			table.remove(global.nvday.boreholes, i)
+			table.remove(nvday.boreholes, i)
 		end
 	  end
   end
 end
 
-function addBoreholeMaker(entity)
+function addBoreholeMaker(nvday, entity)
   if entity.name == "borer" then
 	entity.recipe = entity.force.recipes["boring-action"]
 	local holes = entity.surface.find_entities_filtered({type = "resource", name = "borehole", area = {{entity.position.x-1, entity.position.y-1}, {entity.position.x+1, entity.position.y+1}}})
-	table.insert(global.nvday.borers, {borer=entity, size = 0, hole=#holes == 1 and holes[1] or nil}) --set size to zero, since products_finished is read only
+	table.insert(nvday.borers, {borer=entity, size = 0, hole=#holes == 1 and holes[1] or nil}) --set size to zero, since products_finished is read only
   end
 end
 
-function removeBoreholeMaker(entity)
+function removeBoreholeMaker(nvday, entity)
   if entity.name == "borer" then
-	for i,entry in ipairs(global.nvday.borers) do
+	for i,entry in ipairs(nvday.borers) do
 		if entry.borer.position.x == entity.position.x and entry.borer.position.y == entity.position.y then
-			table.remove(global.nvday.borers, i)
+			table.remove(nvday.borers, i)
 			break
 		end
 	end
@@ -341,9 +341,9 @@ local function disableBorer(borer)
 	borer.order_deconstruction(borer.force)
 end
 
-function tickBoreholeMakers(tick)
-  if #global.nvday.borers and tick%10 == 0 then
-	  for _,entry in pairs(global.nvday.borers) do
+function tickBoreholeMakers(nvday, tick)
+  if #nvday.borers and tick%10 == 0 then
+	  for _,entry in pairs(nvday.borers) do
 		entry.borer.recipe = entry.borer.force.recipes["boring-action"]
 		--game.print(entry.borer.products_finished .. " / " .. entry.size)
 		--entry.borer.crafting_progress = math.max(0, entry.borer.crafting_progress-getBoreholeDrillTimeSubtraction(entry.size))
@@ -550,34 +550,3 @@ function checkPollutionBlock(entity)
 		entity.surface.pollute(entity.position, --[[settings.global['pollution_intensity'].value * --]]200)
 	end
 end
-
---[[
-function convertDepletedOilToWasteWell(e)
-	if e.name == "storage-machine" then
-		local oil = e.surface.find_entities_filtered({area = {{e.position.x-0.5, e.position.y-0.5}, {e.position.x+0.5, e.position.y+0.5}}, type="resource", name="crude-oil"})
-		local patch = oil[1]
-		if not patch then return end
-		--patch.amount = patch.prototype.infinite_resource and 10 or 1
-		if patch.amount > (patch.prototype.infinite_resource and 10 or 1) then --not depleted
-			e.surface.spill_item_stack(e.position, {name=e.prototype.mineable_properties.products[1].name}, true)
-			e.destroy()
-			return
-		end
-		e.surface.create_entity{name="pollution-well", position=e.position, amount=patch.amount}
-		patch.destroy()
-		--replace well
-		e.surface.create_entity{name=e.name, position=e.position, direction=e.direction, force=e.force, fast_replace=true, spill=false}
-		e.destroy()
-	end
-end
-
-function convertWasteWellToDepletedOil(e)
-	if e.name == "storage-machine" then
-		local well = e.surface.find_entities_filtered({area = {{e.position.x-0.5, e.position.y-0.5}, {e.position.x+0.5, e.position.y+0.5}}, name="pollution-well"})
-		local patch = well[1]
-		if not patch then return end
-		e.surface.create_entity{name="crude-oil", position=e.position, amount=patch.amount}
-		patch.destroy()
-	end
-end
---]]

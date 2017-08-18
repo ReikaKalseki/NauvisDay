@@ -9,46 +9,33 @@ require "fans"
 
 require "entitytracker"
 
-function initGlobal(force)
+function initGlobal(markDirty)
 	if not global.nvday then
 		global.nvday = {}
 	end
-	if force or global.nvday.loadTick == nil then
-		global.nvday.loadTick = false
-	end
-	if force or global.nvday.chunk_cache == nil then
+	if global.nvday.chunk_cache == nil then
 		global.nvday.chunk_cache = {}
 	end
-	if force or global.nvday.pollution_detectors == nil then
+	if global.nvday.pollution_detectors == nil then
 		global.nvday.pollution_detectors = {}
 	end
-	if force or global.nvday.pollution_fans == nil then
+	if global.nvday.pollution_fans == nil then
 		global.nvday.pollution_fans = {}
 	end
-	if force or global.nvday.gas_boilers == nil then
+	if global.nvday.gas_boilers == nil then
 		global.nvday.gas_boilers = {}
 	end
-	if force or global.nvday.steam_furnaces == nil then
+	if global.nvday.steam_furnaces == nil then
 		global.nvday.steam_furnaces = {}
 	end
-	if force or global.nvday.boreholes == nil then
+	if global.nvday.boreholes == nil then
 		global.nvday.boreholes = {}
 	end
-	if force or global.nvday.borers == nil then
+	if global.nvday.borers == nil then
 		global.nvday.borers = {}
 	end
-	--[[
-	if force or global.nvday.fanores == nil then --do not clear
-		global.nvday.fanores = {}
-	end
-	--]]
+	global.nvday.dirty = markDirty
 end
-
-initGlobal(true)
-
-script.on_init(function()
-	initGlobal(true)
-end)
 
 script.on_configuration_changed(function()
 	initGlobal(true)
@@ -63,94 +50,66 @@ end)
 script.on_event(defines.events.on_console_command, function(event)
 	setPollutionAndEvoSettings()
 end)
---[[
-local function onTilesBuilt(event)
-	local surface = game.surfaces[event.surface_index]
-	local positions = event.positions
-	for _,pos in pairs(positions) do
-	
-	end
-end
---]]
+
 local function onEntityRotated(event)
-	--convertDepletedOilToWasteWell(event.created_entity)
-	rotateGasBoiler(event.entity)
-	rotatePollutionFan(event.entity)
+	local nvday = global.nvday
+	
+	rotateGasBoiler(nvday, event.entity)
+	rotatePollutionFan(nvday, event.entity)
 end
 
 local function onEntityAdded(event)
-	--convertDepletedOilToWasteWell(event.created_entity)
-	
-	--[[
-	addPollutionDetector(event.created_entity)
-	addGasBoiler(event.created_entity)
-	addSteamFurnace(event.created_entity)
-	addGreenhouse(event.created_entity)
-	addBorehole(event.created_entity)
-	addBoreholeMaker(event.created_entity)
-	--]]
+	local nvday = global.nvday
 	
 	local func = tracker["add"][event.created_entity.name]
 	if func then
-		func(event.created_entity)
+		func(nvday, event.created_entity)
 	end
 end
 
 local function onEntityRemoved(event)
+	local nvday = global.nvday
+	
 	fluidSpill(event.entity)
 	checkPollutionBlock(event.entity)
 	doSpawnerDestructionSpawns(event.entity)
 	doTreeFarmTreeDeath(event.entity)
 	
-	--convertWasteWellToDepletedOil(event.entity)
-	
-	--[[
-	removePollutionDetector(event.entity)
-	removeGasBoiler(event.entity)
-	removeSteamFurnace(event.entity)
-	removeBorehole(event.entity)
-	removeBoreholeMaker(event.entity)
-	--]]
-	
 	local func = tracker["remove"][event.entity.name]
 	if func then
-		func(event.entity)
+		func(nvday, event.entity)
 	end
 end
 
 local function onGameTick(event)
-	initGlobal(false)
+	local nvday = global.nvday
 	
-	if not global.nvday.loadTick then		
+	if nvday.dirty then		
+		nvday.chunk_cache = {}
 		for chunk in game.surfaces["nauvis"].get_chunks() do
-			table.insert(global.nvday.chunk_cache, chunk)
+			table.insert(nvday.chunk_cache, chunk)
 		end
+		--[[
 		for name,func in pairs(tracker["add"]) do
 			local entities = game.surfaces["nauvis"].find_entities_filtered({name=name})
 			for _,entity in pairs(entities) do
 				func(entity)
 			end
 		end
-		global.nvday.loadTick = true
+		--]]
+		nvday.dirty = false
 	end
 	
 	local tick = game.tick
-	doAmbientPollutionEffects(tick)
+	doAmbientPollutionEffects(nvday, tick)
 	if tick%3600 == 0 then --check once every 60 seconds
 		setPollutionAndEvoSettings()
 	end
 	ensureNoEarlyAttacks(tick)
 	
 	for name,func in pairs(tracker["tick"]) do
-		func(tick)
+		func(nvday, tick)
 	end
-	--[[
-	tickDetectors(tick)
-	tickGasBoilers(tick)
-	tickSteamFurnaces(tick)
-	tickBoreholes(tick)
-	tickBoreholeMakers(tick)
-	--]]
 	
 	if tick%60 == 0 then
 		local evo = game.forces.enemy.evolution_factor
@@ -159,20 +118,6 @@ local function onGameTick(event)
 	if game.forces.enemy.evolution_factor < 0 then
 		game.forces.enemy.evolution_factor = 0
 	end
-	
-	--[[
-	if tick%10 == 0 then
-		for _,fanore in pairs(global.nvday.fanores) do
-			fanore.destroy()
-		end
-		for _,player in pairs(game.players) do
-			if player.cursor_stack and player.cursor_stack.valid_for_read and player.cursor_stack.name == "pollution-fan" then
-				local ore = player.surface.create_entity({name="fan-ore", position=???, force=game.forces.neutral, amount=100000})
-				table.insert(global.nvday.fanores, ore)
-			end
-		end
-	end
-	--]]
 end
 
 script.on_event(defines.events.on_entity_died, onEntityRemoved)
@@ -181,11 +126,6 @@ script.on_event(defines.events.on_robot_pre_mined, onEntityRemoved)
 
 script.on_event(defines.events.on_built_entity, onEntityAdded)
 script.on_event(defines.events.on_robot_built_entity, onEntityAdded)
-
---[[
-script.on_event(defines.events.on_built_tile, onTilesBuilt)
-script.on_event(defines.events.on_robot_built_tile, onTilesBuilt)
---]]
 
 script.on_event(defines.events.on_player_rotated_entity, onEntityRotated)
 
@@ -202,8 +142,7 @@ script.on_event(defines.events.on_resource_depleted, function(event)
 	end
 end)
 
-script.on_event(defines.events.on_chunk_generated, function(event)
-	initGlobal(false)
+script.on_event(defines.events.on_chunk_generated, function(event)	
 	if Config.depleteWells then
 		return
 	end

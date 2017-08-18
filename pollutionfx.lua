@@ -120,11 +120,11 @@ function tickBlockPollution(surface, chunk, tick, dx, dy)
 	end
 end
 
-function doAmbientPollutionEffects(tick)
+function doAmbientPollutionEffects(nvday, tick)
 	if #game.players > 0 and math.random() < 0.01 then
 		spawnPollutionSmoke()
 	end
-	local n = #global.nvday.chunk_cache
+	local n = #nvday.chunk_cache
 	local sp = 1--20--60
 	if n > 0 and tick%sp == 0 then
 		local surface = game.surfaces["nauvis"]
@@ -133,7 +133,7 @@ function doAmbientPollutionEffects(tick)
 		--tick = math.floor(tick/sp)
 		local idx = math.random(1, n)--tick%n
 		--game.print("Picking chunk " .. idx .. " of " .. n ..", = " .. chunk.x .. "," .. chunk.y .. "; attempt " .. k)
-		local chunk = global.nvday.chunk_cache[idx]
+		local chunk = nvday.chunk_cache[idx]
 		if k == 0 then
 			if destroyTreeFarms(surface, chunk, tick) then
 				return
