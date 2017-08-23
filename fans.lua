@@ -50,6 +50,9 @@ function tickFans(nvday, tick)
 								end
 							end
 						end
+						if tick%30 == 0 then
+							surface.create_entity({name="fan-sound", position=fan.position})
+						end
 					end
 				else
 					fan.active = false

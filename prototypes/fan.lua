@@ -308,13 +308,13 @@ data:extend({--[[
 		  emissions = 0,
 		},
 		energy_usage = "120kW",
-		working_sound = {
+		working_sound = nil--[[{
 		  sound = {
 			filename = "__NauvisDay__/sound/fan.ogg",
 			volume = 0.625
 		  },
 		  apparent_volume = 1.5,
-		},
+		}--]],
 		pumping_speed = 0.1,
 		vehicle_impact_sound =  { filename = "__base__/sound/car-metal-impact.ogg", volume = 0.65 },
 
@@ -623,6 +623,38 @@ data:extend({--[[
 		},
 		circuit_wire_max_distance = 0.1
 	},
+  {
+    type = "explosion",
+    name = "fan-sound",
+    flags = {"not-on-map"},
+    animations =
+    {
+      {
+        filename = "__core__/graphics/empty.png",
+        width = 1,
+        height = 1,
+        frame_count = 1,
+        line_length = 1,
+        animation_speed = 1,--0.5,
+      }
+    },
+    sound =
+    {
+      aggregation =
+      {
+        max_count = 5,
+        remove = true
+      },
+      variations =
+      {
+        {
+          filename = "__NauvisDay__/sound/fan-fade.ogg",
+          volume = 0.5
+        },
+      }
+    },
+    created_effect = nil,
+  },
 })
 
 data:extend({

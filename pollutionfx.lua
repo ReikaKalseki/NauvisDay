@@ -44,8 +44,9 @@ end
 local function destroyTreeFarms(surface, chunk, tick) --TreeFarm mod, Greenhouses, and BioIndustries
 	--Treefarm is already handled by pollution clouds
 	
+	local _area = {{chunk.x*32, chunk.y*32}, {chunk.x*32+32, chunk.y*32+32}}
+	local pollution = surface.get_pollution({math.random(_area[1][1], _area[2][1]), math.random(_area[1][2], _area[2][2])})
 	if pollution > 40000 and math.random(40000, 120000) < pollution then
-		local _area = {{chunk.x*32, chunk.y*32}, {chunk.x*32+32, chunk.y*32+32}}
 		local flag = false
 		local farms = surface.find_entities_filtered({name="bi_bio_farm", area = _area})
 		for _,farm in pairs(farms) do

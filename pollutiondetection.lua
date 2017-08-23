@@ -1,5 +1,5 @@
 function addPollutionDetector(nvday, entity)
-  game.print("Adding " .. entity.name .. " @ " .. entity.position.x .. " , " .. entity.position.y)
+  --game.print("Adding " .. entity.name .. " @ " .. entity.position.x .. " , " .. entity.position.y)
   if entity.name == "pollution-detector" then
     addPDToTable(nvday, entity)
   end
@@ -27,7 +27,7 @@ function tickDetectors(nvday, tick)
 end
 
 function addPDToTable(nvday, entity)
-  game.print("Registering " .. entity.name .. " @ " .. entity.position.x .. " , " .. entity.position.y)
+  --game.print("Registering " .. entity.name .. " @ " .. entity.position.x .. " , " .. entity.position.y)
   entity.operable = false
   table.insert(nvday.pollution_detectors, entity)
 end

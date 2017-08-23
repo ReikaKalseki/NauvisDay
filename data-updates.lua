@@ -126,7 +126,8 @@ end
 if data.raw["assembling-machine"]["bi_bio_farm"] then
 	local dead = table.deepcopy(data.raw["assembling-machine"]["bi_bio_farm"])
 	dead.name = "dead-bio-farm"
-	dead.crafting_speed = 0
+	dead.crafting_speed = 0.001
+	dead.order = "z"
 	dead.energy_source =
     {
       type = "burner",
@@ -137,9 +138,9 @@ if data.raw["assembling-machine"]["bi_bio_farm"] then
       emissions = 0.03
     }
 	dead.animation.filename = "__NauvisDay__/graphics/entity/treefarm/dead-biofarm.png"
-	dead.working_visualisations.animation.filename ="__NauvisDay__/graphics/entity/biofarm/dead-biofarm-active.png"
+	dead.working_visualisations.animation.filename ="__NauvisDay__/graphics/entity/treefarm/dead-biofarm-active.png"
 	dead.working_visualisations.light = nil
-	dead.localised_name = {"entity-name.biofarm"}
+	dead.localised_name = {"entity-name.bi_bio_farm"}
 	
 	data:extend({dead})
 end
@@ -147,7 +148,8 @@ end
 if data.raw["assembling-machine"]["bob-greenhouse"] then
 	local dead = table.deepcopy(data.raw["assembling-machine"]["bob-greenhouse"])
 	dead.name = "dead-greenhouse"
-	dead.crafting_speed = 0
+	dead.crafting_speed = 0.001
+	dead.order = "z"
 	dead.energy_source =
     {
       type = "burner",
@@ -158,9 +160,9 @@ if data.raw["assembling-machine"]["bob-greenhouse"] then
       emissions = 0.03
     }
 	dead.animation.filename = "__NauvisDay__/graphics/entity/treefarm/dead-greenhouse.png"
-	dead.working_visualisations.animation.filename ="__NauvisDay__/graphics/entity/biofarm/dead-greenhouse-active.png"
-	dead.working_visualisations.light = nil
-	dead.localised_name = {"entity-name.greenhouse"}
+	dead.working_visualisations[1].animation.filename ="__NauvisDay__/graphics/entity/treefarm/dead-greenhouse-active.png"
+	dead.working_visualisations[1].light = nil
+	dead.localised_name = {"entity-name.bob-greenhouse"}
 	
 	data:extend({dead})
 end

@@ -15,6 +15,7 @@ for name,recipe in pairs(data.raw.recipe) do
 			table.insert(copy.expensive.ingredients, {type="fluid", name="steam", amount=10})
 		end
 		table.insert(recipes, copy)
+		copy.allow_decomposition = false
 	end
 end
 
