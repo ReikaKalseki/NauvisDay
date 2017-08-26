@@ -11,6 +11,9 @@ local function getPollutionFogSize(pollution)
 			return nil
 		end
 	end
+	if pollution >= pollutionFogSizes[#pollutionFogSizes][1] then
+		return pollutionFogSizes[#pollutionFogSizes-1][2]
+	end
 	local idx = 1
 	while idx <= #pollutionFogSizes and pollutionFogSizes[idx][1] < pollution do
 		idx = idx+1
@@ -25,7 +28,7 @@ local function getPollutionFogSize(pollution)
 	local y1 = pollutionFogSizes[idx-1][2]
 	local y2 = pollutionFogSizes[idx][2]
 	local f = math.random()
-	local ret = f < (pollution-x1)/(x2-x1) and y2 or y1
+	--local ret = f < (pollution-x1)/(x2-x1) and y2 or y1
 	--game.print(f .. " of " .. (pollution-x1)/(x2-x1) .. " > " .. ret)
 	return f < (pollution-x1)/(x2-x1) and y2 or y1
 end

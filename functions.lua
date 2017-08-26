@@ -397,6 +397,12 @@ function setPollutionAndEvoSettings()
 			end
 		end
 	end
+	if game.surfaces["nauvis"].peaceful_mode or game.surfaces["nauvis"].map_gen_settings.peaceful_mode then
+		game.print("NauvisDay: Disabling peaceful mode.")
+	end
+	game.surfaces["nauvis"].peaceful_mode = false
+	game.surfaces["nauvis"].map_gen_settings.peaceful_mode = false
+	--game.surfaces["nauvis"].autoplace_controls
 end
 
 function doTreeFarmTreeDeath(entity)
