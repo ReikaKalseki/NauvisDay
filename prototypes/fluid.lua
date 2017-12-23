@@ -11,6 +11,7 @@ data:extend(
     base_color = {r=0.33, g=0.36, b=0.16},
     flow_color = {r=0.46, g=0.48, b=0.36},
     icon = "__NauvisDay__/graphics/icons/sludge.png",
+	icon_size = 32,
     order = "a[fluid]-a[waste]",
     pressure_to_speed_ratio = 0.2,
     flow_to_energy_ratio = 0.2,
@@ -70,6 +71,7 @@ for name,tile in pairs(data.raw.tile) do
 		water.name = "polluted-" .. water.name
 		water.autoplace = nil
 		--log("Inserting " .. name .. " into " .. (water.allowed_neighbors and (#water.allowed_neighbors .. " @ " .. name) or "nil") .. " for " .. water.name)
+		if not water.allowed_neighbors then water.allowed_neighbors = {} end
 		table.insert(water.allowed_neighbors, name)
 		water.ageing=-0.0625---20---0.125 instead of making it emit pollution (net), make it only reduce absorption, but not work for offshore pumps and the like
 		water.map_color={r=64, g=77, b=29}

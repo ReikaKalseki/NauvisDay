@@ -36,7 +36,7 @@ local function createCloud(name, duration, size, damage)
           action =
           {
             type = "area",
-            perimeter = size,
+            radius = size,
             entity_flags = {"breaths-air"},
             action_delivery =
             {

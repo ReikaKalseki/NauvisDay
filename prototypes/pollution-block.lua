@@ -3,12 +3,13 @@ data:extend(
    {
     type = "item",
     name = "pollution-block",
-      icon = "__NauvisDay__/graphics/icons/pollution-block.png",
+    icon = "__NauvisDay__/graphics/icons/pollution-block.png",
     flags = {"goes-to-quickbar"},
     subgroup = "intermediate-product",
     --order = "f[stone-wall]-f[tough-wall-1-2]",
     place_result = "pollution-block",	
-    stack_size = 20
+    stack_size = 20,
+	icon_size = 32
   }
 }
 )
@@ -20,6 +21,7 @@ data:extend(
 		name = "pollution-block",
 		flags = {"placeable-player"},
 		icon = "__NauvisDay__/graphics/icons/pollution-block.png",
+		icon_size = 32,
 		subgroup = "intermediate-product",
 		minable = {mining_time = 2, result = "pollution-block"},
 		max_health = 25,

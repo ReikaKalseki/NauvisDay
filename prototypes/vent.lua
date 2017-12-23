@@ -5,6 +5,7 @@ data:extend({
     type = "assembling-machine",
     name = "venting-machine",
     icon = "__NauvisDay__/graphics/icons/pollution-venting-machine.png",
+	icon_size = 32,
     flags = {"placeable-neutral", "placeable-player", "player-creation"},
     minable = {hardness = 0.2, mining_time = 0.5, result = "venting-machine"},
     fast_replaceable_group = "venting-machine",
@@ -88,7 +89,8 @@ data:extend({
     subgroup = "production-machine",
     order = "f[venting-machine]",
     place_result = "venting-machine",
-    stack_size = 10
+    stack_size = 10,
+	icon_size = 32
   }
 })
 
@@ -104,6 +106,7 @@ data:extend({
     type = "recipe",
     name = "venting-machine",
     icon = "__NauvisDay__/graphics/icons/pollution-venting-machine.png",
+	icon_size = 32,
     energy_required = 10,
     enabled = "false",
     ingredients =
@@ -118,6 +121,7 @@ data:extend({
     type = "recipe",
     name = "pollution-venting-action",
     icon = "__NauvisDay__/graphics/icons/vent-pollution.png",
+	icon_size = 32,
     category = "pollution-venting",
     order = "f[plastic-bar]-f[venting]",
     energy_required = 0.05,

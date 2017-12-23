@@ -3,6 +3,7 @@ data:extend({
     type = "constant-combinator",
     name = "pollution-detector",
     icon = "__base__/graphics/icons/constant-combinator.png",
+	icon_size = 32,
     flags = {"placeable-neutral", "player-creation"},
     minable = {hardness = 0.2, mining_time = 0.5, result = "pollution-detector"},
     max_health = 50,
@@ -55,28 +56,28 @@ data:extend({
 
     activity_led_sprites = {
       north = {
-        filename = "__base__/graphics/entity/combinator/activity-leds/combinator-led-constant-north.png",
+        filename = "__base__/graphics/entity/combinator/activity-leds/constant-combinator-LED-N.png",
         width = 11,
         height = 10,
         frame_count = 1,
         shift = {0.296875, -0.40625},
       },
       east = {
-        filename = "__base__/graphics/entity/combinator/activity-leds/combinator-led-constant-east.png",
+        filename = "__base__/graphics/entity/combinator/activity-leds/constant-combinator-LED-E.png",
         width = 14,
         height = 12,
         frame_count = 1,
         shift = {0.25, -0.03125},
       },
       south = {
-        filename = "__base__/graphics/entity/combinator/activity-leds/combinator-led-constant-south.png",
+        filename = "__base__/graphics/entity/combinator/activity-leds/constant-combinator-LED-S.png",
         width = 11,
         height = 11,
         frame_count = 1,
         shift = {-0.296875, -0.078125},
       },
       west = {
-        filename = "__base__/graphics/entity/combinator/activity-leds/combinator-led-constant-west.png",
+        filename = "__base__/graphics/entity/combinator/activity-leds/constant-combinator-LED-W.png",
         width = 12,
         height = 12,
         frame_count = 1,
@@ -151,16 +152,19 @@ data:extend({
     type = "item",
     name = "pollution-detector",
     icon = "__NauvisDay__/graphics/icons/pollution-detector.png",
+	icon_size = 32,
     flags = { "goes-to-quickbar" },
     subgroup = "circuit-network",
     place_result="pollution-detector",
     order = "b[combinators]-c[pollution-detector]",
-    stack_size= 50,
+    stack_size = 50,
+	icon_size = 32
   },
   { --for display in the circuit gui
     type = "virtual-signal",
     name = "pollution",
     icon = "__NauvisDay__/graphics/icons/pollution.png",
+	icon_size = 32,
     subgroup = "virtual-signal-special",
     order = "pollution",
   }
@@ -173,6 +177,7 @@ data:extend({
     type = "recipe",
     name = "pollution-detector",
     icon = "__NauvisDay__/graphics/icons/pollution-detector.png",
+	icon_size = 32,
     energy_required = 1.0,
     enabled = "false",
     ingredients =

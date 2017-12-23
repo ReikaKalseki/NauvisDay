@@ -5,6 +5,7 @@ data:extend({
     type = "assembling-machine",
     name = "borer",
     icon = "__NauvisDay__/graphics/icons/borer.png",
+	icon_size = 32,
     flags = {"placeable-neutral", "placeable-player", "player-creation"},
     minable = {hardness = 0.2, mining_time = 0.5, result = "borer"},
     fast_replaceable_group = "borer",
@@ -92,11 +93,13 @@ data:extend({
     type = "item",
     name = "borer",
     icon = "__NauvisDay__/graphics/icons/borer.png",
+	icon_size = 32,
     flags = { "goes-to-quickbar" },
     subgroup = "production-machine",
     order = "f[borer]",
     place_result = "borer",
-    stack_size = 10
+    stack_size = 10,
+	icon_size = 32
   }
 })
 
@@ -112,6 +115,7 @@ data:extend({
     type = "recipe",
     name = "borer",
     icon = "__NauvisDay__/graphics/icons/borer.png",
+	icon_size = 32,
     energy_required = 10,
     enabled = "false",
     ingredients =
@@ -127,6 +131,7 @@ data:extend({
     type = "recipe",
     name = "boring-action",
     icon = "__NauvisDay__/graphics/icons/boring-action.png",
+	icon_size = 32,
     category = "boring",
     order = "f[plastic-bar]-f[boring]",
     energy_required = 15,

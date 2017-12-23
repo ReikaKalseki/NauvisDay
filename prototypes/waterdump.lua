@@ -3,6 +3,7 @@ data:extend({
     type = "assembling-machine",
     name = "dumping-machine",
     icon = "__NauvisDay__/graphics/icons/pollution-dumping-machine.png",
+	icon_size = 32,
     flags = {"placeable-neutral", "placeable-player", "player-creation"},
     minable = {hardness = 0.2, mining_time = 0.5, result = "dumping-machine"},
     fast_replaceable_group = "dumping-machine",
@@ -85,7 +86,8 @@ data:extend({
     subgroup = "production-machine",
     order = "f[dumping-machine]",
     place_result = "dumping-machine",
-    stack_size = 10
+    stack_size = 10,
+	icon_size = 32
   }
 })
 
@@ -101,6 +103,7 @@ data:extend({
     type = "recipe",
     name = "dumping-machine",
     icon = "__NauvisDay__/graphics/icons/pollution-dumping-machine.png",
+	icon_size = 32,
     energy_required = 10,
     enabled = "false",
     ingredients =
@@ -116,6 +119,7 @@ data:extend({
     type = "recipe",
     name = "pollution-dumping-action",
     icon = "__NauvisDay__/graphics/icons/vent-pollution.png",
+	icon_size = 32,
     category = "pollution-dumping",
     order = "f[plastic-bar]-f[dumping]",
     energy_required = 0.05,

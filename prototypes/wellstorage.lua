@@ -23,6 +23,7 @@ data:extend(
     type = "mining-drill",
     name = "storage-machine",
     icon = "__NauvisDay__/graphics/icons/pollution-storage-machine.png",
+	icon_size = 32,
     flags = {"placeable-neutral", "player-creation"},
     minable = {mining_time = 1, result = "storage-machine"},
     max_health = 300,
@@ -673,7 +674,6 @@ data:extend(
     {
       module_slots = 0
     },
-	allowed_effects = nil,
     radius_visualisation_picture =
     {
       filename = "__NauvisDay__/graphics/entity/storage/storage-radius-visualization.png",
@@ -681,21 +681,10 @@ data:extend(
       height = 12
     },
     monitor_visualization_tint = {r=78, g=173, b=255},
-    circuit_wire_connection_points =
-    {
-      get_circuit_connector_wire_shifting_for_connector({-0.09375, -1.65625}, {-0.09375, -1.65625}, 4),
-      get_circuit_connector_wire_shifting_for_connector({1.28125, -0.40625},  {1.28125, -0.40625},  2),
-      get_circuit_connector_wire_shifting_for_connector({0.09375, 1},         {0.09375, 1},         0),
-      get_circuit_connector_wire_shifting_for_connector({-1.3125, -0.3125},   {-1.3125, -0.3125},   6)
-    },
-    circuit_connector_sprites =
-    {
-      get_circuit_connector_sprites({-0.09375, -1.65625}, {-0.09375, -1.65625}, 4),
-      get_circuit_connector_sprites({1.28125, -0.40625},  {1.28125, -0.40625},  2),
-      get_circuit_connector_sprites({0.09375, 1},         {0.09375, 1},         0),
-      get_circuit_connector_sprites({-1.3125, -0.3125},   {-1.3125, -0.3125},   6)
-    },
+    circuit_wire_connection_points = circuit_connector_definitions["electric-mining-drill"].points,
+    circuit_connector_sprites = circuit_connector_definitions["electric-mining-drill"].sprites,
     circuit_wire_max_distance = 9,
+	allowed_effects = nil,
   }
 }
 )
@@ -707,6 +696,7 @@ data:extend({
     type = "item",
     name = "storage-machine",
     icon = "__NauvisDay__/graphics/icons/pollution-storage-machine.png",
+	icon_size = 32,
     flags = { "goes-to-quickbar" },
     subgroup = "production-machine",
     order = "f[storage-machine]",
@@ -727,6 +717,7 @@ data:extend({
     type = "recipe",
     name = "storage-machine",
     icon = "__NauvisDay__/graphics/icons/pollution-storage-machine.png",
+	icon_size = 32,
     energy_required = 30,
     enabled = "false",
     ingredients =

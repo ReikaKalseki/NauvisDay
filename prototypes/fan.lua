@@ -7,6 +7,7 @@ data:extend({--[[
 	    type = "resource",
 		name = "fan-ore",
 		icon = "__NauvisDay__/graphics/icons/fan.png",
+		icon_size = 32,
 		flags = {"placeable-neutral"},
 		order="a-b-a",
 		minable = {
@@ -168,6 +169,7 @@ data:extend({--[[
 		name = "pollution-fan",
 		order = "z",
 		icon = "__NauvisDay__/graphics/icons/fan.png",
+		icon_size = 32,
 		flags = {"placeable-neutral", "player-creation"},
 		minable = {mining_time = 1, result = "pollution-fan-placer"},
 		--max_health = 100,
@@ -276,6 +278,7 @@ data:extend({--[[
 		type = "pump",
 		name = "pollution-fan",
 		icon = "__NauvisDay__/graphics/icons/fan.png",
+		icon_size = 32,
 		flags = {"placeable-neutral", "player-creation"},
 		minable = {mining_time = 1, result = "pollution-fan"},
 		max_health = 180,
@@ -430,71 +433,16 @@ data:extend({--[[
 			frame_count = 1,
 		  }
 		},
-
-		circuit_wire_connection_points =
-		{
-		  {
-			shadow =
-			{
-			  red = {0.171875, 0.140625},
-			  green = {0.171875, 0.265625},
-			},
-			wire =
-			{
-			  red = {-0.53125, -0.15625},
-			  green = {-0.53125, 0},
-			}
-		  },
-		  {
-			shadow =
-			{
-			  red = {0.890625, 0.703125},
-			  green = {0.75, 0.75},
-			},
-			wire =
-			{
-			  red = {0.34375, 0.28125},
-			  green = {0.34375, 0.4375},
-			}
-		  },
-		  {
-			shadow =
-			{
-			  red = {0.15625, 0.0625},
-			  green = {0.09375, 0.125},
-			},
-			wire =
-			{
-			  red = {-0.53125, -0.09375},
-			  green = {-0.53125, 0.03125},
-			}
-		  },
-		  {
-			shadow =
-			{
-			  red = {0.796875, 0.703125},
-			  green = {0.625, 0.75},
-			},
-			wire =
-			{
-			  red = {0.40625, 0.28125},
-			  green = {0.40625, 0.4375},
-			}
-		  }
-		},
-		circuit_connector_sprites =
-		{
-		  get_circuit_connector_sprites({-0.40625, -0.3125}, nil, 24),
-		  get_circuit_connector_sprites({0.125, 0.21875}, {0.34375, 0.40625}, 18),
-		  get_circuit_connector_sprites({-0.40625, -0.25}, nil, 24),
-		  get_circuit_connector_sprites({0.203125, 0.203125}, {0.25, 0.40625}, 18),
-		},
-		circuit_wire_max_distance = 12
+		circuit_wire_connection_points = circuit_connector_definitions["electric-mining-drill"].points,
+		circuit_connector_sprites = circuit_connector_definitions["electric-mining-drill"].sprites,
+		circuit_wire_max_distance = 12,
+		allowed_effects = nil,
 	},
 	{
 		type = "storage-tank",
 		name = "pollution-fan-tank",
 		icon = "__base__/graphics/icons/storage-tank.png",
+		icon_size = 32,
 		flags = {"placeable-player", "player-creation"},
 		--minable = {mining_time = 1.5, result = "storage-tank"},
 		selectable_in_game = false,
@@ -563,64 +511,8 @@ data:extend({--[[
 		flow_length_in_ticks = 360,
 		vehicle_impact_sound =  { filename = "__base__/sound/car-metal-impact.ogg", volume = 0.65 },
 		working_sound = nil,
-		circuit_wire_connection_points =
-		{
-		  {
-			shadow =
-			{
-			  red = {2.35938, 0.890625},
-			  green = {2.29688, 0.953125},
-			},
-			wire =
-			{
-			  red = {-0.40625, -0.375},
-			  green = {-0.53125, -0.46875},
-			}
-		  },
-		  {
-			shadow =
-			{
-			  red = {2.35938, 0.890625},
-			  green = {2.29688, 0.953125},
-			},
-			wire =
-			{
-			  red = {0.46875, -0.53125},
-			  green = {0.375, -0.4375},
-			}
-		  },
-		  {
-			shadow =
-			{
-			  red = {2.35938, 0.890625},
-			  green = {2.29688, 0.953125},
-			},
-			wire =
-			{
-			  red = {-0.40625, -0.375},
-			  green = {-0.53125, -0.46875},
-			}
-		  },
-		  {
-			shadow =
-			{
-			  red = {2.35938, 0.890625},
-			  green = {2.29688, 0.953125},
-			},
-			wire =
-			{
-			  red = {0.46875, -0.53125},
-			  green = {0.375, -0.4375},
-			}
-		  },
-		},
-		circuit_connector_sprites =
-		{
-		  get_circuit_connector_sprites({-0.1875, -0.375}, nil, 7),
-		  get_circuit_connector_sprites({0.375, -0.53125}, nil, 1),
-		  get_circuit_connector_sprites({-0.1875, -0.375}, nil, 7),
-		  get_circuit_connector_sprites({0.375, -0.53125}, nil, 1),
-		},
+		circuit_wire_connection_points = circuit_connector_definitions["storage-tank"].points,
+		circuit_connector_sprites = circuit_connector_definitions["storage-tank"].sprites,
 		circuit_wire_max_distance = 0.1
 	},
   {
@@ -662,6 +554,7 @@ data:extend({
     type = "item",
     name = "pollution-fan",
     icon = "__NauvisDay__/graphics/icons/fan.png",
+	icon_size = 32,
     flags = { "goes-to-quickbar" },
     subgroup = "circuit-network",
     place_result = "pollution-fan",
@@ -676,6 +569,7 @@ data:extend({
     type = "recipe",
     name = "pollution-fan",
     icon = "__NauvisDay__/graphics/icons/fan.png",
+	icon_size = 32,
     energy_required = 1.0,
     enabled = "false",
     ingredients =

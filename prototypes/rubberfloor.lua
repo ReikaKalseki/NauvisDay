@@ -4,6 +4,7 @@ data:extend(
     type = "item",
     name = "rubber-floor",
     icon = "__NauvisDay__/graphics/icons/rubber-floor.png",
+	icon_size = 32,
     flags = {"goes-to-main-inventory"},
     subgroup = "terrain",
     order = "b[rubber-floor]-a[plain]",
@@ -106,7 +107,7 @@ data:extend(
         },
       },
       map_color={r=10, g=10, b=10},
-      ageing=data.raw.tile.grass.ageing,
+      ageing=data.raw.tile["grass-1"].ageing, --multiple grass types now
       vehicle_friction_modifier = 0.8
     },
   })

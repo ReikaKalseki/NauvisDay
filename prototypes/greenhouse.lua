@@ -6,6 +6,7 @@ local function createFilter()
     type = "assembling-machine",
     name = "greenhouse",
     icon = "__NauvisDay__/graphics/icons/greenhouse.png",
+	icon_size = 32,
     flags = {"placeable-neutral", "placeable-player", "player-creation"},
     minable = {hardness = 0.2, mining_time = 0.5, result = "greenhouse"},
     fast_replaceable_group = "greenhouse",
@@ -76,7 +77,8 @@ data:extend({
 	subgroup = "production-machine",
 	order = "f[greenhouse]",
 	place_result = "greenhouse",
-	stack_size = 10
+	stack_size = 10,
+	icon_size = 32
   }
 })
 
@@ -92,6 +94,7 @@ data:extend({
     type = "recipe",
     name = "greenhouse-action",
     icon = "__NauvisDay__/graphics/icons/greenhouse-recipe.png",
+	icon_size = 32,
     category = "greenhouse",
     order = "f[plastic-bar]-f[cleaning]",
     energy_required = 300,
@@ -110,6 +113,7 @@ data:extend({
     type = "recipe",
     name = "greenhouse",
     icon = "__NauvisDay__/graphics/icons/greenhouse.png",
+	icon_size = 32,
     energy_required = 6,
     enabled = "true",
     ingredients =

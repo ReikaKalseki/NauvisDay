@@ -49,11 +49,13 @@ data:extend({
 	type = "item",
     name = "gas-boiler",
     icon = "__NauvisDay__/graphics/icons/gas-boiler.png",
+	icon_size = 32,
     flags = {"goes-to-quickbar"},
     subgroup = "energy",
     order = "b[gas-boiler]",
     place_result = "gas-boiler",
-    stack_size = 50
+    stack_size = 50,
+	icon_size = 32
   },
   {
 	type = "recipe",
@@ -75,6 +77,7 @@ data:extend({
     type = "boiler",
     name = "gas-boiler",
     icon = "__base__/graphics/icons/boiler.png",
+	icon_size = 32,
     flags = {"placeable-neutral", "player-creation"},
     minable = {hardness = 0.2, mining_time = 0.5, result = "gas-boiler"},
     max_health = 200,
@@ -110,7 +113,8 @@ data:extend({
         {type = "input-output", position = {-2, 0.5}},
         {type = "input-output", position = {2, 0.5}}
       },
-      production_type = "input-output"
+      production_type = "input-output",
+	  filter = "water",
     },
     output_fluid_box =
     {
@@ -122,17 +126,8 @@ data:extend({
       {
         {type = "output", position = {0, -1.5}}
       },
-      production_type = "output"
-    },
-    fluid_input =
-    {
-      name = "water",
-      amount = 0.0
-    },
-    fluid_output =
-    {
-      name = "steam",
-      amount = 0.0
+      production_type = "output",
+	  filter = "steam",
     },
     energy_consumption = "1.8MW",
     energy_source =

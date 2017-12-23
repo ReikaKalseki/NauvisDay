@@ -4,10 +4,12 @@ data:extend(
     type = "item",
     name = "asphalt",
     icon = "__NauvisDay__/graphics/icons/concrete.png",
+	icon_size = 32,
     flags = {"goes-to-main-inventory"},
     subgroup = "terrain",
     order = "b[asphalt]-a[plain]",
     stack_size = 100,
+	icon_size = 32,
     place_as_tile =
     {
       result = "asphalt",

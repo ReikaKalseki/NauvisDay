@@ -27,10 +27,10 @@ local function hasIngredients(furnace)
 	for i= 1,#furnace.fluidbox do
 		local fluid = furnace.fluidbox[i]
 		if fluid then
-			fluids[fluid.type] = fluid.amount
+			fluids[fluid.name] = fluid.amount
 		end
 	end
-	for _,ingredient in pairs(furnace.recipe.ingredients) do
+	for _,ingredient in pairs(furnace.get_recipe().ingredients) do
 		if ingredient.type == "item" then
 			local has = inv.get_item_count(ingredient.name)
 			if has < ingredient.amount then
@@ -49,11 +49,11 @@ end
 function tickSteamFurnaces(nvday, tick)
 	if tick%30 == 0 then
 		for _,furnace in pairs(nvday.steam_furnaces) do
-			if furnace.recipe and hasIngredients(furnace) then
+			if furnace.get_recipe() and hasIngredients(furnace) then
 				furnace.crafting_progress = math.max(furnace.crafting_progress, 0.005)
 			end
 			local fluid = furnace.fluidbox[1]
-			if fluid and fluid.type == "steam" and fluid.amount >= 5 then
+			if fluid and fluid.name == "steam" and fluid.amount >= 5 then
 				furnace.burner.currently_burning = game.item_prototypes["coal"]
 				furnace.burner.remaining_burning_fuel = 50000000
 			else
@@ -87,16 +87,17 @@ function tickGasBoilers(nvday, tick)
 	--if tick%15 == 0 then
 		for _,entry in pairs(nvday.gas_boilers) do
 			if entry.input.valid then -- can be called before remove if race condition
-				entry.input.recipe = entry.input.force.recipes["gas-boiler-input"] --just to be safe
+				entry.input.set_recipe(entry.input.force.recipes["gas-boiler-input"]) --just to be safe
 				local fluid = entry.input.fluidbox[1]
-				if fluid and fluid.type == "petroleum-gas" and fluid.amount >= 1 then
+				if fluid and fluid.name == "petroleum-gas" and fluid.amount >= 1 then
 					--game.print("Adding gas to boiler")
-					if entry.boiler.fluidbox[1] and entry.boiler.fluidbox[1].type == "water" and entry.boiler.fluidbox[1].amount > 10 and tick%4 == 0 then
+					if entry.boiler.fluidbox[1] and entry.boiler.fluidbox[1].name == "water" and entry.boiler.fluidbox[1].amount > 10 and tick%4 == 0 then
 						fluid.amount = fluid.amount-1
 						entry.input.fluidbox[1] = fluid
 					end
 					entry.boiler.burner.currently_burning = game.item_prototypes["coal"]
 					entry.boiler.burner.remaining_burning_fuel = 8000000
+					--entry.boiler.fluidbox[1] = {name = "steam", temperature = 100, amount=1}
 				else
 					entry.boiler.burner.remaining_burning_fuel = 0
 				end
@@ -146,7 +147,7 @@ function rotateGasBoiler(nvday, entity)
 	end
 	entry.input.destroy()
 	local gasinput = entity.surface.create_entity({name = "gas-boiler-input", position = pos, force = entity.force, direction = getOppositeDirection(entity.direction)})
-	gasinput.recipe = entity.force.recipes["gas-boiler-input"]
+	gasinput.set_recipe(entity.force.recipes["gas-boiler-input"])
 	gasinput.fluidbox[1] = fluid
 	entry.input = gasinput
   end
@@ -174,7 +175,7 @@ function addGasBoiler(nvday, entity)
 	end
 	local gasinput = entity.surface.create_entity({name = "gas-boiler-input", position = pos, force = entity.force, direction = getOppositeDirection(entity.direction)})
 	table.insert(nvday.gas_boilers, {boiler = entity, input = gasinput})
-	gasinput.recipe = entity.force.recipes["gas-boiler-input"]
+	gasinput.set_recipe(entity.force.recipes["gas-boiler-input"])
 	--local pipes = entity.surface.find_entities_filtered{position = pipepos}
   end
   if entity.type == "pipe" or entity.type == "pipe-to-ground" then
@@ -185,14 +186,14 @@ function addGasBoiler(nvday, entity)
 		local dir = input.direction
 		local pos = input.position
 		local entry = getGasBoilerEntry(input)
-		local rec = input.recipe
+		local rec = input.get_recipe()
 		input.destroy()
 		local repl = entity.surface.create_entity({name = "gas-boiler-input", force = entity.force, direction = dir, position = pos})
 		repl.energy = e
-		repl.recipe = rec
+		repl.set_recipe(rec)
 		repl.fluidbox[1] = fluid
 		entry.input = repl
-		--game.print(repl.unit_number .. " : " .. (fluid and (fluid.type .. ":" .. fluid.amount) or "nil") .. " > " .. (entry.input.fluidbox[1] and (entry.input.fluidbox[1].type .. ":" .. entry.input.fluidbox[1].amount) or "nil"))
+		--game.print(repl.unit_number .. " : " .. (fluid and (fluid.name .. ":" .. fluid.amount) or "nil") .. " > " .. (entry.input.fluidbox[1] and (entry.input.fluidbox[1].name .. ":" .. entry.input.fluidbox[1].amount) or "nil"))
 	end
   end
 end
@@ -217,11 +218,12 @@ local function findNearbyRecipes(entity)
 	local recipes = {}
 	local furnaces = entity.surface.find_entities_filtered({name = entity.name, area = {{entity.position.x-8, entity.position.y-8}, {entity.position.x+8, entity.position.y+8}}})
 	for _,furnace in pairs(furnaces) do
-		if furnace.recipe then
-			if recipes[furnace.recipe.name] == nil then
-				recipes[furnace.recipe.name] = 0
+		local rec = furnace.get_recipe()
+		if rec then
+			if recipes[rec.name] == nil then
+				recipes[rec.name] = 0
 			end
-			recipes[furnace.recipe.name] = recipes[furnace.recipe.name]+1
+			recipes[rec.name] = recipes[rec.name]+1
 		end
 	end
 	for recipe,count in pairs(recipes) do
@@ -236,7 +238,7 @@ end
 
 function addSteamFurnace(nvday, entity)
   if entity.name == "steam-furnace" then
-	entity.recipe = findNearbyRecipes(entity)
+	entity.set_recipe(findNearbyRecipes(entity))
 	
 	--local pole = entity.surface.create_entity({name = "furnace-electric-pole", position = entity.position, force = entity.force})
 	--local interface = entity.surface.create_entity({name = "furnace-energy-interface", position = entity.position, force = entity.force})	
@@ -259,7 +261,7 @@ end
 
 function addGreenhouse(nvday, entity)
   if entity.name == "greenhouse" then
-	entity.recipe = entity.force.recipes["greenhouse-action"]
+	entity.set_recipe(entity.force.recipes["greenhouse-action"])
   end
 end
 
@@ -305,7 +307,7 @@ end
 
 function addBoreholeMaker(nvday, entity)
   if entity.name == "borer" then
-	entity.recipe = entity.force.recipes["boring-action"]
+	entity.set_recipe(entity.force.recipes["boring-action"])
 	local holes = entity.surface.find_entities_filtered({type = "resource", name = "borehole", area = {{entity.position.x-1, entity.position.y-1}, {entity.position.x+1, entity.position.y+1}}})
 	table.insert(nvday.borers, {borer=entity, size = 0, hole=#holes == 1 and holes[1] or nil}) --set size to zero, since products_finished is read only
   end
@@ -336,7 +338,7 @@ local function disableBorer(borer)
 		local item = inv[i]
 		borer.surface.spill_item_stack(borer.position, item, true)
 	end
-	borer.recipe = nil
+	borer.set_recipe(nil)
 	borer.crafting_progress = math.min(borer.crafting_progress, 0.01)
 	borer.order_deconstruction(borer.force)
 end
@@ -344,7 +346,7 @@ end
 function tickBoreholeMakers(nvday, tick)
   if #nvday.borers and tick%10 == 0 then
 	  for _,entry in pairs(nvday.borers) do
-		entry.borer.recipe = entry.borer.force.recipes["boring-action"]
+		entry.borer.set_recipe(entry.borer.force.recipes["boring-action"])
 		--game.print(entry.borer.products_finished .. " / " .. entry.size)
 		--entry.borer.crafting_progress = math.max(0, entry.borer.crafting_progress-getBoreholeDrillTimeSubtraction(entry.size))
 		if entry.hole == nil or entry.hole.amount < maxBoreholeSize then
@@ -542,7 +544,7 @@ end
 function fluidSpill(e)
 	if #e.fluidbox > 0 then
 		for b = 1, #e.fluidbox do
-		  if e.fluidbox[b] and e.fluidbox[b].type == "waste" then
+		  if e.fluidbox[b] and e.fluidbox[b].name == "waste" then
 			local spill_amount = e.fluidbox[b].amount
 			-- debug("pollute! " .. position.x .. "," .. position.y .. " " .. corpse_size * settings.global['pollution_intensity'].value * spill_amount * 20)
 			e.surface.pollute(e.position, --[[settings.global['pollution_intensity'].value * --]]spill_amount * 20)

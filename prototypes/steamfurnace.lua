@@ -17,16 +17,19 @@ data:extend({
 	type = "item",
     name = "steam-furnace",
     icon = "__NauvisDay__/graphics/icons/steel-furnace.png",
+	icon_size = 32,
     flags = {"goes-to-quickbar"},
     subgroup = "smelting-machine",
     order = "b[steam-furnace]",
     place_result = "steam-furnace",
-    stack_size = 50
+    stack_size = 50,
+	icon_size = 32
   },--[[
   {
 	type = "item",
     name = "steam-furnace-flipped",
     icon = "__NauvisDay__/graphics/icons/steel-furnace.png",
+	icon_size = 32,
     flags = {"goes-to-quickbar"},
     subgroup = "smelting-machine",
     order = "b[steam-furnace]",
@@ -62,6 +65,7 @@ data:extend({
     type = "assembling-machine",
     name = "steam-furnace",
     icon = "__base__/graphics/icons/steel-furnace.png",
+	icon_size = 32,
     flags = {"placeable-neutral", "placeable-player", "player-creation"},
     minable = {mining_time = 1, result = "steam-furnace"},
     max_health = 300,
