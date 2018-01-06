@@ -298,7 +298,7 @@ function tickBoreholes(nvday, tick)
 			entry.hole.destroy()
 			entry.hole = entry.well.surface.create_entity{name="used-borehole", position=pos, amount=amt, force = force}
 			local amt = entry.well.fluidbox[2] and entry.well.fluidbox[2].amount or 0
-			entry.well.fluidbox[2] = {type="waste", amount=amt+2000}
+			entry.well.fluidbox[2] = {name="waste", amount=amt+2000}
 			table.remove(nvday.boreholes, i)
 		end
 	  end

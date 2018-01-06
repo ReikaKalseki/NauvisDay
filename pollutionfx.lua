@@ -44,6 +44,33 @@ local function spawnPollutionSmoke()
 	end
 end
 
+local function killTreefarm(farm, newname)
+	local pos = farm.position
+	local force = farm.force
+	local dir = farm.direction
+	local rec = farm.get_recipe()
+	for _,player in pairs(force.players) do
+		player.add_alert(farm, defines.alert_type.entity_destroyed)
+	end
+	local items = {}
+	for item in farm.get_output_inventory() do
+		table.insert(items, {item.name, item.amount})
+	end
+	farm.die()
+	local new = surface.create_entity({name=newname, position=pos, force = force, direction=dir, fast_replace=true})
+	local put = new.set_recipe(rec)
+	for type,amt in pairs(items) do
+		surface.spill_item_stack(pos, {name = type, count = amt}, true, force)
+	end
+	for type,amt in pairs(put) do
+		surface.spill_item_stack(pos, {name = type, count = amt}, true, force)
+	end
+	new.burner.currently_burning = game.item_prototypes["rocket-fuel"]
+	new.burner.remaining_burning_fuel = 100000000000
+	new.operable = false
+	flag = true
+end
+
 local function destroyTreeFarms(surface, chunk, tick) --TreeFarm mod, Greenhouses, and BioIndustries
 	--Treefarm is already handled by pollution clouds
 	
@@ -53,32 +80,12 @@ local function destroyTreeFarms(surface, chunk, tick) --TreeFarm mod, Greenhouse
 		local flag = false
 		local farms = surface.find_entities_filtered({name="bi_bio_farm", area = _area})
 		for _,farm in pairs(farms) do
-			local pos = farm.position
-			local force = farm.force
-			local dir = farm.direction
-			local rec = farm.recipe
-			farm.die()
-			local new = surface.create_entity({name="dead-bio-farm", position=pos, force = force, direction=dir})
-			new.recipe = rec
-			new.burner.currently_burning = game.item_prototypes["rocket-fuel"]
-			new.burner.remaining_burning_fuel = 100000000000
-			new.operable = false
-			flag = true
+			killTreefarm(farm, "dead-bio-farm")
 		end
 		
 		farms = surface.find_entities_filtered({name="bob-greenhouse", area = _area})
 		for _,farm in pairs(farms) do
-			local pos = farm.position
-			local force = farm.force
-			local dir = farm.direction
-			local rec = farm.recipe
-			farm.die()
-			local new = surface.create_entity({name="dead-greenhouse", position=pos, force = force, direction=dir})
-			new.recipe = rec
-			new.burner.currently_burning = game.item_prototypes["rocket-fuel"]
-			new.burner.remaining_burning_fuel = 100000000000
-			new.operable = false
-			flag = true
+			killTreefarm(farm, "dead-greenhouse")
 		end
 	end
 	

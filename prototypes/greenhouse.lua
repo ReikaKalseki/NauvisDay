@@ -105,7 +105,7 @@ data:extend({
     },
     results=
     {
-      {type="item", name="raw-wood", amount=5}
+      {type="item", name="raw-wood", amount=5*10}
     },
   },
   

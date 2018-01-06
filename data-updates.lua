@@ -116,11 +116,19 @@ for k,obj in pairs(data.raw.fire) do
 end
 
 table.insert(data.raw.technology["circuit-network"].effects, {type="unlock-recipe", recipe="pollution-detector"})
-table.insert(data.raw.technology["advanced-electronics"].effects, {type="unlock-recipe", recipe="gas-boiler"})
-table.insert(data.raw.technology["advanced-material-processing"].effects, {type="unlock-recipe", recipe="steam-furnace"})
+if Config.enableGasBoiler then
+	table.insert(data.raw.technology["advanced-electronics"].effects, {type="unlock-recipe", recipe="gas-boiler"})
+end
+if Config.enableSteamFurnace then
+	table.insert(data.raw.technology["advanced-material-processing"].effects, {type="unlock-recipe", recipe="steam-furnace"})
+end
 
 if data.raw.item.glass then
 	table.insert(data.raw.recipe.greenhouse.ingredients, {"glass", 30})
+end
+
+local function createDeadName(name)
+	return {"dead-farm.name", {"entity-name." .. name}}
 end
 
 if data.raw["assembling-machine"]["bi_bio_farm"] then
@@ -140,7 +148,7 @@ if data.raw["assembling-machine"]["bi_bio_farm"] then
 	dead.animation.filename = "__NauvisDay__/graphics/entity/treefarm/dead-biofarm.png"
 	dead.working_visualisations.animation.filename ="__NauvisDay__/graphics/entity/treefarm/dead-biofarm-active.png"
 	dead.working_visualisations.light = nil
-	dead.localised_name = {"entity-name.bi_bio_farm"}
+	dead.localised_name = createDeadName("bi_bio_farm")
 	
 	data:extend({dead})
 end
@@ -162,7 +170,7 @@ if data.raw["assembling-machine"]["bob-greenhouse"] then
 	dead.animation.filename = "__NauvisDay__/graphics/entity/treefarm/dead-greenhouse.png"
 	dead.working_visualisations[1].animation.filename ="__NauvisDay__/graphics/entity/treefarm/dead-greenhouse-active.png"
 	dead.working_visualisations[1].light = nil
-	dead.localised_name = {"entity-name.bob-greenhouse"}
+	dead.localised_name = createDeadName("bob-greenhouse")
 	
 	data:extend({dead})
 end
@@ -217,4 +225,23 @@ if data.raw.tree["tf-germling"] then
 	  }
     }
 	})
+end
+
+if Config.enableSteamFurnace and data.raw.item["stone-pipe"] then
+	data:extend({
+	  {
+		type = "recipe",
+		name = "steam-furnace-2",
+		energy_required = 3.5,
+		enabled = "false",
+		ingredients = {
+			{"steel-furnace", 1},
+			{"stone-pipe", 8},
+			{"pipe", 2},
+			{"stone", 5},
+		},
+		result = "steam-furnace",
+	  }
+	})
+	table.insert(data.raw.technology["advanced-material-processing"].effects, {type="unlock-recipe", recipe="steam-furnace-2"})
 end
