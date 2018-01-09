@@ -13,28 +13,32 @@ function initGlobal(markDirty)
 	if not global.nvday then
 		global.nvday = {}
 	end
-	if global.nvday.chunk_cache == nil then
-		global.nvday.chunk_cache = {}
+	local nvday = global.nvday
+	if nvday.chunk_cache == nil then
+		nvday.chunk_cache = {}
 	end
-	if global.nvday.pollution_detectors == nil then
-		global.nvday.pollution_detectors = {}
+	if nvday.pollution_detectors == nil then
+		nvday.pollution_detectors = {}
 	end
-	if global.nvday.pollution_fans == nil then
-		global.nvday.pollution_fans = {}
+	if nvday.pollution_fans == nil then
+		nvday.pollution_fans = {}
 	end
-	if global.nvday.gas_boilers == nil then
-		global.nvday.gas_boilers = {}
+	if nvday.gas_boilers == nil then
+		nvday.gas_boilers = {}
 	end
-	if global.nvday.steam_furnaces == nil then
-		global.nvday.steam_furnaces = {}
+	if nvday.steam_furnaces == nil then
+		nvday.steam_furnaces = {}
 	end
-	if global.nvday.boreholes == nil then
-		global.nvday.boreholes = {}
+	if nvday.boreholes == nil then
+		nvday.boreholes = {}
 	end
-	if global.nvday.borers == nil then
-		global.nvday.borers = {}
+	if nvday.borers == nil then
+		nvday.borers = {}
 	end
-	global.nvday.dirty = markDirty
+	if nvday.spills == nil then
+		nvday.spills = {}
+	end
+	nvday.dirty = markDirty
 end
 
 script.on_configuration_changed(function()
@@ -100,12 +104,16 @@ local function onGameTick(event)
 		nvday.dirty = false
 	end
 	
-	local tick = game.tick
+	local tick = event.tick
 	doAmbientPollutionEffects(nvday, tick)
 	if tick%3600 == 0 then --check once every 60 seconds
 		setPollutionAndEvoSettings()
 	end
 	ensureNoEarlyAttacks(tick)
+	
+	if tick%15 == 0 then
+		tickSpilledFluids(nvday)
+	end
 	
 	for name,func in pairs(tracker["tick"]) do
 		func(nvday, tick)

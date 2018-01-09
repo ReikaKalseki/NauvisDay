@@ -541,14 +541,79 @@ function getWeightedRandom(vals)
 	return nil
 end
 
+local function createSpillKey(position)
+	return position.x .. "&" .. position.y
+end
+
+function getSpillEntryFor(entity)
+	return global.nvday.spills[createSpillKey(entity.position)]
+end
+
+local function findNearSpill(fluid, source)
+	local area = {{source.position.x-4, source.position.y-4}, {source.position.x+4, source.position.y+4}}
+	for i = 5,1,-1 do 
+		local name = "spilled-" .. fluid.name .. "-" .. i
+		local li = source.surface.find_entities_filtered({type = "simple-entity", name = name, area = area})
+		--game.print(#li .. " for " .. name)
+		if #li > 0 then
+			return getSpillEntryFor(li[1])
+		end
+	end
+	return nil
+end
+
+local function calculateSpillStage(amount)
+	if amount < 60 then
+		return 1
+	elseif amount < 200 then
+		return 2
+	elseif amount < 1000 then
+		return 3
+	elseif amount < 10000 then
+		return 4
+	else
+		return 5
+	end
+end
+
+function setSpillStage(entry)
+	local stage = calculateSpillStage(entry.amount)
+	if entry.stage ~= stage then
+		--game.print("Set stage from " .. entry.stage .. " to " .. stage)
+		entry.stage = stage
+		local pos = entry.entity.position
+		local surf = entry.entity.surface
+		entry.entity.destroy()
+		local name = "spilled-" .. entry.fluid .. "-" .. stage
+		entry.entity = surf.create_entity{name = name, position = pos, force = game.forces.neutral}
+	end
+end
+
+local function createSpill(fluid, source)
+	local near = findNearSpill(fluid, source)
+	if near then
+		--game.print("Added " .. fluid.amount .. " to " .. near.amount)
+		near.amount = near.amount+fluid.amount
+		setSpillStage(near)
+		near.age = 0
+	else
+		local stage = calculateSpillStage(fluid.amount)--5 --maybe implement a decrementing system? Requires replacing entity
+		local name = "spilled-" .. fluid.name .. "-" .. stage
+		local entity = source.surface.create_entity{name = name, position = source.position, force = game.forces.neutral}
+		entity.destructible = false
+		local key = createSpillKey(source.position)
+		local entry = {fluid = fluid.name, amount = fluid.amount, entity = entity, age = 0, stage = stage, key = key}
+		--game.print("spilling " .. fluid.amount .. " of " .. fluid.name .. " stage " .. stage)
+		global.nvday.spills[key] = entry
+	end
+end
+
 function fluidSpill(e)
 	if #e.fluidbox > 0 then
-		for b = 1, #e.fluidbox do
-		  if e.fluidbox[b] and e.fluidbox[b].name == "waste" then
-			local spill_amount = e.fluidbox[b].amount
-			-- debug("pollute! " .. position.x .. "," .. position.y .. " " .. corpse_size * settings.global['pollution_intensity'].value * spill_amount * 20)
-			e.surface.pollute(e.position, --[[settings.global['pollution_intensity'].value * --]]spill_amount * 20)
-		  end
+		for i = 1, #e.fluidbox do
+			if e.fluidbox[i] and e.fluidbox[i].amount > 0 then
+				createSpill(e.fluidbox[i], e)
+			end
 		end
 	end
 end

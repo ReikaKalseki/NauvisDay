@@ -245,3 +245,55 @@ if Config.enableSteamFurnace and data.raw.item["stone-pipe"] then
 	})
 	table.insert(data.raw.technology["advanced-material-processing"].effects, {type="unlock-recipe", recipe="steam-furnace-2"})
 end
+
+data:extend(
+  {
+    {
+      type = "item-subgroup",
+      name = "spilled-fluid",
+      group = "environment",
+      order = "d",
+    },
+  }
+)
+
+for name,fluid in pairs(data.raw.fluid) do
+	for stage = 5,1,-1 do --higher is more fluid
+	local radius = 2
+	--local stage = 5
+	local imgw = 485
+	local imgh = 256
+	local h = radius
+	local w = radius*imgw/imgh
+	local clr = table.deepcopy(fluid.base_color)
+	local fa = 0.3 --this does not work--> 0.3*stage/5 --0.3
+	clr.a = clr.a and clr.a*fa or fa
+	--log("Created stage " .. stage .. " with alpha " .. clr.a)
+    data:extend(
+      {
+        {
+          type = "simple-entity",
+          name = "spilled-" .. name .. "-" .. stage,
+          flags = {"placeable-neutral", "placeable-off-grid", "not-on-map"},
+          icon = "__NauvisDay__/graphics/icons/spilled-fluid.png",
+          subgroup = "spilled-fluid",
+          order = "d[spilled-fluid]-a[" .. name .. "]",
+          selection_box = {{-w, -h}, {w, h}},
+          selectable_in_game = true,
+		  collision_mask = {},
+          render_layer = "decorative",
+          pictures =
+          {
+            {
+              filename = "__NauvisDay__/graphics/entity/spilled-fluid-" .. stage .. ".png",
+              width = 485,
+              height = 256,
+			  scale = 0.5,
+              tint = clr
+            }
+          }
+        },
+      }
+    )
+end
+end

@@ -1,4 +1,26 @@
 require "constants"
+require "functions"
+
+function tickSpilledFluids(nvday)
+	for _,entry in pairs(nvday.spills) do
+		local f = liquidPollutionFactors[entry.fluid]
+		local f2 = liquidEvaporationFactors[entry.fluid]
+		if not f then f = 1 end
+		if not f2 then f2 = 1 end
+		local amt = math.max(1, math.floor(f2*entry.amount/64))
+		local pol = math.floor(amt*f+0.5)
+		entry.entity.surface.pollute(entry.entity.position, pol)
+		entry.amount = entry.amount-amt
+		--game.print("Evaporating " .. amt .. " of " .. entry.fluid .. " into " .. pol .. " pollution; " .. entry.amount .. " remaining")
+		entry.age = entry.age+1
+		if entry.amount <= 0 then
+			entry.entity.destroy()
+			nvday.spills[entry.key] = nil
+		else
+			setSpillStage(entry)
+		end
+	end
+end
 
 local function getPollutionFogSize(pollution)
 	if pollution <= 0 then

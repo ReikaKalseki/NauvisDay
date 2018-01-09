@@ -115,3 +115,66 @@ attackGreenlightingTypes = {
 }
 
 pollutionLiquidProductionFactor = 1 --to make it more difficult, or even infeasible, to just store pollution in more and more tanks; not really necessary given the 10x
+
+--Any fluid not in this list is assumed to have a factor of 1.0
+liquidPollutionFactors = {
+
+	--basically harmless
+	["water"] = 0,
+	["steam"] = 0,
+	["pure-water"] = 0,
+	["lithia-water"] = 0.05,
+	["oxygen"] = 0,
+	["nitrogen"] = 0,
+	["air"] = 0,
+	["liquid-air"] = 0,
+	["hydrogen"] = 0.01,
+	
+	--mildly toxic/unpleasant, low pollution
+	["nitrogen-dioxide"] = 0.8,
+	["nitrogen-oxide"] = 0.6,
+	["ozone"] = 0.5,
+	["hydrogen-peroxide"] = 0.7, --oxidizer but decomposes to O2 and water, leaving no widespread effects
+		
+	--moderately toxic/unpleasant, moderate pollution
+	["crude-oil"] = 1.4,
+	["heavy-oil"] = 1.5,
+	["light-oil"] = 1.2,
+	["petroleum-gas"] = 0.9, --methane = greenhouse effect, but is not really toxic nor something noticeable
+	["ammonia"] = 1.1,
+	
+	--highly toxic, highly polluting
+	["chlorine"] = 2.5,
+	["dinitrogen-tetroxide"] = 1.8,
+	["hydrogen-sulfide"] = 2.0,
+	["sulfur-dioxide"] = 2.3,
+	
+	--spill this and weep
+	["hydrogen-cyanide"] = 5.7,
+	["hydrazine"] = 4.5,
+	["hydrogen-chloride"] = 4.0,
+	["nitric-acid"] = 6,
+	["sulfuric-acid"] = 3.6,
+}
+
+--Any fluid not in this list is assumed to have a factor of 1.0; this also affects pollution dissipation rate (and possibly max value reached if it cannot spread in time to other chunks), but not total
+liquidEvaporationFactors = {
+	["water"] = 1.1,
+	["pure-water"] = 1.1,
+	["steam"] = 8,
+	["nitrogen"] = 5,
+	["oxygen"] = 5,
+	["ozone"] = 4,
+	["nitrogen"] = 5,
+	["hydrogen"] = 10,
+	["petroleum-gas"] = 2,
+	["chlorine"] = 1.5,
+	["air"] = 15,
+	["liquid-air"] = 15,
+	["sulfur-dioxide"] = 2,
+	["nitrogen-dioxide"] = 2,
+	["nitrogen-oxide"] = 2,
+	["nitric-acid"] = 0.5,
+	["sulfuric-acid"] = 0.5,
+	["hydrogen-chloride"] = 0.8,
+}
