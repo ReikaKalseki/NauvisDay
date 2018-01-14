@@ -131,6 +131,7 @@ liquidPollutionFactors = {
 	["hydrogen"] = 0.01,
 	
 	--mildly toxic/unpleasant, low pollution
+	["carbon-dioxide"] = 0.4,
 	["nitrogen-dioxide"] = 0.8,
 	["nitrogen-oxide"] = 0.6,
 	["ozone"] = 0.5,
@@ -144,6 +145,7 @@ liquidPollutionFactors = {
 	["ammonia"] = 1.1,
 	
 	--highly toxic, highly polluting
+	["carbon-monoxide"] = 1.6,
 	["chlorine"] = 2.5,
 	["dinitrogen-tetroxide"] = 1.8,
 	["hydrogen-sulfide"] = 2.0,
@@ -161,6 +163,7 @@ liquidPollutionFactors = {
 liquidEvaporationFactors = {
 	["water"] = 1.1,
 	["pure-water"] = 1.1,
+	
 	["steam"] = 8,
 	["nitrogen"] = 5,
 	["oxygen"] = 5,
@@ -171,10 +174,36 @@ liquidEvaporationFactors = {
 	["chlorine"] = 1.5,
 	["air"] = 15,
 	["liquid-air"] = 15,
+	
 	["sulfur-dioxide"] = 2,
 	["nitrogen-dioxide"] = 2,
 	["nitrogen-oxide"] = 2,
+	["carbon-dioxide"] = 2,
+	["carbon-monoxide"] = 2,
+	
 	["nitric-acid"] = 0.5,
 	["sulfuric-acid"] = 0.5,
-	["hydrogen-chloride"] = 0.8,
+	["hydrogen-chloride"] = 1.8,
+	
+	["hydrogen-peroxide"] = 6, --to simulate rapid decomposition, and to make more immediately dangerous
+	
+	["crude-oil"] = 0.2,
+	["heavy-oil"] = 0.15,
+	["light-oil"] = 0.35,
+	["lubricant"] = 0.25,
+}
+
+--Anything not in the list is considered harmless for stepping in. This is 4-times-per-second damage
+liquidDamageLevels = {
+	["steam"] = 0.125,
+	["ozone"] = 0.5,
+	["hydrogen-peroxide"] = 2,
+	["chlorine"] = 4,
+	["sulfur-dioxide"] = 2,
+	["carbon-monoxide"] = 2,
+	["sulfuric-acid"] = 3,
+	["hydrazine"] = 4,
+	["hydrogen-chloride"] = 5,
+	["nitric-acid"] = 6,
+	["hydrogen-cyanide"] = 10,
 }

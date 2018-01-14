@@ -282,6 +282,7 @@ for name,fluid in pairs(data.raw.fluid) do
           selectable_in_game = true,
 		  collision_mask = {},
           render_layer = "decorative",
+		  localised_name = {"spilled-fluid.name", {"fluid-name." .. name}},
           pictures =
           {
             {

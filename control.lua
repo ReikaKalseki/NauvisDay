@@ -112,7 +112,7 @@ local function onGameTick(event)
 	ensureNoEarlyAttacks(tick)
 	
 	if tick%15 == 0 then
-		tickSpilledFluids(nvday)
+		tickSpilledFluids(nvday, tick%60 == 0)
 	end
 	
 	for name,func in pairs(tracker["tick"]) do
@@ -127,6 +127,8 @@ local function onGameTick(event)
 		game.forces.enemy.evolution_factor = 0
 	end
 end
+
+script.on_event(defines.events.on_selected_entity_changed, handleFluidSpillTooltip)
 
 script.on_event(defines.events.on_entity_died, onEntityRemoved)
 script.on_event(defines.events.on_pre_player_mined_item, onEntityRemoved)

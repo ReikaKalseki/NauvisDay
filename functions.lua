@@ -541,8 +541,53 @@ function getWeightedRandom(vals)
 	return nil
 end
 
+function getSpillTooltip(entry)
+	return entry.amount .. " units, +" .. entry.lastemit .. " pollution/s" -- entry.amount .. " units<br>-" .. entry.lastevap .. " units/s<br>+" .. entry.lastemit .. " pollution/s" --no way to do newlines
+end
+
 local function createSpillKey(position)
 	return position.x .. "&" .. position.y
+end
+
+local function setSpillGui(player, spill)
+	for _,elem in pairs(player.gui.top.children) do
+		if elem.name == "spillgui" then
+			local entry = global.nvday.spills[elem.tooltip] --since tooltip == key
+			if entry and entry.gui then
+				entry.gui[player.name] = nil
+			end
+			elem.destroy()
+			break
+		end
+	end
+	
+	if spill then
+		local entry = getSpillEntryFor(spill)
+		if not entry then
+			game.print("No entry for spill " .. createSpillKey(spill.position))
+			spill.destroy()
+			return
+		end
+		local gui = player.gui.top.add{type = "frame", name = "spillgui", caption = getSpillTooltip(entry)}
+		gui.tooltip = entry.key
+		if not entry.gui then entry.gui = {} end
+		entry.gui[player.name] = gui
+	end
+end
+
+local function isFluidSpill(entity)
+	return entity.type == "simple-entity" and string.find(entity.name, "spilled", 1, true)
+end
+
+function handleFluidSpillTooltip(event)
+	local player = game.players[event.player_index]
+	local last = event.last_entity
+	local current = player.selected
+	if current and isFluidSpill(current) then
+		setSpillGui(player, current)
+	elseif last and isFluidSpill(last) then
+		setSpillGui(player, nil)
+	end
 end
 
 function getSpillEntryFor(entity)
@@ -593,18 +638,19 @@ local function createSpill(fluid, source)
 	local near = findNearSpill(fluid, source)
 	if near then
 		--game.print("Added " .. fluid.amount .. " to " .. near.amount)
-		near.amount = near.amount+fluid.amount
+		near.amount = math.floor(near.amount+fluid.amount)
 		setSpillStage(near)
 		near.age = 0
 	else
-		local stage = calculateSpillStage(fluid.amount)--5 --maybe implement a decrementing system? Requires replacing entity
+		local stage = calculateSpillStage(fluid.amount)
 		local name = "spilled-" .. fluid.name .. "-" .. stage
 		local entity = source.surface.create_entity{name = name, position = source.position, force = game.forces.neutral}
 		entity.destructible = false
 		local key = createSpillKey(source.position)
-		local entry = {fluid = fluid.name, amount = fluid.amount, entity = entity, age = 0, stage = stage, key = key}
+		local entry = {fluid = fluid.name, amount = math.floor(fluid.amount), entity = entity, age = 0, stage = stage, key = key, lastemit = 0, lastevap = 0}
 		--game.print("spilling " .. fluid.amount .. " of " .. fluid.name .. " stage " .. stage)
 		global.nvday.spills[key] = entry
+		tickSpill(entry, global.nvday, false, true)
 	end
 end
 
