@@ -141,8 +141,10 @@ script.on_event(defines.events.on_player_rotated_entity, onEntityRotated)
 
 script.on_event(defines.events.on_resource_depleted, function(event)
 	if Config.depleteWells and event.entity.prototype.resource_category == "basic-fluid" then
-		event.entity.surface.create_entity{name="pollution-well", position=event.entity.position, amount=1}
-		event.entity.destroy()
+		if not (event.entity.prototype == "crude-oil" and game.active_mods["Fracking"]) then
+			event.entity.surface.create_entity{name="pollution-well", position=event.entity.position, amount=1}
+			event.entity.destroy()
+		end
 		return
 	end
 	if event.entity.prototype.resource_category == "borehole" then
