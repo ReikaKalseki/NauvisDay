@@ -34,8 +34,10 @@ function tickSpill(entry, nvday, doText, simulate)
 			end
 			if liquidDamageLevels[entry.fluid] then
 				for _,player in pairs(game.players) do
-					if math.abs(player.character.position.x-entry.entity.position.x) <= 3 and math.abs(player.character.position.y-entry.entity.position.y) <= 3 then
-						player.character.damage(liquidDamageLevels[entry.fluid], game.forces.neutral)
+					if player.character then -- MP players not currently logged in do not have chars
+						if math.abs(player.character.position.x-entry.entity.position.x) <= 3 and math.abs(player.character.position.y-entry.entity.position.y) <= 3 then
+							player.character.damage(liquidDamageLevels[entry.fluid], game.forces.neutral)
+						end
 					end
 				end
 			end
@@ -45,7 +47,11 @@ end
 
 function tickSpilledFluids(nvday, doText)
 	for _,entry in pairs(nvday.spills) do
-		tickSpill(entry, nvday, doText, false)
+		if entry.entity.valid then
+			tickSpill(entry, nvday, doText, false)
+		else
+			nvday.spills[entry.key] = nil
+		end
 	end
 end
 

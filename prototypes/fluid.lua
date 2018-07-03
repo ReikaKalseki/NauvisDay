@@ -135,7 +135,7 @@ for name,val in pairs(data.raw["offshore-pump"]) do
 	local pump = util.table.deepcopy(val)
 	pump.name = "polluted-" .. pump.name
 	pump.pumping_speed = 0
-	pump.fluid_box.base_area = 0
+	pump.fluid_box.base_area = 0.00001
 	pump.order="d[remnants]-c[offshore-pump]",
 	--log(serpent.block(pump))
 	table.insert(pumps, pump)

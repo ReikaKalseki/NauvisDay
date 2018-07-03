@@ -154,6 +154,7 @@ for name,fluid in pairs(data.raw.fluid) do
           name = "spilled-" .. name .. "-" .. stage,
           flags = {"placeable-neutral", "placeable-off-grid", "not-on-map"},
           icon = "__NauvisDay__/graphics/icons/spilled-fluid.png",
+		  icon_size = 32,
           subgroup = "spilled-fluid",
           order = "d[spilled-fluid]-a[" .. name .. "]",
           selection_box = {{-w, -h}, {w, h}},

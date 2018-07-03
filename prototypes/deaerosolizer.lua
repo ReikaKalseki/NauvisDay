@@ -216,7 +216,7 @@ data:extend({
       {"assembling-machine-3", 1},
       {"processing-unit", 5},
       {"steel-plate", 20},
-      {"concrete", 20}
+      {"refined-concrete", 20}
     },
     result = "air-filter-machine-4"
   },
@@ -232,7 +232,7 @@ data:extend({
       {"air-filter-machine-3", 1},
       {"processing-unit", 5},
       {"steel-plate", 5},
-      {"concrete", 5},
+      {"refined-concrete", 8},
       {"speed-module", 3},
       {"iron-gear-wheel", 10},
     },
