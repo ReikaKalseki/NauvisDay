@@ -27,4 +27,6 @@ require "prototypes.pollution-processing"
 
 require "prototypes.pollution-fog"
 
+require "prototypes.wallnuker"
+
 require "prototypes.tech"

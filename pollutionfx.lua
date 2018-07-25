@@ -88,10 +88,14 @@ local function getPollutionFogSize(pollution)
 	return f < (pollution-x1)/(x2-x1) and y2 or y1
 end
 
-local function spawnPollutionSmoke()
-	local player = game.players[math.random(1, #game.players)]
-	local surface = player.surface
-	local pos = {x=player.position.x+math.random(-100, 100), y=player.position.y+math.random(-100, 100)}
+local function spawnPollutionSmoke(pos, surface)
+	if not pos then
+		local player = game.players[math.random(1, #game.players)]
+		surface = player.surface
+		pos = {}
+		pos.x = player.position.x+math.random(-100, 100)
+		pos.y = player.position.y+math.random(-100, 100)
+	end
 	local pollution = surface.get_pollution(pos)
 	local cloud = getPollutionFogSize(pollution)
 	if cloud then
@@ -104,12 +108,13 @@ local function killTreefarm(farm, newname)
 	local force = farm.force
 	local dir = farm.direction
 	local rec = farm.get_recipe()
+	local surface = farm.surface
 	for _,player in pairs(force.players) do
 		player.add_alert(farm, defines.alert_type.entity_destroyed)
 	end
 	local items = {}
-	for item in farm.get_output_inventory() do
-		table.insert(items, {item.name, item.amount})
+	for item,amount in pairs(farm.get_output_inventory().get_contents()) do
+		items[item]=amount
 	end
 	farm.die()
 	local new = surface.create_entity({name=newname, position=pos, force = force, direction=dir, fast_replace=true})
@@ -124,12 +129,12 @@ local function killTreefarm(farm, newname)
 	new.burner.remaining_burning_fuel = 100000000000
 	new.operable = false
 	flag = true
+	spawnPollutionSmoke(pos, surface)
 end
 
-local function destroyTreeFarms(surface, chunk, tick) --TreeFarm mod, Greenhouses, and BioIndustries
+local function destroyTreeFarms(surface, _area, tick) --TreeFarm mod, Greenhouses, and BioIndustries
 	--Treefarm is already handled by pollution clouds
 	
-	local _area = {{chunk.x*32, chunk.y*32}, {chunk.x*32+32, chunk.y*32+32}}
 	local pollution = surface.get_pollution({math.random(_area[1][1], _area[2][1]), math.random(_area[1][2], _area[2][2])})
 	if pollution > 40000 and math.random(40000, 120000) < pollution then
 		local flag = false
@@ -210,7 +215,8 @@ function tickBlockPollution(surface, chunk, tick, dx, dy)
 end
 
 function doAmbientPollutionEffects(nvday, tick)
-	if #game.players > 0 and math.random() < 0.01 then
+	local fog = math.random() < 0.01
+	if #game.players > 0 and fog then
 		spawnPollutionSmoke()
 	end
 	local n = #nvday.chunk_cache
@@ -224,7 +230,13 @@ function doAmbientPollutionEffects(nvday, tick)
 		--game.print("Picking chunk " .. idx .. " of " .. n ..", = " .. chunk.x .. "," .. chunk.y .. "; attempt " .. k)
 		local chunk = nvday.chunk_cache[idx]
 		if k == 0 then
-			if destroyTreeFarms(surface, chunk, tick) then
+			local s = 8
+			local dx = math.random(0, 32-s)
+			local dy = math.random(0, 32-s)
+			local x = chunk.x*32+dx
+			local y = chunk.y*32+dy
+			local area = {{x, y}, {x+s, y+s}}
+			if destroyTreeFarms(surface, area, tick) then
 				return
 			end
 		end

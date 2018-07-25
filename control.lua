@@ -6,6 +6,7 @@ require "wellgen"
 require "pollutiondetection"
 require "pollutionfx"
 require "fans"
+require "wallnukerai"
 
 require "entitytracker"
 
@@ -65,9 +66,21 @@ end
 local function onEntityAdded(event)
 	local nvday = global.nvday
 	
-	local func = tracker["add"][event.created_entity.name]
+	local entity = event.created_entity
+	
+	local func = tracker["add"][entity.name]
 	if func then
-		func(nvday, event.created_entity)
+		func(nvday, entity)
+	end
+	
+	if string.find(entity.name, "air-filter-machine-", 1, 1) then
+		entity.set_recipe("air-cleaning-action")
+		entity.operable = false
+	end
+	
+	if entity.name == "venting-machine" then
+		entity.set_recipe("pollution-venting-action")
+		entity.operable = false
 	end
 end
 
