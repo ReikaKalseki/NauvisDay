@@ -98,6 +98,23 @@ local function onEntityRemoved(event)
 	end
 end
 
+local function onEntityDied(event)
+	if event.entity.name == "wall-nuker" then
+		onWallNukerDeath(event.entity)
+	end
+	onEntityRemoved(event)
+end
+
+local function onEntityDamaged(event)
+	local target = event.entity
+	local source = event.cause
+	local type = event.damage_type
+	local amount = event.final_damage_amount
+	if source and source.name == "wall-nuker" and target.type ~= "player" then
+		source.damage(game.entity_prototypes[source.name].max_health/10, source.force, type.name)
+	end
+end
+
 local function onGameTick(event)
 	local nvday = global.nvday
 	
@@ -143,7 +160,7 @@ end
 
 script.on_event(defines.events.on_selected_entity_changed, handleFluidSpillTooltip)
 
-script.on_event(defines.events.on_entity_died, onEntityRemoved)
+script.on_event(defines.events.on_entity_died, onEntityDied)
 script.on_event(defines.events.on_pre_player_mined_item, onEntityRemoved)
 script.on_event(defines.events.on_robot_pre_mined, onEntityRemoved)
 
@@ -151,6 +168,8 @@ script.on_event(defines.events.on_built_entity, onEntityAdded)
 script.on_event(defines.events.on_robot_built_entity, onEntityAdded)
 
 script.on_event(defines.events.on_player_rotated_entity, onEntityRotated)
+
+script.on_event(defines.events.on_entity_damaged, onEntityDamaged)
 
 script.on_event(defines.events.on_resource_depleted, function(event)
 	if Config.depleteWells and event.entity.prototype.resource_category == "basic-fluid" then

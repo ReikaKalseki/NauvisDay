@@ -152,32 +152,6 @@ local function destroyTreeFarms(surface, _area, tick) --TreeFarm mod, Greenhouse
 	return flag
 end
 
-function doWaterPollution(surface, chunk, tick)
-	local x1 = chunk.x*32
-	local y1 = chunk.y*32
-	local x2 = x1+32
-	local y2 = y1+32
-	local x = math.random(x1,x2)
-	local y = math.random(y1,y2)
-	local pollution = surface.get_pollution({x,y})
-	if pollution <= 0 then
-		return false
-	end
-	local shape = getWeightedRandom(waterConversionPatterns)
-	local col = #shape
-	local row = #(shape[1])
-	for i = 1,col do
-		for k = 1,row do
-			if shape[i][k] == 1 then
-				--for a = -1,1 do for b = -1,1 do
-					tickBlockPollution(surface, chunk, tick, x+i-col/2, y+k-row/2)
-				--end end
-			end
-		end
-	end
-	return true
-end
-
 function tickBlockPollution(surface, chunk, tick, dx, dy)
 	local pollution = surface.get_pollution({dx,dy})
 	local tile = surface.get_tile(dx, dy)
@@ -209,9 +183,35 @@ function tickBlockPollution(surface, chunk, tick, dx, dy)
 					pump.destroy()
 				end
 			end
-			surface.pollute({dx, dy}, Config.pollutedWaterTileCleanup)
+			surface.pollute({dx, dy}, Config.pollutedWaterTileCleanup*pollutedWaterTileRelease)
 		end		
 	end
+end
+
+function doWaterPollution(surface, chunk, tick)
+	local x1 = chunk.x*32
+	local y1 = chunk.y*32
+	local x2 = x1+32
+	local y2 = y1+32
+	local x = math.random(x1,x2)
+	local y = math.random(y1,y2)
+	local pollution = surface.get_pollution({x,y})
+	if pollution <= 0 then
+		return false
+	end
+	local shape = getWeightedRandom(waterConversionPatterns)
+	local col = #shape
+	local row = #(shape[1])
+	for i = 1,col do
+		for k = 1,row do
+			if shape[i][k] == 1 then
+				--for a = -1,1 do for b = -1,1 do
+					tickBlockPollution(surface, chunk, tick, x+i-col/2, y+k-row/2)
+				--end end
+			end
+		end
+	end
+	return true
 end
 
 function doAmbientPollutionEffects(nvday, tick)

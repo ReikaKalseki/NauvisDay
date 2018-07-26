@@ -1,3 +1,5 @@
+if not Config.enableWallNukers then return end
+
 local speed = 1.6
 
 local function create_attack_animation()
@@ -78,8 +80,13 @@ data:extend({
       cooldown = 12,--0,--35,
       ammo_category = "melee",
       ammo_type = make_unit_melee_ammo_type(0),
-      sound = nil,--make_biter_roars(0.4),
-      animation = create_attack_animation()
+      sound = {
+		{
+		  filename = "__NauvisDay__/sound/wallnuker-detonate.ogg",
+		  volume = volume
+		},
+	  },
+    animation = create_attack_animation()
     },
     vision_distance = 90,
     movement_speed = 0.05,
@@ -99,6 +106,51 @@ data:extend({
 	},
     run_animation = create_animation()
   },
+  {
+    type = "explosion",
+    name = "wall-nuker-explosion",
+    flags = {"not-on-map"},
+    animations =
+    {
+      {
+        filename = "__NauvisDay__/graphics/entity/wall-nuker/explosion.png",
+        priority = "high",
+        width = 197,
+        height = 245,
+        frame_count = 24,
+        animation_speed = 0.25,
+		shift = {0, -1},
+		scale = 2,
+        stripes =
+        {
+          {
+            filename = "__NauvisDay__/graphics/entity/wall-nuker/explosion.png",
+            width_in_frames = 6,
+            height_in_frames = 4
+          },
+        }
+      },
+    },
+    light = {intensity = 1, size = 20, color = {r=1.0, g=1.0, b=1.0}},
+    smoke = "smoke-fast",
+    smoke_count = 2,
+    smoke_slow_down_factor = 1,
+    sound =
+    {
+      aggregation =
+      {
+        max_count = 2,
+        remove = true
+      },
+      variations =
+      {
+        {
+          filename = "__NauvisDay__/sound/wallnuker-explode.ogg",
+          volume = 0.75
+        },
+      }
+    },
+}
 })
 
 --table.insert(data["unit-spawner"]["biter-spawner"])

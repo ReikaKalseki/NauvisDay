@@ -157,6 +157,8 @@ liquidPollutionFactors = {
 	["hydrogen-chloride"] = 4.0,
 	["nitric-acid"] = 6,
 	["sulfuric-acid"] = 3.6,
+	
+	["waste"] = 80 --somewhat offset by very low evaporation rate
 }
 
 --Any fluid not in this list is assumed to have a factor of 1.0; this also affects pollution dissipation rate (and possibly max value reached if it cannot spread in time to other chunks), but not total
@@ -191,6 +193,8 @@ liquidEvaporationFactors = {
 	["heavy-oil"] = 0.15,
 	["light-oil"] = 0.35,
 	["lubricant"] = 0.25,
+	
+	["waste"] = 0.04
 }
 
 --Anything not in the list is considered harmless for stepping in. This is 4-times-per-second damage
@@ -206,4 +210,5 @@ liquidDamageLevels = {
 	["hydrogen-chloride"] = 5,
 	["nitric-acid"] = 6,
 	["hydrogen-cyanide"] = 10,
+	["waste"] = 1
 }

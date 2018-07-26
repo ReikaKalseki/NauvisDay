@@ -36,6 +36,15 @@ data:extend({
 			--localised_description = "The amount of air pollution removed when a water tile turns polluted and, if cleaned, released when it turns back.",
         },
         {
+            type = "double-setting",
+            name = "polluted-water-tile-release-factor",
+            setting_type = "startup",
+            default_value = 1,
+            order = "r",
+			--localised_name = "Polluted water tile cleanup",
+			--localised_description = "The amount of air pollution removed when a water tile turns polluted and, if cleaned, released when it turns back.",
+        },
+        {
             type = "bool-setting",
             name = "use-depleted-oil-for-well",
             setting_type = "startup",
@@ -54,6 +63,13 @@ data:extend({
         {
             type = "bool-setting",
             name = "gas-boiler",
+            setting_type = "startup",
+            default_value = true,
+            order = "r",
+		},
+        {
+            type = "bool-setting",
+            name = "wall-nukers",
             setting_type = "startup",
             default_value = true,
             order = "r",
