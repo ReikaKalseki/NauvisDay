@@ -239,6 +239,7 @@ function doAmbientPollutionEffects(nvday, tick)
 			if destroyTreeFarms(surface, area, tick) then
 				return
 			end
+			trySpawnNuker(surface, x, y, s)
 		end
 		if k >= tries or doWaterPollution(surface, chunk, tick) then
 			return

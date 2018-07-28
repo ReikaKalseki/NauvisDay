@@ -68,10 +68,10 @@ data:extend({
             order = "r",
 		},
         {
-            type = "bool-setting",
-            name = "wall-nukers",
+            type = "int-setting",
+            name = "wall-nuker-pollution",
             setting_type = "startup",
-            default_value = true,
+            default_value = 10000,
             order = "r",
 		},
 })

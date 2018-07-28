@@ -1,5 +1,3 @@
-if not Config.enableWallNukers then return end
-
 local speed = 1.6
 
 local function create_attack_animation()

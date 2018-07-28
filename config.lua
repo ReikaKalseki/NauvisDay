@@ -11,4 +11,4 @@ Config.depleteWells = settings.startup["use-depleted-oil-for-well"].value--true
 
 Config.enableSteamFurnace = settings.startup["steam-furnace"].value--true
 Config.enableGasBoiler = settings.startup["gas-boiler"].value--true
-Config.enableWallNukers = settings.startup["wall-nukers"].value--true
+Config.wallNukerThresh = settings.startup["wall-nuker-pollution"].value--true
