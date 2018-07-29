@@ -87,36 +87,33 @@ for name,tile in pairs(data.raw.tile) do
 		for k,v in pairs(water.variants) do
 			if v.picture then
 				v.picture = string.gsub(v.picture, "__base__", "__NauvisDay__")
+				if v.picture.hr_version then
+					v.picture.hr_version = string.gsub(v.picture.hr_version, "__base__", "__NauvisDay__")
+				end
 				--log(serpent.block("Replacing picture @ " .. k .. ": " .. v.picture))
 			else
 				for k2,v2 in pairs(v) do
 					v2.picture = string.gsub(v2.picture, "__base__", "__NauvisDay__")
+					if v2.picture.hr_version then
+						v2.picture.hr_version = string.gsub(v2.picture.hr_version, "__base__", "__NauvisDay__")
+					end
 					--log(serpent.block("Replacing picture @ " .. k .. "/" .. k2 .. ": " .. v2.picture))
 				end
 			end
 		end
-		--[[
-		water.variants.inner_corner = {
-			picture = "__NauvisDay__/graphics/terrain/water/edges/water-inner-corner.png",
-			count = 6
-		}
-		water.variants.outer_corner = {
-			picture = "__NauvisDay__/graphics/terrain/water/edges/water-outer-corner.png",
-			count = 6
-		}
-		water.variants.side = {
-			picture = "__NauvisDay__/graphics/terrain/water/edges/water-side.png",
-			count = 8
-		}
-		water.variants.u_transition = {
-			picture = "__NauvisDay__/graphics/terrain/water/edges/water-u.png",
-			count = 6
-		}
-		water.variants.o_transition = {
-			picture = "__NauvisDay__/graphics/terrain/water/edges/water-o.png",
-			count = 6
-		}
-		--]]
+		
+		water.variants = tile_variations_template(
+      "__NauvisDay__/graphics/terrain/polluted-water/base.png", "__base__/graphics/terrain/masks/transition-1.png",
+      "__NauvisDay__/graphics/terrain/polluted-water/base.png", "__base__/graphics/terrain/masks/hr-transition-1.png",
+      {
+        max_size = 4,
+        [1] = { weights = {0.085, 0.085, 0.085, 0.085, 0.087, 0.085, 0.065, 0.085, 0.045, 0.045, 0.045, 0.045, 0.005, 0.025, 0.045, 0.045 } },
+        [2] = { probability = 1, weights = {0.070, 0.070, 0.025, 0.070, 0.070, 0.070, 0.007, 0.025, 0.070, 0.050, 0.015, 0.026, 0.030, 0.005, 0.070, 0.027 }, },
+        [4] = { probability = 1.00, weights = {0.070, 0.070, 0.070, 0.070, 0.070, 0.070, 0.015, 0.070, 0.070, 0.070, 0.015, 0.050, 0.070, 0.070, 0.065, 0.070 }, },
+        -- [8] = { probability = 1.00, weights = {0.090, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.025, 0.125, 0.005, 0.010, 0.100, 0.100, 0.010, 0.020, 0.020} }
+      }
+    )
+		
 		--log(serpent.block(water))
 		table.insert(waters, water)
 	end

@@ -152,14 +152,14 @@ local function destroyTreeFarms(surface, _area, tick) --TreeFarm mod, Greenhouse
 	return flag
 end
 
-function tickBlockPollution(surface, chunk, tick, dx, dy)
+function tickBlockPollution(surface, chunk, tick, dx, dy, tile_changes)
 	local pollution = surface.get_pollution({dx,dy})
 	local tile = surface.get_tile(dx, dy)
 	--game.print(dx .. "," .. dy .. ", " .. pollution .. " & " .. tile.name)
 	if pollution > Config.pollutedWaterThreshold then --make heavily polluted areas cause water pollution and remove some air pollution
 		if tile.name == "water" or tile.name == "water-green" or tile.name == "deepwater" or tile.name == "deepwater-green" then
 			--game.print("Converting water @ " .. dx .. "," .. dy .. ", pollution = " .. pollution)
-			surface.set_tiles({{name="polluted-" .. tile.name, position={dx, dy}}})
+			table.insert(tile_changes, {name="polluted-" .. tile.name, position={dx, dy}})
 			local pumps = surface.find_entities_filtered({area = {{dx-2, dy-2}, {dx+2, dy+2}}, type = "offshore-pump"}) --need to also convert offshore pumps into nonfunctional variants that still drop offshore pumps
 			for _,pump in pairs(pumps) do
 				if not string.find(pump.name, "polluted") then
@@ -175,7 +175,7 @@ function tickBlockPollution(surface, chunk, tick, dx, dy)
 			local sublen = 1+string.len("polluted-");
 			local newtile = string.sub(tile.name, sublen)
 			--game.print(tile.name .. " > " .. newtile)
-			surface.set_tiles({{name=newtile, position={dx, dy}}})
+			table.insert(tile_changes, {name=newtile, position={dx, dy}})
 			local pumps = surface.find_entities_filtered({area = {{dx-2, dy-2}, {dx+2, dy+2}}, type = "offshore-pump"})
 			for _,pump in pairs(pumps) do
 				if string.find(pump.name, "polluted") then
@@ -199,6 +199,7 @@ function doWaterPollution(surface, chunk, tick)
 	if pollution <= 0 then
 		return false
 	end
+	local tile_changes = {}
 	local shape = getWeightedRandom(waterConversionPatterns)
 	local col = #shape
 	local row = #(shape[1])
@@ -206,10 +207,13 @@ function doWaterPollution(surface, chunk, tick)
 		for k = 1,row do
 			if shape[i][k] == 1 then
 				--for a = -1,1 do for b = -1,1 do
-					tickBlockPollution(surface, chunk, tick, x+i-col/2, y+k-row/2)
+					tickBlockPollution(surface, chunk, tick, x+i-col/2, y+k-row/2, tile_changes)
 				--end end
 			end
 		end
+	end
+	if #tile_changes > 0 then
+		surface.set_tiles(tile_changes)
 	end
 	return true
 end

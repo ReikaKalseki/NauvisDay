@@ -20,18 +20,18 @@ end
 local function createNukerCrater(nuker, radius)
 	local x = math.floor(nuker.position.x)
 	local y = math.floor(nuker.position.y)
+	local tiles = {}
 	for dx = -radius,radius do
 		for dy = -radius,radius do
 			local d = math.sqrt(dx*dx+dy*dy)
 			if d <= radius+0.5 then
 				local pos = {x = x+dx, y = y+dy}
 				local box = {{pos.x+0.05, pos.y+0.05}, {pos.x+0.95, pos.y+0.95}}
-				local try = nuker.surface.find_entities_filtered{area = box, type = {"entity-ghost", "corpse", "explosion", "particle", "trivial-smoke", "unit", "optimized-decorative"}, invert = true, limit = 1}
+				local try = nuker.surface.find_entities_filtered{area = box, type = {"player", "entity-ghost", "corpse", "explosion", "particle", "trivial-smoke", "unit", "optimized-decorative"}, invert = true, limit = 1}
 				if try and #try > 0 then
 					--do nothing; will destroy an entity
-					--nuker.surface.set_tiles({{name="dirt-1", position=pos}}) -- debug
 				else
-					nuker.surface.set_tiles({{name="nuker-goo", position=pos}})
+					table.insert(tiles, {name="nuker-goo", position=pos})
 					try = nuker.surface.find_entities_filtered{area = box, type = "entity-ghost"}
 					for _,ghost in pairs(try) do
 						ghost.destroy()
@@ -39,6 +39,9 @@ local function createNukerCrater(nuker, radius)
 				end
 			end
 		end
+	end
+	if #tiles > 0 then
+		nuker.surface.set_tiles(tiles)
 	end
 end
 

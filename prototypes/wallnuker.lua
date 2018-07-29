@@ -161,7 +161,7 @@ local function createNukedArea()
 	tile.map_color={r=83, g=28, b=105} --out of 255
 	tile.collision_mask =
     {
-      --"tile-tile", --removing this prevents offshore pumps from being placed on it (at least, it used to....)
+      --"water-tile", --removing this prevents offshore pumps from being placed on it (at least, it used to....)
       "item-layer",
       "resource-layer",
       --"player-layer", --want the player to be able to walk through it
@@ -179,9 +179,6 @@ local function createNukedArea()
         -- [8] = { probability = 1.00, weights = {0.090, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.025, 0.125, 0.005, 0.010, 0.100, 0.100, 0.010, 0.020, 0.020} }
       }
     )
-
-    --transitions = dry_dirt_transitions,
-    --transitions_between_transitions = dry_dirt_transitions_between_transitions,
 
     tile.walking_sound =
     {
