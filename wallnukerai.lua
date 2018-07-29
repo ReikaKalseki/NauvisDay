@@ -1,16 +1,50 @@
 local function spawnNuker(surface, spawner, target)
 	local pos = {x = math.random(spawner.position.x-12, spawner.position.x+12), y = math.random(spawner.position.y-12, spawner.position.y+12)}
-	local group = surface.create_unit_group({position={pos.x+16, pos.y+16}, force=game.forces.enemy})
-	local evo = game.forces.enemy.evolution_factor
-	local size = math.floor(1 + evo*4)
-	while #group.members < size do
+	--local evo = game.forces.enemy.evolution_factor
+	--local size = math.floor(1 + evo*4)
+	--for i = 1,size do
 		local spawn = surface.create_entity({name = "wall-nuker", position = {math.random(pos.x-4, pos.x+4), math.random(pos.y-4, pos.y+4)}, force = game.forces.enemy})
-		group.add_member(spawn)
-	end
-	group.set_command({type = defines.command.attack, target = target, distraction = defines.distraction.none})
+		spawn.set_command({type = defines.command.attack, target = target, distraction = defines.distraction.none})
+	--end
 end
 
-function onWallNukerDeath(nuker)
+local function getBox(entity)
+	local base = game.entity_prototypes[entity.name].collision_box
+	base.left_top.x = base.left_top.x+entity.position.x
+	base.right_bottom.x = base.right_bottom.x+entity.position.x
+	base.left_top.y = base.left_top.y+entity.position.y
+	base.right_bottom.y = base.right_bottom.y+entity.position.y
+end
+
+--need a tile that counts as water for building but does not look like water, but is fillable like water
+local function createNukerCrater(nuker, radius)
+	local x = math.floor(nuker.position.x)
+	local y = math.floor(nuker.position.y)
+	for dx = -radius,radius do
+		for dy = -radius,radius do
+			local d = math.sqrt(dx*dx+dy*dy)
+			if d <= radius+0.5 then
+				local pos = {x = x+dx, y = y+dy}
+				local box = {{pos.x+0.05, pos.y+0.05}, {pos.x+0.95, pos.y+0.95}}
+				local try = nuker.surface.find_entities_filtered{area = box, type = {"entity-ghost", "corpse", "explosion", "particle", "trivial-smoke", "unit", "optimized-decorative"}, invert = true, limit = 1}
+				if try and #try > 0 then
+					--do nothing; will destroy an entity
+					--nuker.surface.set_tiles({{name="dirt-1", position=pos}}) -- debug
+				else
+					nuker.surface.set_tiles({{name="nuker-goo", position=pos}})
+					try = nuker.surface.find_entities_filtered{area = box, type = "entity-ghost"}
+					for _,ghost in pairs(try) do
+						ghost.destroy()
+					end
+				end
+			end
+		end
+	end
+end
+
+function onWallNukerDeath(event)
+	local nuker = event.entity
+	local killed = (event.cause and event.cause.type == "player") or (event.force and event.force == game.forces.player)
 	local pos = nuker.position
 	local r = 3;
 	nuker.surface.create_entity({name="wall-nuker-explosion", position=nuker.position, force=nuker.force})
@@ -32,7 +66,9 @@ function onWallNukerDeath(nuker)
 		end
 	end
 	
-	--maybe sometimes make a small crater that needs filling to be able to be built on
+	if killed or math.random() < 0.25 then
+		createNukerCrater(nuker, killed and math.random(2, 5) or math.random(1, 3))
+	end
 end
 
 local function getNukerChance()

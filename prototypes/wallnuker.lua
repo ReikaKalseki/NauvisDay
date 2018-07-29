@@ -151,4 +151,64 @@ data:extend({
 }
 })
 
+local function createNukedArea()
+	local tile = table.deepcopy(data.raw.tile["red-desert-1"])
+	
+	tile.name = "nuker-goo"
+	tile.autoplace = nil
+	--log("Inserting " .. name .. " into " .. (tile.allowed_neighbors and (#tile.allowed_neighbors .. " @ " .. name) or "nil") .. " for " .. tile.name)
+	tile.ageing = 0
+	tile.map_color={r=83, g=28, b=105} --out of 255
+	tile.collision_mask =
+    {
+      --"tile-tile", --removing this prevents offshore pumps from being placed on it (at least, it used to....)
+      "item-layer",
+      "resource-layer",
+      --"player-layer", --want the player to be able to walk through it
+      "doodad-layer"
+    }
+	
+    tile.variants = tile_variations_template(
+      "__NauvisDay__/graphics/terrain/nukergoo/base.png", "__base__/graphics/terrain/masks/transition-1.png",
+      "__NauvisDay__/graphics/terrain/nukergoo/base.png", "__base__/graphics/terrain/masks/hr-transition-1.png",
+      {
+        max_size = 4,
+        [1] = { weights = {0.085, 0.085, 0.085, 0.085, 0.087, 0.085, 0.065, 0.085, 0.045, 0.045, 0.045, 0.045, 0.005, 0.025, 0.045, 0.045 } },
+        [2] = { probability = 1, weights = {0.070, 0.070, 0.025, 0.070, 0.070, 0.070, 0.007, 0.025, 0.070, 0.050, 0.015, 0.026, 0.030, 0.005, 0.070, 0.027 }, },
+        [4] = { probability = 1.00, weights = {0.070, 0.070, 0.070, 0.070, 0.070, 0.070, 0.015, 0.070, 0.070, 0.070, 0.015, 0.050, 0.070, 0.070, 0.065, 0.070 }, },
+        -- [8] = { probability = 1.00, weights = {0.090, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.025, 0.125, 0.005, 0.010, 0.100, 0.100, 0.010, 0.020, 0.020} }
+      }
+    )
+
+    --transitions = dry_dirt_transitions,
+    --transitions_between_transitions = dry_dirt_transitions_between_transitions,
+
+    tile.walking_sound =
+    {
+      {
+        filename = "__NauvisDay__/sound/nuker-goo/step1.ogg",
+        volume = 0.8
+      },
+      {
+        filename = "__NauvisDay__/sound/nuker-goo/step2.ogg",
+        volume = 0.8
+      },
+      {
+        filename = "__NauvisDay__/sound/nuker-goo/step3.ogg",
+        volume = 0.8
+      },
+      {
+        filename = "__NauvisDay__/sound/nuker-goo/step4.ogg",
+        volume = 0.8
+      }
+    }
+    tile.vehicle_friction_modifier = 25 --glue basically
+    tile.walking_speed_modifier = 1/2.5
+    tile.can_be_part_of_blueprint = false
+	
+	return tile
+end
+
+data:extend({createNukedArea()})
+
 --table.insert(data["unit-spawner"]["biter-spawner"])

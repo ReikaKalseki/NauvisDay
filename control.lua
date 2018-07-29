@@ -100,7 +100,7 @@ end
 
 local function onEntityDied(event)
 	if event.entity.name == "wall-nuker" then
-		onWallNukerDeath(event.entity)
+		onWallNukerDeath(event)
 	end
 	onEntityRemoved(event)
 end
