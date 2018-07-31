@@ -86,7 +86,7 @@ for name,tile in pairs(data.raw.tile) do
 		
 		water.variants = tile_variations_template(
 		"__NauvisDay__/graphics/terrain/polluted-water/base.png", "__base__/graphics/terrain/masks/transition-1.png",
-		"__NauvisDay__/graphics/terrain/polluted-water/base.png", "__base__/graphics/terrain/masks/hr-transition-1.png",
+		"__NauvisDay__/graphics/terrain/polluted-water/hr.png", "__base__/graphics/terrain/masks/hr-transition-1.png",
 		{
 			max_size = 4,
 			[1] = { weights = {0.085, 0.085, 0.085, 0.085, 0.087, 0.085, 0.065, 0.085, 0.045, 0.045, 0.045, 0.045, 0.005, 0.025, 0.045, 0.045 } },
