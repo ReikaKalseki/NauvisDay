@@ -124,6 +124,34 @@ if Config.enableSteamFurnace then
 	table.insert(data.raw.technology["advanced-material-processing"].effects, {type="unlock-recipe", recipe="steam-furnace"})
 end
 
+for name,recipe in pairs(data.raw.recipe) do --do later to handle the water->steam conversion some mods do
+	if recipe.category == "oil-processing" then
+		recipe = table.deepcopy(recipe)
+		recipe.category = "clean-oil-processing"
+		recipe.name = "clean-" .. name
+		recipe.localised_name = {"clean-refining.name", {"recipe-name." .. name}}
+		local amt = 0
+		for _,result in pairs(recipe.results) do
+			amt = amt+result.amount
+		end
+		amt = amt/2
+		local added = false
+		for _,ingredient in pairs(recipe.ingredients) do
+			if ingredient.name == "water" then
+				--ingredient.amount = ingredient.amount+amt
+				--added = true
+			end
+		end
+		if not added then
+			table.insert(recipe.ingredients, 1, {type="fluid", name="water", amount=amt})
+		end
+		table.insert(recipe.results, {type="fluid", name="waste", amount=amt})
+		recipe.enabled = true
+		log("Added a clean version of " .. name)
+		data:extend({recipe})
+	end
+end
+
 data:extend(
   {
     {

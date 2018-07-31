@@ -59,7 +59,7 @@ function onWallNukerDeath(event)
 			entity.die()
 		elseif entity.type == "player" then
 			damage = 200 --with no armor, puts you at 20% health, 50% with heavy armor
-		elseif entity.type == "ammo-turret" or entity.type == "tluid-turret" or entity.type == "electric-turret" or entity.type == "turret" then
+		elseif entity.type == "ammo-turret" or entity.type == "fluid-turret" or entity.type == "electric-turret" or entity.type == "artillery-turret" or entity.type == "turret" then
 			damage = math.min(game.entity_prototypes[entity.name].max_health/4, 50)
 		else
 			damage = math.min(game.entity_prototypes[entity.name].max_health/10, 20)

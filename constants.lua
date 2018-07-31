@@ -86,7 +86,7 @@ extraPollution = { --Further multipliers on a few entities or categories/group
 
 pollutionIncreaseExclusion = { --some machines to skip pollution modification for; either technical entities, native already-chosen ones, or ones that do not ACTUALLY do what the pollution boost is designed to "punish"
 	"greenhouse", "air-filter-machine-1", "air-filter-machine-2", "air-filter-machine-3", "air-filter-machine-4", "venting-machine", "storage-machine",
-	"gas-boiler", "gas-boiler-input", "steam-furnace",
+	"gas-boiler", "gas-boiler-input", "steam-furnace", "clean-refinery",
 	"geothermal-well", "geothermal-heat-exchanger",
 	"tf-field", "dead-bio-farm", "dead-greenhouse",
 }
@@ -157,6 +157,7 @@ liquidPollutionFactors = {
 	["hydrogen-chloride"] = 4.0,
 	["nitric-acid"] = 6,
 	["sulfuric-acid"] = 3.6,
+	["formaldehyde"] = 4,
 	
 	["waste"] = 80 --somewhat offset by very low evaporation rate
 }
@@ -206,6 +207,7 @@ liquidDamageLevels = {
 	["sulfur-dioxide"] = 2,
 	["carbon-monoxide"] = 2,
 	["sulfuric-acid"] = 3,
+	["formaldehyde"] = 3.5,
 	["hydrazine"] = 4,
 	["hydrogen-chloride"] = 5,
 	["nitric-acid"] = 6,

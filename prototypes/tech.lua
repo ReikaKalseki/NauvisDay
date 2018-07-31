@@ -132,7 +132,7 @@ data:extend(
 		"pollution-capture",
 		"sulfur-processing"
     },
-    icon = "__NauvisDay__/graphics/technology/pollution.png",
+    icon = "__NauvisDay__/graphics/technology/pollution-processing.png",
     effects =
     {
       {
@@ -224,6 +224,36 @@ data:extend(
         {"science-pack-3", 1}
       },
       time = 60
+    },
+    order = "[steam]-2",
+	icon_size = 128,
+  },
+    {
+    type = "technology",
+    name = "clean-oil-processing",
+    prerequisites =
+    {
+		"advanced-oil-processing",
+		"advanced-pollution-capture",
+    },
+    icon = "__NauvisDay__/graphics/technology/clean-oil.png",
+    effects =
+    {
+      {
+        type = "unlock-recipe",
+        recipe = "clean-refinery"
+      },
+    },
+    unit =
+    {
+      count = 90,
+      ingredients =
+      {
+        {"science-pack-1", 1},
+        {"science-pack-2", 1},
+        {"science-pack-3", 1}
+      },
+      time = 40
     },
     order = "[steam]-2",
 	icon_size = 128,

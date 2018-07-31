@@ -74,4 +74,11 @@ data:extend({
             default_value = 10000,
             order = "r",
 		},
+        {
+            type = "bool-setting",
+            name = "clean-refinery",
+            setting_type = "startup",
+            default_value = true,
+            order = "r",
+		},
 })
