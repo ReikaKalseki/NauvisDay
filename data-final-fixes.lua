@@ -37,7 +37,85 @@ if Config.enableSteamFurnace then
 						if ir.name == recipe.name .. "-steam" then
 							table.insert(tech.effects, {type="unlock-recipe", recipe=ir.name})
 							ir.enabled = "false"
-							--log("Adding ammo '" .. ammo.original.name .. "' crate unlock to tech " .. tech.name)
+							log("Adding " .. ir.name .. " to unlock list for " .. tech.name)
+							break
+						end
+					end
+				end
+			end
+		end
+	end
+end
+
+recipes = {}
+
+if Config.enableRefinery then
+	for name,recipe in pairs(data.raw.recipe) do --do later to handle the water->steam conversion some mods do
+		if recipe.category == "oil-processing" then
+			recipe = table.deepcopy(recipe)
+			recipe.category = "clean-oil-processing"
+			recipe.name = "clean-" .. name
+			recipe.localised_name = {"clean-refining.name", {"recipe-name." .. name}}
+			local amt = 0
+			for _,result in pairs(recipe.results) do
+				amt = amt+result.amount
+			end
+			amt = 5*math.floor((amt/4)/5+0.5)
+			
+			local added = false
+			for _,ingredient in pairs(recipe.ingredients) do
+				if ingredient.name == "water" then
+					--ingredient.amount = ingredient.amount+amt
+					--added = true
+				end
+			end
+			if not added then
+				table.insert(recipe.ingredients, 1, {type="fluid", name="water", amount=amt})
+			end
+
+			if data.raw.item["carbon"] then
+				table.insert(recipe.ingredients, {"carbon", 2})
+			else
+				--table.insert(recipe.ingredients, {"coal", 2})
+			end
+
+			if data.raw.item["calcium-chloride"] then
+				table.insert(recipe.ingredients, {"calcium-chloride", 2})
+			end
+
+			if data.raw.item["sodium-hydroxide"] then
+				table.insert(recipe.ingredients, {"sodium-hydroxide", 2})
+			end
+			
+			if data.raw.item["air-filter-case"] then
+				table.insert(recipe.ingredients, {"air-filter", 1})
+			end
+			
+			table.insert(recipe.results, {type="fluid", name="waste", amount=amt})
+						
+			if data.raw.item["air-filter-case"] then
+				table.insert(recipe.results, {"air-filter-case", 1})
+			end
+			
+			log("Added a clean version of " .. name)
+			data:extend({recipe})
+			
+			table.insert(recipes, recipe)
+			
+		end
+	end
+
+	for _,tech in pairs(data.raw.technology) do
+		if tech.effects then
+			for _,ir in pairs(recipes) do
+				for _,effect in pairs(tech.effects) do
+					if effect.type == "unlock-recipe" then
+						local recipe = data.raw.recipe[effect.recipe]
+						if not recipe then error("Tech set to unlock recipe '" .. effect.recipe .. "', which does not exist?!") end
+						if ir.name == "clean-" .. recipe.name then
+							table.insert(tech.effects, {type="unlock-recipe", recipe=ir.name})
+							ir.enabled = "false"
+							log("Adding " .. ir.name .. " to unlock list for " .. tech.name)
 							break
 						end
 					end

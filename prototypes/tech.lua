@@ -1,3 +1,5 @@
+require "config"
+
 data:extend(
 {
   {
@@ -228,6 +230,11 @@ data:extend(
     order = "[steam]-2",
 	icon_size = 128,
   },
+}
+)
+
+if Config.enableRefinery then
+data:extend({
     {
     type = "technology",
     name = "clean-oil-processing",
@@ -257,6 +264,6 @@ data:extend(
     },
     order = "[steam]-2",
 	icon_size = 128,
-  },
-}
-)
+  }
+})
+end

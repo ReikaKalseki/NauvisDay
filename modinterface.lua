@@ -94,6 +94,11 @@ if data.raw["assembling-machine"]["bob-greenhouse"] then
 	dead.animation.filename = "__NauvisDay__/graphics/entity/treefarm/dead-greenhouse.png"
 	dead.working_visualisations[1].animation.filename ="__NauvisDay__/graphics/entity/treefarm/dead-greenhouse-active.png"
 	dead.working_visualisations[1].light = nil
+	dead.animation.width = 113
+    dead.animation.height = 91
+	dead.working_visualisations[1].width = 113
+    dead.working_visualisations[1].height = 91
+	
 	dead.localised_name = createDeadName("bob-greenhouse")
 	
 	data:extend({dead})
@@ -170,22 +175,6 @@ if Config.enableSteamFurnace and data.raw.item["stone-pipe"] then
 	table.insert(data.raw.technology["advanced-material-processing"].effects, {type="unlock-recipe", recipe="steam-furnace-2"})
 end
 
-if Config.enableRefinery and data.raw.item["paper"]  then
-	table.insert(data.raw.recipe["air-filter-filling"].ingredients, {"paper", 5})
-else
-	table.insert(data.raw.recipe["air-filter-filling"].ingredients, {"wood", 5})
-end
-
-if Config.enableRefinery and data.raw.item["carbon"]  then
-	table.insert(data.raw.recipe["air-filter-filling"].ingredients, {"carbon", 5})
-else
-	table.insert(data.raw.recipe["air-filter-filling"].ingredients, {"coal", 5})
-end
-
-if Config.enableRefinery and data.raw.item["calcium-chloride"]  then
-	table.insert(data.raw.recipe["air-filter-filling"].ingredients, {"calcium-chloride", 5})
-end
-
-if Config.enableRefinery and data.raw.item["sodium-hydroxide"]  then
-	table.insert(data.raw.recipe["air-filter-filling"].ingredients, {"sodium-hydroxide", 5})
+if Config.enableRefinery and data.raw.technology["chemical-processing-2"] then
+	table.insert(data.raw.technology["clean-oil-processing"].prerequisites, "chemical-processing-2")
 end

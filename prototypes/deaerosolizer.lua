@@ -117,14 +117,12 @@ data:extend({
     ingredients =
     {
       {type="fluid", name="water", amount=10*5*(1+(pollutionLiquidProductionFactor-1)/2)},
-	  {type="item", name="air-filter", amount=1}
     },
     results=
     {
       {type="fluid", name="waste", amount=10*5*pollutionLiquidProductionFactor},
-	  {type="item", name="air-filter-case", amount=1}
     },
-	subgroup = "intermediate-product",
+	--subgroup = "intermediate-product",
   },
   
   {
@@ -241,57 +239,5 @@ data:extend({
     },
     result = "air-filter-machine-4"
   }
-})
-
-data:extend({
-	{
-		type = "item",
-		name = "air-filter",
-		icon = "__NauvisDay__/graphics/icons/air-filter.png",
-		icon_size = 32,
-		flags = { "goes-to-quickbar" },
-		subgroup = "intermediate-product",
-		order = "f[air-filter]",
-		stack_size = 25,
-		icon_size = 32
-	},
-	{
-		type = "item",
-		name = "air-filter-case",
-		icon = "__NauvisDay__/graphics/icons/air-filter-case.png",
-		icon_size = 32,
-		flags = { "goes-to-quickbar" },
-		subgroup = "intermediate-product",
-		order = "f[air-filter-case]",
-		stack_size = 25,
-		icon_size = 32
-	},
-  {
-    type = "recipe",
-    name = "air-filter-case",
-    icon = "__NauvisDay__/graphics/icons/air-filter-case.png",
-	icon_size = 32,
-    energy_required = 1,
-    enabled = "false",
-    ingredients =
-    {
-      {"iron-stick", 10},
-      {"copper-plate", 1},
-    },
-    result = "air-filter-case"
-  }, 
-  {
-    type = "recipe",
-    name = "air-filter-filling",
-    icon = "__NauvisDay__/graphics/icons/air-filter.png",
-	icon_size = 32,
-    energy_required = 1,
-    enabled = "false",
-    ingredients =
-    {
-		{"air-filter-case", 1}
-    },
-    result = "air-filter"
-  }, 
 })
 

@@ -11,7 +11,7 @@ refinery.minable.result = refinery.name
 refinery.crafting_categories = {"clean-oil-processing"}
 refinery.energy_usage = "520kW"
 refinery.ingredient_count = refinery.ingredient_count+1
-refinery.energy_source.emissions = refinery.energy_source.emissions*4
+refinery.energy_source.emissions = refinery.energy_source.emissions*20 --still 10x less than a refinery
 refinery.fluid_boxes =
     {
 	  --[[
@@ -60,6 +60,7 @@ refinery.fluid_boxes =
         base_level = 1,
         pipe_connections = {{ position = {2, -3} }}
       }--]]
+	  
       {
         production_type = "input",
         pipe_covers = pipecoverspictures(),
@@ -116,8 +117,9 @@ local recipe = {
       {"oil-refinery", 1},
       {"iron-gear-wheel", 20},
       {"advanced-circuit", 5},
+      {"plastic-bar", 15},
       {"pipe", 25},
-	  {"air-filter", 30}
+	  --{"air-filter", 30}
     },
     result = "clean-refinery",
     enabled = false

@@ -520,7 +520,7 @@ data:extend({
     type = "assembling-machine",
     name = "gas-boiler-input",
     --icon = "__base__/graphics/icons/rail-signal.png",
-    flags = {"placeable-off-grid", "not-on-map"},
+    flags = {"placeable-off-grid", "not-on-map", "not-blueprintable", "not-deconstructable"},
     --fast_replaceable_group = "rail-signal",
     --minable = {mining_time = 0.5, result = "rail-signal"},
     max_health = 100,

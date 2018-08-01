@@ -2,6 +2,8 @@ require "config"
 require "constants"
 require "modinterface"
 
+require "prototypes.airfilter"
+
 --[[
 data.raw["map-settings"]["map-settings"].pollution.diffusion_ratio = 0.05--0.25--0.1 --default is 0.02
 data.raw["map-settings"]["map-settings"].pollution.min_to_diffuse = 5 --default is 15
@@ -112,7 +114,9 @@ end
 for k,obj in pairs(data.raw.fire) do
 	--log(serpent.block("Checking candidate polluter '" .. k .. "'"))
 	--log(serpent.block("ID'ed polluter '" .. k .. "', increasing emissions " .. pollutionScale*firePollutionScale .. "x"))
-	obj.emissions_per_tick = obj.emissions_per_tick*pollutionScale*firePollutionScale
+	if obj.emissions_per_tick then
+		obj.emissions_per_tick = obj.emissions_per_tick*pollutionScale*firePollutionScale
+	end
 	--log(serpent.block("Success"))
 end
 
@@ -122,34 +126,6 @@ if Config.enableGasBoiler then
 end
 if Config.enableSteamFurnace then
 	table.insert(data.raw.technology["advanced-material-processing"].effects, {type="unlock-recipe", recipe="steam-furnace"})
-end
-
-for name,recipe in pairs(data.raw.recipe) do --do later to handle the water->steam conversion some mods do
-	if recipe.category == "oil-processing" then
-		recipe = table.deepcopy(recipe)
-		recipe.category = "clean-oil-processing"
-		recipe.name = "clean-" .. name
-		recipe.localised_name = {"clean-refining.name", {"recipe-name." .. name}}
-		local amt = 0
-		for _,result in pairs(recipe.results) do
-			amt = amt+result.amount
-		end
-		amt = amt/2
-		local added = false
-		for _,ingredient in pairs(recipe.ingredients) do
-			if ingredient.name == "water" then
-				--ingredient.amount = ingredient.amount+amt
-				--added = true
-			end
-		end
-		if not added then
-			table.insert(recipe.ingredients, 1, {type="fluid", name="water", amount=amt})
-		end
-		table.insert(recipe.results, {type="fluid", name="waste", amount=amt})
-		recipe.enabled = true
-		log("Added a clean version of " .. name)
-		data:extend({recipe})
-	end
 end
 
 data:extend(

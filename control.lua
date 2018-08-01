@@ -158,6 +158,19 @@ local function onGameTick(event)
 	end
 end
 
+--[[
+local function onEntityMarkedDeconstruct(event)	
+	local entity = event.entity
+	local player = event.player_index and game.players[event.player_index] or nil
+	
+	if entity.name == "gas-boiler-input" then
+		entity.cancel_deconstruction(player and player.force or entity.force)
+	end
+end
+
+script.on_event(defines.events.on_marked_for_deconstruction, onEntityMarkedDeconstruct)
+--]]
+
 script.on_event(defines.events.on_selected_entity_changed, handleFluidSpillTooltip)
 
 script.on_event(defines.events.on_entity_died, onEntityDied)
