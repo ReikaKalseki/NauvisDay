@@ -183,7 +183,7 @@ function tickBlockPollution(surface, chunk, tick, dx, dy, tile_changes)
 					pump.destroy()
 				end
 			end
-			surface.pollute({dx, dy}, Config.pollutedWaterTileCleanup*pollutedWaterTileRelease)
+			surface.pollute({dx, dy}, Config.pollutedWaterTileCleanup*Config.pollutedWaterTileRelease)
 		end		
 	end
 end
