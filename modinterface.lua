@@ -92,12 +92,18 @@ if data.raw["assembling-machine"]["bob-greenhouse"] then
       emissions = 0.03
     }
 	dead.animation.filename = "__NauvisDay__/graphics/entity/treefarm/dead-greenhouse.png"
-	dead.working_visualisations[1].animation.filename ="__NauvisDay__/graphics/entity/treefarm/dead-greenhouse-active.png"
+	dead.working_visualisations[1].animation.filename = "__NauvisDay__/graphics/entity/treefarm/dead-greenhouse-active.png"
 	dead.working_visualisations[1].light = nil
 	dead.animation.width = 113
     dead.animation.height = 91
-	dead.working_visualisations[1].width = 113
-    dead.working_visualisations[1].height = 91
+	dead.animation.frame_count = 1
+	dead.animation.line_length = 1
+	dead.animation.shift = nil
+	dead.working_visualisations[1].animation.width = 113
+    dead.working_visualisations[1].animation.height = 91
+	dead.working_visualisations[1].animation.frame_count = 1
+	dead.working_visualisations[1].animation.line_length = 1
+	dead.working_visualisations[1].animation.shift = nil
 	
 	dead.localised_name = createDeadName("bob-greenhouse")
 	
