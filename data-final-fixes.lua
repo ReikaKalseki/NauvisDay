@@ -33,12 +33,14 @@ if Config.enableSteamFurnace then
 				for _,effect in pairs(tech.effects) do
 					if effect.type == "unlock-recipe" then
 						local recipe = data.raw.recipe[effect.recipe]
-						if not recipe then error("Tech set to unlock recipe '" .. effect.recipe .. "', which does not exist?!") end
-						if ir.name == recipe.name .. "-steam" then
-							table.insert(tech.effects, {type="unlock-recipe", recipe=ir.name})
-							ir.enabled = "false"
-							log("Adding " .. ir.name .. " to unlock list for " .. tech.name)
-							break
+						if not recipe then log("Tech set to unlock recipe '" .. effect.recipe .. "', which does not exist?!") end
+						if recipe then
+							if ir.name == recipe.name .. "-steam" then
+								table.insert(tech.effects, {type="unlock-recipe", recipe=ir.name})
+								ir.enabled = "false"
+								log("Adding " .. ir.name .. " to unlock list for " .. tech.name)
+								break
+							end
 						end
 					end
 				end
@@ -111,12 +113,14 @@ if Config.enableRefinery then
 				for _,effect in pairs(tech.effects) do
 					if effect.type == "unlock-recipe" then
 						local recipe = data.raw.recipe[effect.recipe]
-						if not recipe then error("Tech set to unlock recipe '" .. effect.recipe .. "', which does not exist?!") end
-						if ir.name == "clean-" .. recipe.name then
-							table.insert(tech.effects, {type="unlock-recipe", recipe=ir.name})
-							ir.enabled = "false"
-							log("Adding " .. ir.name .. " to unlock list for " .. tech.name)
-							break
+						if not recipe then log("Tech set to unlock recipe '" .. effect.recipe .. "', which does not exist?!") end
+						if recipe then
+							if ir.name == "clean-" .. recipe.name then
+								table.insert(tech.effects, {type="unlock-recipe", recipe=ir.name})
+								ir.enabled = "false"
+								log("Adding " .. ir.name .. " to unlock list for " .. tech.name)
+								break
+							end
 						end
 					end
 				end
