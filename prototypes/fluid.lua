@@ -75,9 +75,10 @@ for name,tile in pairs(data.raw.tile) do
 		table.insert(water.allowed_neighbors, name)
 		water.ageing=-0.0625---20---0.125 instead of making it emit pollution (net), make it only reduce absorption, but not work for offshore pumps and the like
 		water.map_color={r=64, g=77, b=29}
+		water.localised_name = {"polluted-fluid.fluid", {"tile-name." .. water.name}}
 		water.collision_mask =
 		{
-		  --"water-tile", --removing this prevents offshore pumps from being placed on it
+		  --"water-tile", --removing this prevents offshore pumps from being placed on it.....not anymore
 		  "item-layer",
 		  "resource-layer",
 		  "player-layer",
@@ -112,10 +113,11 @@ local pumps = {}
 for name,val in pairs(data.raw["offshore-pump"]) do
 	--log("Parsing " .. name)
 	local pump = util.table.deepcopy(val)
+	pump.localised_name = {"polluted-fluid.pump", {"entity-name." .. pump.name}}
 	pump.name = "polluted-" .. pump.name
 	pump.pumping_speed = 0
 	pump.fluid_box.base_area = 0.00001
-	pump.order="d[remnants]-c[offshore-pump]",
+	pump.order="d[remnants]-c[offshore-pump]"
 	--log(serpent.block(pump))
 	table.insert(pumps, pump)
 end

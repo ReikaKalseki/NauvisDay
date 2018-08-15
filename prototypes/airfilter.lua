@@ -14,7 +14,7 @@ else
 			order = "f[charcoal]",
 			stack_size = 200,
 			icon_size = 32
-		},
+		},--[[ this causes furnaces which run out of the intended smelting item to start making charcoal and backing up
 	  {
 		type = "recipe",
 		name = "charcoal-1",
@@ -28,7 +28,7 @@ else
 		  {"coal", 1},
 		},
 		result = "charcoal"
-	  }, 
+	  }, --]]
 	  {
 		type = "recipe",
 		name = "charcoal-2",
