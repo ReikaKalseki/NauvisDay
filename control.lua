@@ -74,13 +74,21 @@ local function onEntityAdded(event)
 	end
 	
 	if string.find(entity.name, "air-filter-machine-", 1, 1) then
-		entity.set_recipe("air-cleaning-action")
-		entity.operable = false
+		if entity.type == "assembling-machine" then --check type since AirFilter mod is otherwise going to be caught here
+			entity.set_recipe("air-cleaning-action")
+			--entity.operable = false
+		else
+			if event.player_index then
+				game.players[event.player_index].print("There is no point in using this with NauvisDay installed. Use its deaerosolizers instead.")
+			elseif entity.force then
+				entity.force.print("There is no point in using this with NauvisDay installed. Use its deaerosolizers instead.")
+			end
+		end
 	end
 	
 	if entity.name == "venting-machine" then
 		entity.set_recipe("pollution-venting-action")
-		entity.operable = false
+		--entity.operable = false
 	end
 end
 
@@ -132,6 +140,10 @@ local function onGameTick(event)
 		end
 		--]]
 		nvday.dirty = false
+		
+		if game.active_mods["air-filtering"] then
+			game.print("NauvisDay: Detected AirFilters mod; NauvisDay contains all the features it does and far more, making AirFilters somewhat useless to have installed together with it.")
+		end
 	end
 	
 	local tick = event.tick
@@ -176,6 +188,7 @@ script.on_event(defines.events.on_selected_entity_changed, handleFluidSpillToolt
 script.on_event(defines.events.on_entity_died, onEntityDied)
 script.on_event(defines.events.on_pre_player_mined_item, onEntityRemoved)
 script.on_event(defines.events.on_robot_pre_mined, onEntityRemoved)
+script.on_event(defines.events.script_raised_destroy, onEntityRemoved)
 
 script.on_event(defines.events.on_built_entity, onEntityAdded)
 script.on_event(defines.events.on_robot_built_entity, onEntityAdded)

@@ -3,15 +3,17 @@ require "config"
 
 if not Config.enableSteamFurnace then return end
 
-local power = 1--15
+local categoriesToAdd = {}
 
+local power = 1--15
+--[[
 data:extend({
 	{
 		type = "recipe-category",
 		name = "steam-smelting",
 	}
-})
-
+})--]]
+--[[
 data:extend({
   {
 	type = "item",
@@ -24,7 +26,7 @@ data:extend({
     place_result = "steam-furnace",
     stack_size = 50,
 	icon_size = 32
-  },--[[
+  },--]]--[[
   {
 	type = "item",
     name = "steam-furnace-flipped",
@@ -35,7 +37,7 @@ data:extend({
     order = "b[steam-furnace]",
     place_result = "steam-furnace-flipped",
     stack_size = 50
-  },--]]
+  },--]]--[[
   {
 	type = "recipe",
 	name = "steam-furnace",
@@ -47,7 +49,7 @@ data:extend({
 		{"stone", 5},
 	},
 	result = "steam-furnace",
-  },--[[
+  },--]]--[[
   {
 	type = "recipe",
 	name = "steam-furnace-flipped",
@@ -57,9 +59,239 @@ data:extend({
 		{"steam-furnace", 1},
 	},
 	result = "steam-furnace-flipped",
-  }--]]
+  }--]]--[[
 })
+--]]
+local function createAnimations(furnace)
+	local ret = {
+    animation =
+    {
+      layers = {
+        {
+          filename = "__NauvisDay__/graphics/entity/steam-furnace/steel-furnace.png",
+          priority = "high",
+          width = 85,
+          height = 87,
+          frame_count = 1,
+          shift = util.by_pixel(-1.5, 1.5),
+          hr_version = {
+            filename = "__NauvisDay__/graphics/entity/steam-furnace/hr-steel-furnace.png",
+            priority = "high",
+            width = 171,
+            height = 174,
+            frame_count = 1,
+            shift = util.by_pixel(-1.25, 2),
+            scale = 0.5
+          }
+        },
+        {
+          filename = "__NauvisDay__/graphics/entity/steam-furnace/steel-furnace-shadow.png",
+          priority = "high",
+          width = 139,
+          height = 43,
+          frame_count = 1,
+          draw_as_shadow = true,
+          shift = util.by_pixel(39.5, 11.5),
+          hr_version = {
+            filename = "__NauvisDay__/graphics/entity/steam-furnace/hr-steel-furnace-shadow.png",
+            priority = "high",
+            width = 277,
+            height = 85,
+            frame_count = 1,
+            draw_as_shadow = true,
+            shift = util.by_pixel(39.25, 11.25),
+            scale = 0.5
+          }
+        },
+      },
+    },
+    working_visualisations =
+    {
+      {
+        north_position = {0.0, 0.0},
+        east_position = {0.0, 0.0},
+        south_position = {0.0, 0.0},
+        west_position = {0.0, 0.0},
+        animation =
+        {
+          filename = "__NauvisDay__/graphics/entity/steam-furnace/steel-furnace-fire.png",
+          priority = "high",
+          line_length = 8,
+          width = 29,
+          height = 40,
+          frame_count = 48,
+          axially_symmetrical = false,
+          direction_count = 1,
+          shift = util.by_pixel(-0.5, 6),
+          hr_version = {
+            filename = "__NauvisDay__/graphics/entity/steam-furnace/hr-steel-furnace-fire.png",
+            priority = "high",
+            line_length = 8,
+            width = 57,
+            height = 81,
+            frame_count = 48,
+            axially_symmetrical = false,
+            direction_count = 1,
+            shift = util.by_pixel(-0.75, 5.75),
+            scale = 0.5
+          }
+        },
+        light = {intensity = 1, size = 1, color = {r = 1.0, g = 1.0, b = 1.0}}
+      },
+      {
+        north_position = {0.0, 0.0},
+        east_position = {0.0, 0.0},
+        south_position = {0.0, 0.0},
+        west_position = {0.0, 0.0},
+        effect = "flicker", -- changes alpha based on energy source light intensity
+        animation =
+        {
+          filename = "__NauvisDay__/graphics/entity/steam-furnace/steel-furnace-glow.png",
+          priority = "high",
+          width = 60,
+          height = 43,
+          frame_count = 1,
+          shift = {0.03125, 0.640625},
+          blend_mode = "additive"
+        }
+      },
+      {
+        north_position = {0.0, 0.0},
+        east_position = {0.0, 0.0},
+        south_position = {0.0, 0.0},
+        west_position = {0.0, 0.0},
+        effect = "flicker", -- changes alpha based on energy source light intensity
+        animation =
+        {
+          filename = "__NauvisDay__/graphics/entity/steam-furnace/steel-furnace-working.png",
+          priority = "high",
+          line_length = 8,
+          width = 64,
+          height = 75,
+          frame_count = 1,
+          axially_symmetrical = false,
+          direction_count = 1,
+          shift = util.by_pixel(0, -4.5),
+          blend_mode = "additive",
+          hr_version = {
+            filename = "__NauvisDay__/graphics/entity/steam-furnace/hr-steel-furnace-working.png",
+            priority = "high",
+            line_length = 8,
+            width = 130,
+            height = 149,
+            frame_count = 1,
+            axially_symmetrical = false,
+            direction_count = 1,
+            shift = util.by_pixel(0, -4.25),
+            blend_mode = "additive",
+            scale = 0.5
+          }
+        }
+      },
+    },
+	}
+	return ret
+end
 
+local function createIcons(obj)
+	obj.icon = string.gsub(obj.icon, "__base__", "__NauvisDay__")
+	obj.icon = string.gsub(obj.icon, "__bobplates__", "__NauvisDay__")
+end
+
+local function createSteamPoweredFurnace(base)
+	local obj = data.raw["furnace"][base]
+	if not obj then obj = data.raw["assembling-machine"][base] end
+	if not obj then return end
+	local furnace = table.deepcopy(obj)
+	local anim = createAnimations(furnace)
+	furnace.type = "assembling-machine"
+	if string.find(furnace.name, "steel") then
+		furnace.name = string.gsub(furnace.name, "steel", "steam")
+	else
+		furnace.name = "steam-" .. furnace.name
+	end
+	furnace.localised_name = {"steam-furnace.name", {"entity-name." .. base}}
+	furnace.energy_source.emissions = furnace.energy_source.emissions/4
+	furnace.energy_source.effectivity = 1
+	furnace.energy_source.fuel_inventory_size = 0
+	furnace.crafting_speed = furnace.crafting_speed*0.8
+	furnace.source_inventory_size = furnace.source_inventory_size and furnace.source_inventory_size+1 or 2
+	furnace.ingredient_count = furnace.ingredient_count and furnace.ingredient_count+1 or 2
+	if furnace.fluid_boxes and #furnace.fluid_boxes > 0 then
+	furnace.fluid_boxes =
+		{
+		  {
+			production_type = "input",
+			pipe_covers = pipecoverspictures(),
+			base_area = 10,
+			base_level = -1,
+			pipe_connections = {{ type="input", position = {-0.5, -1.5} }}
+		  },
+		  {
+			production_type = "input",
+			pipe_covers = pipecoverspictures(),
+			base_area = 10,
+			base_level = -1,
+			pipe_connections = {{ type="input", position = {0.5, 1.5} }}
+		  },
+		}
+		--log("Adding a second fluidbox to " .. furnace.name)
+	else
+		furnace.fluid_boxes =
+		{
+		  {
+			production_type = "input",
+			pipe_picture = assembler3pipepictures(),
+			pipe_covers = pipecoverspictures(),
+			base_area = 10,
+			base_level = -1,
+			pipe_connections = {
+				{type = "input", positions = {{0.5, -1.5}, {1.5, -0.5}, {0.5, 1.5}, {-1.5, -0.5}}},
+			},
+			secondary_draw_orders = { north = -1 }
+		  },
+		}
+		--log("Adding a first fluidbox to " .. furnace.name)
+	end
+	local categories = {}
+	for _,cat in pairs(furnace.crafting_categories) do
+		local new = "steam-" .. cat
+		table.insert(categories, new)
+		categoriesToAdd[new] = true
+	end
+    furnace.crafting_categories = categories
+	furnace.minable.result = furnace.name
+	furnace.animation = anim.animation
+	furnace.working_visualisations = anim.working_visualisations
+	createIcons(furnace)
+	
+	local item = table.deepcopy(data.raw.item[base])
+	item.name = furnace.name
+	item.place_result = item.name
+	item.localised_name = furnace.localised_name
+	createIcons(item)
+  
+	local recipe = {
+	type = "recipe",
+	name = furnace.name,
+	energy_required = 3.5,
+	enabled = "false",
+	ingredients = {
+		{base, 1},
+		{"pipe", 10},
+		{"stone", 5},
+	},
+	result = furnace.name,
+  }
+	
+	log("Creating a steam-powered version of " .. base)
+	data:extend({furnace, item, recipe})
+end
+
+createSteamPoweredFurnace("steel-furnace")
+createSteamPoweredFurnace("chemical-steel-furnace")
+createSteamPoweredFurnace("mixing-steel-furnace")
+--[[
 data:extend({
   {
     type = "assembling-machine",
@@ -252,7 +484,7 @@ data:extend({
     },
     fast_replaceable_group = "furnace"
   }
-})
+})--]]
 --[[
 data:extend({
 	  {
@@ -387,3 +619,12 @@ data:extend({
   },
 })
 --]]
+
+for cat,_ in pairs(categoriesToAdd) do
+	data:extend({
+		{
+			type = "recipe-category",
+			name = cat,
+		}
+	})
+end

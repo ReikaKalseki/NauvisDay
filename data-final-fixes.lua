@@ -3,23 +3,33 @@ require "constants"
 
 local recipes = {}
 
+local function createSteamRecipe(recipe)
+	local copy = nil
+	if recipe.category == "smelting" or recipe.category == "chemical-furnace" or recipe.category == "mixing-furnace" then
+		copy = table.deepcopy(recipe)
+		copy.name = copy.name .. "-steam"
+		copy.category = "steam-" .. copy.category
+		copy.enabled = true
+		if copy.ingredients then
+			table.insert(copy.ingredients, {type="fluid", name="steam", amount=5})
+		end
+		if copy.normal and copy.normal.ingredients then
+			table.insert(copy.normal.ingredients, {type="fluid", name="steam", amount=5})
+		end
+		if copy.expensive and copy.expensive.ingredients then
+			table.insert(copy.expensive.ingredients, {type="fluid", name="steam", amount=10})
+		end
+		copy.allow_decomposition = false
+		log("Created a steam version of smelting recipe '" .. recipe.name .. "'")
+	end
+	return copy
+end
+
 if Config.enableSteamFurnace then
 	for name,recipe in pairs(data.raw.recipe) do
-		if recipe.category == "smelting" then
-			local copy = table.deepcopy(recipe)
-			copy.name = copy.name .. "-steam"
-			copy.category = "steam-smelting"
-			if copy.ingredients then
-				table.insert(copy.ingredients, {type="fluid", name="steam", amount=5})
-			end
-			if copy.normal and copy.normal.ingredients then
-				table.insert(copy.normal.ingredients, {type="fluid", name="steam", amount=5})
-			end
-			if copy.expensive and copy.expensive.ingredients then
-				table.insert(copy.expensive.ingredients, {type="fluid", name="steam", amount=10})
-			end
+		local copy = createSteamRecipe(recipe)
+		if copy then
 			table.insert(recipes, copy)
-			copy.allow_decomposition = false
 		end
 	end
 

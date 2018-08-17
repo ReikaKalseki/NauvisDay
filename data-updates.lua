@@ -26,7 +26,7 @@ for _,name in pairs(pollutionIncreaseExclusion) do
 end
 pollutionIncreaseExclusion = repl --turn into table for fast lookup
 
-local coalBurners = {"boiler", "furnace", "mining-drill"}--, "inserter", "car", "locomotive"} these do not have emissions params; do they even pollute? (reddit says no)
+local coalBurners = {"boiler", "furnace", "mining-drill", "assembling-machine"}--, "inserter", "car", "locomotive"} these do not have emissions params; do they even pollute? (reddit says no)
 for idx,label in pairs(coalBurners) do
 	for k,obj in pairs(data.raw[label]) do
 		if pollutionIncreaseExclusion[k] ~= 1 then
@@ -89,18 +89,18 @@ for idx,label in pairs(polluters) do
 	for k,obj in pairs(data.raw[label]) do
 		if pollutionIncreaseExclusion[k] ~= 1 then
 			--log(serpent.block("Checking candidate polluter '" .. k .. "'"))
-			--log(serpent.block("ID'ed polluter '" .. k .. "', increasing emissions " .. pollutionScale .. "x"))
+			log(serpent.block("ID'ed polluter '" .. k .. "', increasing emissions " .. pollutionScale .. "x"))
 			if obj.energy_source.emissions then
 				obj.energy_source.emissions = obj.energy_source.emissions*pollutionScale
 				if label == "mining-drill" then
 					obj.energy_source.emissions = obj.energy_source.emissions*miningPollutionScale
-					--log(serpent.block("ID'ed mining polluter '" .. k .. "', increasing emissions again " .. miningPollutionScale .. "x"))
+					log(serpent.block("ID'ed mining polluter '" .. k .. "', increasing emissions again " .. miningPollutionScale .. "x"))
 				end
 				--log(serpent.block(extraPollution[label]))
 				local f = getExtraPollution(label, k)
 				if f then
 					obj.energy_source.emissions = obj.energy_source.emissions*f
-					--log(serpent.block("ID'ed 'extra' polluter '" .. k .. "', increasing emissions again " .. f .. "x"))
+					log(serpent.block("ID'ed 'extra' polluter '" .. k .. "', increasing emissions again " .. f .. "x"))
 				end
 				--log(serpent.block("Success"))
 			else
@@ -126,6 +126,12 @@ if Config.enableGasBoiler then
 end
 if Config.enableSteamFurnace then
 	table.insert(data.raw.technology["advanced-material-processing"].effects, {type="unlock-recipe", recipe="steam-furnace"})
+	if data.raw.technology["chemical-processing-2"] then
+		table.insert(data.raw.technology["chemical-processing-2"].effects, {type="unlock-recipe", recipe="chemical-steam-furnace"})
+	end
+	if data.raw.technology["mixing-steel-furnace"] then
+		table.insert(data.raw.technology["mixing-steel-furnace"].effects, {type="unlock-recipe", recipe="mixing-steam-furnace"})
+	end
 end
 
 data:extend(

@@ -47,7 +47,7 @@ local function hasIngredients(furnace)
 end
 
 function tickSteamFurnaces(nvday, tick)
-	if tick%30 == 0 then
+	if tick%60 == 0 then
 		for _,furnace in pairs(nvday.steam_furnaces) do
 			if furnace.get_recipe() and hasIngredients(furnace) then
 				furnace.crafting_progress = math.max(furnace.crafting_progress, 0.005)

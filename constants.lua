@@ -75,6 +75,8 @@ extraPollution = { --Further multipliers on a few entities or categories/group
 		["chemical-plant"] = 2,
 		["ore-washer"] = 12,
 		["ore-washing-plant"] = 12,
+		["mixing-steel-furnace"] = 2,
+		["chemical-steel-furnace"] = 2,
 	},
 	["boiler"] = {
 		["*"] = 1.2, --do across category
@@ -86,7 +88,7 @@ extraPollution = { --Further multipliers on a few entities or categories/group
 
 pollutionIncreaseExclusion = { --some machines to skip pollution modification for; either technical entities, native already-chosen ones, or ones that do not ACTUALLY do what the pollution boost is designed to "punish"
 	"greenhouse", "air-filter-machine-1", "air-filter-machine-2", "air-filter-machine-3", "air-filter-machine-4", "venting-machine", "storage-machine",
-	"gas-boiler", "gas-boiler-input", "steam-furnace", "clean-refinery",
+	"gas-boiler", "gas-boiler-input", --[["steam-furnace",--]] "clean-refinery", --steam furnace removed because now computes based on steel-furnace
 	"geothermal-well", "geothermal-heat-exchanger",
 	"tf-field", "dead-bio-farm", "dead-greenhouse",
 }
