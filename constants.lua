@@ -169,7 +169,7 @@ liquidEvaporationFactors = {
 	["water"] = 1.1,
 	["pure-water"] = 1.1,
 	
-	["steam"] = 8,
+	["steam"] = 16,--8,
 	["nitrogen"] = 5,
 	["oxygen"] = 5,
 	["ozone"] = 4,

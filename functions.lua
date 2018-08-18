@@ -38,7 +38,7 @@ local function hasIngredients(furnace)
 			end
 		end
 		if ingredient.type == "fluid" and ingredient.name ~= "steam" then
-			if fluids[ingredient.name] < ingredient.amount then
+			if (not fluids[ingredient.name]) or fluids[ingredient.name] < ingredient.amount then
 				return false
 			end
 		end
@@ -52,7 +52,7 @@ function tickSteamFurnaces(nvday, tick)
 			if furnace.get_recipe() and hasIngredients(furnace) then
 				furnace.crafting_progress = math.max(furnace.crafting_progress, 0.005)
 			end
-			local fluid = furnace.fluidbox[1]
+			local fluid = furnace.fluidbox[#furnace.fluidbox]
 			if fluid and fluid.name == "steam" and fluid.amount >= 5 then
 				furnace.burner.currently_burning = game.item_prototypes["coal"]
 				furnace.burner.remaining_burning_fuel = 50000000
@@ -237,7 +237,7 @@ local function findNearbyRecipes(entity)
 end
 
 function addSteamFurnace(nvday, entity)
-  if entity.name == "steam-furnace" then
+  if entity.name == "steam-furnace" or entity.name == "mixing-steam-furnace" or entity.name == "chemical-steam-furnace" then
 	entity.set_recipe(findNearbyRecipes(entity))
 	
 	--local pole = entity.surface.create_entity({name = "furnace-electric-pole", position = entity.position, force = entity.force})
@@ -247,7 +247,7 @@ function addSteamFurnace(nvday, entity)
 end
 
 function removeSteamFurnace(nvday, entity)
-	if entity.name == "steam-furnace" then
+	if entity.name == "steam-furnace" or entity.name == "mixing-steam-furnace" or entity.name == "chemical-steam-furnace" then
 		for i,--[[entry--]]furnace in ipairs(nvday.steam_furnaces) do
 			if --[[entry.--]]furnace.position.x == entity.position.x and --[[entry.--]]furnace.position.y == entity.position.y then
 				--entry.pole.destroy()

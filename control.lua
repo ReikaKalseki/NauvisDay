@@ -69,6 +69,7 @@ local function onEntityAdded(event)
 	local entity = event.created_entity
 	
 	local func = tracker["add"][entity.name]
+	--game.print(entity.name .. " > " .. (func and "hasCall" or "noCall"))
 	if func then
 		func(nvday, entity)
 	end
