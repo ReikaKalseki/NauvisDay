@@ -91,7 +91,7 @@ function tickGasBoilers(nvday, tick)
 				local fluid = entry.input.fluidbox[1]
 				if fluid and fluid.name == "petroleum-gas" and fluid.amount >= 1 then
 					--game.print("Adding gas to boiler")
-					if entry.boiler.fluidbox[1] and entry.boiler.fluidbox[1].name == "water" and entry.boiler.fluidbox[1].amount > 10 and tick%4 == 0 then
+					if entry.boiler.fluidbox[1] and entry.boiler.fluidbox[1].name == "water" and entry.boiler.fluidbox[1].amount > 10 and tick%10 == 0 then
 						fluid.amount = fluid.amount-1
 						entry.input.fluidbox[1] = fluid
 					end
@@ -238,7 +238,9 @@ end
 
 function addSteamFurnace(nvday, entity)
   if entity.name == "steam-furnace" or entity.name == "mixing-steam-furnace" or entity.name == "chemical-steam-furnace" then
-	entity.set_recipe(findNearbyRecipes(entity))
+	if entity.get_recipe() == nil then
+		entity.set_recipe(findNearbyRecipes(entity))
+	end
 	
 	--local pole = entity.surface.create_entity({name = "furnace-electric-pole", position = entity.position, force = entity.force})
 	--local interface = entity.surface.create_entity({name = "furnace-energy-interface", position = entity.position, force = entity.force})	
@@ -392,6 +394,9 @@ end
 function setPollutionAndEvoSettings()
 	for category, params in pairs(pollutionAndEvo) do
 		for entry, val in pairs(params) do
+			if type(val) == "table" then
+				val = val[game.difficulty_settings.recipe_difficulty == defines.difficulty_settings.recipe_difficulty.normal and 1 or 2]
+			end
 			--game.print("Checking param " .. entry .. "...map val = " .. game.map_settings[category][entry] .. ", target = " .. val)
 			if game.map_settings[category][entry] ~= val then
 				game.print("NauvisDay: Re-setting " .. category .. "." .. entry .. " to " .. val .. " (was " .. game.map_settings[category][entry] .. ")")
@@ -549,7 +554,7 @@ local function createSpillKey(position)
 	return position.x .. "&" .. position.y
 end
 
-local function setSpillGui(player, spill)
+function setSpillGui(player, spill)
 	for _,elem in pairs(player.gui.top.children) do
 		if elem.name == "spillgui" then
 			local entry = global.nvday.spills[elem.tooltip] --since tooltip == key
@@ -575,7 +580,7 @@ local function setSpillGui(player, spill)
 	end
 end
 
-local function isFluidSpill(entity)
+function isFluidSpill(entity)
 	return entity.type == "simple-entity" and string.find(entity.name, "spilled", 1, true)
 end
 
@@ -600,7 +605,7 @@ local function findNearSpill(fluid, source)
 		local name = "spilled-" .. fluid.name .. "-" .. i
 		local li = source.surface.find_entities_filtered({type = "simple-entity", name = name, area = area})
 		--game.print(#li .. " for " .. name)
-		if #li > 0 then
+		if #li > 0 and li[1].valid then
 			return getSpillEntryFor(li[1])
 		end
 	end
@@ -636,7 +641,7 @@ end
 
 local function createSpill(fluid, source)
 	local near = findNearSpill(fluid, source)
-	if near then
+	if near and near.entity.valid then
 		--game.print("Added " .. fluid.amount .. " to " .. near.amount)
 		near.amount = math.floor(near.amount+fluid.amount)
 		setSpillStage(near)

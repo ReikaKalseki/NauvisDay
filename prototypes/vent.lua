@@ -126,6 +126,7 @@ data:extend({
     order = "f[plastic-bar]-f[venting]",
     energy_required = 0.05,
     enabled = "false",
+	hidden = true,
     ingredients =
     {
       {type="fluid", name="waste", amount=2*pollutionLiquidProductionFactor*10}

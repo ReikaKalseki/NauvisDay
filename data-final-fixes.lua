@@ -92,11 +92,11 @@ if Config.enableRefinery then
 			end
 
 			if data.raw.item["calcium-chloride"] then
-				table.insert(recipe.ingredients, {"calcium-chloride", 2})
+				table.insert(recipe.ingredients, {"calcium-chloride", 1})
 			end
 
 			if data.raw.item["sodium-hydroxide"] then
-				table.insert(recipe.ingredients, {"sodium-hydroxide", 2})
+				table.insert(recipe.ingredients, {"sodium-hydroxide", 1})
 			end
 			
 			if data.raw.item["air-filter-case"] then

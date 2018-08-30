@@ -43,9 +43,9 @@ pollutionAndEvo = {
 		max_pollution_to_restore_trees = 30000,--20000, --default is 1000
 	},
 	["enemy_evolution"] = {
-		time_factor = -0.000025,-- -0.00003,--0 --default is 0.000004
+		time_factor = {-0.000025, -0.00004},-- -0.000025,-- -0.00003,--0 --default is 0.000004
 		destroy_factor = 0.0075, --default is 0.002
-		pollution_factor = 0.000015/pollutionScale*pollutionSpawnIncrease, --default is 0.000015
+		pollution_factor = {0.000015/pollutionScale*pollutionSpawnIncrease, 0.0000125/pollutionScale*pollutionSpawnIncrease}, --default is 0.000015
 	}
 }
 
@@ -71,7 +71,7 @@ extraPollution = { --Further multipliers on a few entities or categories/group
 	},
 	["assembling-machine"] = {
 		["assembling-machine-1"] = 4,
-		["oil-refinery"] = 60, --was 3, then 12, then 40; needs to be a LOT
+		["oil-refinery_*"] = 60, --was 3, then 12, then 40; needs to be a LOT
 		["chemical-plant"] = 2,
 		["ore-washer"] = 12,
 		["ore-washing-plant"] = 12,
@@ -91,6 +91,7 @@ pollutionIncreaseExclusion = { --some machines to skip pollution modification fo
 	"gas-boiler", "gas-boiler-input", --[["steam-furnace",--]] "clean-refinery", --steam furnace removed because now computes based on steel-furnace
 	"geothermal-well", "geothermal-heat-exchanger",
 	"tf-field", "dead-bio-farm", "dead-greenhouse",
+	"algae-farm", "algae-farm-2", "crop-farm", "temperate-farm", "desert-farm", "swamp-farm"
 }
 
 for cat,entry in pairs(extraPollution) do
@@ -130,6 +131,7 @@ liquidPollutionFactors = {
 	["nitrogen"] = 0,
 	["air"] = 0,
 	["liquid-air"] = 0,
+	["compressed-air"] = 0,
 	["hydrogen"] = 0.01,
 	
 	--mildly toxic/unpleasant, low pollution
@@ -179,6 +181,7 @@ liquidEvaporationFactors = {
 	["chlorine"] = 1.5,
 	["air"] = 15,
 	["liquid-air"] = 15,
+	["compressed-air"] = 15,
 	
 	["sulfur-dioxide"] = 2,
 	["nitrogen-dioxide"] = 2,

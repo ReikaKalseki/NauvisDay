@@ -114,6 +114,7 @@ data:extend({
     order = "f[plastic-bar]-f[cleaning]",
     energy_required = 0.2/overallAerosolizerWasteGenSpeed,
     enabled = "false",
+	hidden = true,
     ingredients =
     {
       {type="fluid", name="water", amount=10*5*(1+(pollutionLiquidProductionFactor-1)/2)},

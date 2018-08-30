@@ -42,10 +42,33 @@ local function createCloud(name, duration, size, damage)
             {
               type = "instant",
               target_effects =
-              {
-                type = "damage",
-                damage = { amount = damage, type = "poison"}
-              }
+			  {
+				  {
+					type = "damage",
+					damage = { amount = damage, type = "poison"}
+				  },--[[
+				  {
+					type = "play-sound",
+					sound = {
+						filename = "__NauvisDay__/sound/gasp.ogg",
+						aggregation =
+						{
+						   max_count = 1,
+						   
+						   -- if false (default), max_count limits only number on instances that can be started at the same tick
+						   count_already_playing = true,
+						   
+						   -- from interval 0.0 to 1.0 (default 1.0); how much of the sound should be played before it shouldn't be counted towards max_count anymore
+						   progress_threshold = 1.0,
+						   
+						   -- if true, new instances of the sound are not created if max_count was reached;
+						   -- if false, volume of the new instances of the sound is decresed by multiplying it by count^(-0.45)
+						   remove = true
+						}
+					},
+					action_cooldown = 4*60
+				  }--]]
+			  }
             }
           }
         }

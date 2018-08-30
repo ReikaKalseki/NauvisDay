@@ -1,42 +1,95 @@
 require "constants"
 
+if data.raw.fluid["sulfur-dioxide"] then
+	local co2per = 0.1
+	local res = {
+		  {type="fluid", name="sulfur-dioxide", amount=30/co2per},
+		  {type="item", name="carbon", amount=1}
+	}
+	if data.raw.fluid["nitric-oxide"] then
+		table.insert(res, {type="fluid", name="nitric-oxide", amount=10/co2per})
+	else
+		table.insert(res, {type="fluid", name="oxygen", amount=10/co2per})
+	end
+	data:extend({
+	  {
+		type = "recipe",
+		name = "pollution-to-sulfuric",
+		category = "chemistry",
+		--order = "f[plastic-bar]-f[venting]",
+		icon = data.raw.fluid["sulfur-dioxide"].icon,
+		icon_size = 32,
+		energy_required = 2/co2per,
+		enabled = "false",
+		subgroup = "bob-fluid",
+		ingredients = {
+		  {type="fluid", name="waste", amount=4*pollutionLiquidProductionFactor*10/co2per}, --*10 since fluids x10
+		  {type="fluid", name="water", amount=20/co2per},
+		},
+		results = res,
+	  },
+	  {
+		type = "recipe",
+		name = "pollution-to-sulfuric-2",
+		category = "chemistry",
+		--order = "f[plastic-bar]-f[venting]",
+		icon = data.raw.fluid["sulfur-dioxide"].icon,
+		icon_size = 32,
+		energy_required = 2,
+		enabled = "false",
+		subgroup = "bob-fluid",
+		ingredients = {
+		  {type="fluid", name="waste", amount=2*pollutionLiquidProductionFactor*10}, --*10 since fluids x10
+		  {type="fluid", name="hydrogen-chloride", amount=20}, --*10 since fluids x10
+		  {type="item", name="sodium-hydroxide", amount=1},
+		},
+		results = {
+			{type="fluid", name="oxygen", amount=10},
+			{type="item", name="salt", amount=1},
+			{type="fluid", name="sulfur-dioxide", amount=30},
+		},
+	  },
+	})
+else
+	data:extend({
+	  {
+		type = "recipe",
+		name = "pollution-to-sulfuric",
+		category = "chemistry",
+		--order = "f[plastic-bar]-f[venting]",
+		energy_required = 2,
+		enabled = "false",
+		ingredients = {
+		  {type="fluid", name="waste", amount=1*pollutionLiquidProductionFactor*10}, --*10 since fluids x10
+		  {type="fluid", name="water", amount=20},
+		  {type="item", name="coal", amount=1}
+		},
+		results=
+		{
+		  {type="fluid", name="sulfuric-acid", amount=20}
+		},
+	  },
+		{
+		type = "recipe",
+		name = "pollution-to-sulfuric-2",
+		category = "chemistry",
+		--order = "f[plastic-bar]-f[venting]",
+		energy_required = 2,
+		enabled = "false",
+		ingredients = {
+		  {type="fluid", name="waste", amount=4*pollutionLiquidProductionFactor*10},
+		  {type="fluid", name="water", amount=20},
+		  {type="item", name="sulfur", amount=1}
+		},
+		results=
+		{
+		  {type="fluid", name="sulfuric-acid", amount=50}
+		},
+	  }
+	})
+end
+
 data:extend({
-  {
-    type = "recipe",
-    name = "pollution-to-sulfuric",
-    category = "chemistry",
-    --order = "f[plastic-bar]-f[venting]",
-    energy_required = 2,
-    enabled = "false",
-    ingredients =
-    {
-      {type="fluid", name="waste", amount=1*pollutionLiquidProductionFactor*10}, --*10 since fluids x10
-      {type="fluid", name="water", amount=20},
-      {type="item", name="coal", amount=1}
-    },
-    results=
-    {
-      {type="fluid", name="sulfuric-acid", amount=20}
-    },
-  },
-    {
-    type = "recipe",
-    name = "pollution-to-sulfuric-2",
-    category = "chemistry",
-    --order = "f[plastic-bar]-f[venting]",
-    energy_required = 2,
-    enabled = "false",
-    ingredients =
-    {
-      {type="fluid", name="waste", amount=4*pollutionLiquidProductionFactor*10},
-      {type="fluid", name="water", amount=20},
-      {type="item", name="sulfur", amount=1}
-    },
-    results=
-    {
-      {type="fluid", name="sulfuric-acid", amount=50}
-    },
-  },
    {
     type = "recipe",
     name = "asphalt",

@@ -29,7 +29,7 @@ function tickFans(nvday, tick)
 					fan.active = true
 					local control = fan.get_control_behavior()
 					if not (control and control.disabled) then
-						entry.input.fluidbox[1] = {name=(game.fluid_prototypes["air"] and "air" or (game.fluid_prototypes["compressed-air"] and "compressed-air" or "steam")), amount = 1000}
+						entry.input.fluidbox[1] = {name=(game.fluid_prototypes["air"] and "air" or (game.fluid_prototypes["compressed-air"] and "compressed-air" or (game.fluid_prototypes["liquid-air"] and "liquid-air" or "steam"))), amount = 1000}
 						entry.output.fluidbox[1] = nil
 						local pos = fan.position
 						local surface = fan.surface
@@ -85,9 +85,9 @@ local function getPollutionFanEntry(nvday, entity)
 	return nil
 end
 
-function rotatePollutionFan(entity)
+function rotatePollutionFan(nvday, entity)
   if entity.name == "pollution-fan" then
-	local entry = getPollutionFanEntry(entity)
+	local entry = getPollutionFanEntry(nvday, entity)
 	local dx = 0
 	local dy = 0
 	if entity.direction == defines.direction.north then

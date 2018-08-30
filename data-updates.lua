@@ -16,6 +16,9 @@ data.raw["map-settings"]["map-settings"].enemy_evolution.pollution_factor = data
 --]]
 for category, params in pairs(pollutionAndEvo) do
 	for entry, val in pairs(params) do
+		if type(val) == "table" then
+			val = val[1]
+		end
 		data.raw["map-settings"]["map-settings"][category][entry] = val
 	end
 end
@@ -74,7 +77,8 @@ local function getExtraPollution(label, name)
 			for card,value in pairs(extraPollution[label]) do
 				if string.find(card, "_*", 1, true) then
 					local look = string.sub(card, 1, -3)
-					if string.find(name, look) then
+					--log("Looking for '" .. look .. "' in '" .. name .. "'")
+					if string.find(name, look, 1, true) then
 						return value
 					end
 				end

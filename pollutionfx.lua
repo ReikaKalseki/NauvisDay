@@ -22,8 +22,15 @@ function tickSpill(entry, nvday, doText, simulate)
 			entry.entity.surface.create_entity({name = "flying-text", position = entry.entity.position, force=game.forces.neutral, text = "Evaporating " .. amt .. " of " .. entry.fluid .. " into " .. pol .. " pollution; " .. entry.amount .. " remaining"})
 		end--]]
 		if entry.amount <= 0 then
-			entry.entity.destroy()
 			nvday.spills[entry.key] = nil
+	
+			for _,player in pairs(game.players) do
+				if player.selected == entry.entity then
+					setSpillGui(player, nil)
+				end
+			end
+			
+			entry.entity.destroy()
 		else
 			setSpillStage(entry)
 			
