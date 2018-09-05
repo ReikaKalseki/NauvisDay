@@ -1,7 +1,11 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.135
-Date: Sep 4 2018
+Date: Sep 5 2018
 	- Fixed Bob steam furnace icons
+	- Changed pollution processing recipes slightly
+	- Evolution factor time contribution increased for ribbon worlds
+	- Evolution factor time reduction increases over time if the aliens are allowed to calm down
+	- Fixed crash with mods adding oil-refinery recipes that have only one output
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.132
 Date: Sep 2 2018
