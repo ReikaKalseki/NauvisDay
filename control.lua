@@ -6,9 +6,11 @@ require "wellgen"
 require "pollutiondetection"
 require "pollutionfx"
 require "fans"
+require "spills"
 require "wallnukerai"
 
 require "entitytracker"
+require "caches"
 
 function initGlobal(markDirty)
 	if not global.nvday then
@@ -44,16 +46,16 @@ end
 
 script.on_configuration_changed(function()
 	initGlobal(true)
-	setPollutionAndEvoSettings()
+	setPollutionAndEvoSettings(global.nvday)
 end)
 
 script.on_init(function()
 	initGlobal(true)
-	setPollutionAndEvoSettings()
+	setPollutionAndEvoSettings(global.nvday)
 end)
 
 script.on_event(defines.events.on_console_command, function(event)
-	setPollutionAndEvoSettings()
+	setPollutionAndEvoSettings(global.nvday)
 end)
 
 local function onEntityRotated(event)
@@ -150,7 +152,7 @@ local function onGameTick(event)
 	local tick = event.tick
 	doAmbientPollutionEffects(nvday, tick)
 	if tick%3600 == 0 then --check once every 60 seconds
-		setPollutionAndEvoSettings()
+		setPollutionAndEvoSettings(nvday)
 	end
 	ensureNoEarlyAttacks(tick)
 	

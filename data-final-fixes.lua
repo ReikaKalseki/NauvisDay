@@ -69,8 +69,12 @@ if Config.enableRefinery then
 			recipe.name = "clean-" .. name
 			recipe.localised_name = {"clean-refining.name", {"recipe-name." .. name}}
 			local amt = 0
-			for _,result in pairs(recipe.results) do
-				amt = amt+result.amount
+			if recipe.results then
+				for _,result in pairs(recipe.results) do
+					amt = amt+result.amount
+				end
+			else
+				amt = amt+recipe.result.amount
 			end
 			amt = 5*math.floor((amt/4)/5+0.5)
 			
@@ -86,7 +90,7 @@ if Config.enableRefinery then
 			end
 
 			if data.raw.item["carbon"] then
-				table.insert(recipe.ingredients, {"carbon", 2})
+				table.insert(recipe.ingredients, {"carbon", 1})
 			else
 				--table.insert(recipe.ingredients, {"coal", 2})
 			end
@@ -96,7 +100,7 @@ if Config.enableRefinery then
 			end
 
 			if data.raw.item["sodium-hydroxide"] then
-				table.insert(recipe.ingredients, {"sodium-hydroxide", 1})
+				table.insert(recipe.ingredients, {"sodium-hydroxide", 2})
 			end
 			
 			if data.raw.item["air-filter-case"] then

@@ -44,6 +44,9 @@ end
 
 function setPollutionValue(entity)
   pollution_count = math.floor(entity.surface.get_pollution({entity.position.x,entity.position.y}))
+  if pollution_count < 0 or pollution_count > 2^32-1 then
+	pollution_count = 0
+  end
   params = {parameters = {
     {
 		index = 1,

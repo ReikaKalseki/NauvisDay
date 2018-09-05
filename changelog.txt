@@ -1,0 +1,26 @@
+---------------------------------------------------------------------------------------------------
+Version: 1.0.135
+Date: Sep 4 2018
+	- Fixed Bob steam furnace icons
+---------------------------------------------------------------------------------------------------
+Version: 1.0.132
+Date: Sep 2 2018
+	- Increased time-based reduction of evolution factor
+	- Fixed modded oil refineries not having pollution increase
+	- Added exceptions for Algae Farms to pollution increase
+	- Changed filtered oil processing recipe slightly - NaOH is now the 2x additive
+	- Slowed gas boiler fuel consumption
+	- Steam furnaces no longer autocopy recipes during blueprinting (and thus no longer overwrite themselves)
+	- Fixed spilled-fluid tooltips sometimes lingering
+	- Removed pollution cloud sound due to unavoidable stacking
+	- Redesigned pollution-to-sulfur processing recipes for BobMods environments
+---------------------------------------------------------------------------------------------------
+Version: 1.0.120
+Date: Aug 21 2018
+	- Added steam-powered versions of Bob Chemical and Metal-Mix furnaces
+	- Doubled spilled steam evaporation rate
+	- Fixed Bob furnaces not having the proper pollution increase amount
+---------------------------------------------------------------------------------------------------
+Version: 1.0.115
+Date: Aug 16 2018
+	- Charcoal is no longer made from coal

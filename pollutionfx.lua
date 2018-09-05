@@ -1,67 +1,6 @@
 require "constants"
 require "functions"
 
-function tickSpill(entry, nvday, doText, simulate)
-	local f = liquidPollutionFactors[entry.fluid]
-	local f2 = liquidEvaporationFactors[entry.fluid]
-	if not f then f = 1 end
-	if not f2 then f2 = 1 end
-	local amt = math.max(1, math.floor(f2*entry.amount/64))
-	local pol = math.floor(amt*f+0.5)
-	
-	entry.lastemit = pol*4 --per-second pollution emission
-	entry.lastevap = amt*4
-	
-	if not simulate then
-		entry.entity.surface.pollute(entry.entity.position, pol)
-		entry.amount = entry.amount-amt
-		entry.age = entry.age+1
-		
-		--game.print("Evaporating " .. amt .. " of " .. entry.fluid .. " into " .. pol .. " pollution; " .. entry.amount .. " remaining")
-		--[[if doText then
-			entry.entity.surface.create_entity({name = "flying-text", position = entry.entity.position, force=game.forces.neutral, text = "Evaporating " .. amt .. " of " .. entry.fluid .. " into " .. pol .. " pollution; " .. entry.amount .. " remaining"})
-		end--]]
-		if entry.amount <= 0 then
-			nvday.spills[entry.key] = nil
-	
-			for _,player in pairs(game.players) do
-				if player.selected == entry.entity then
-					setSpillGui(player, nil)
-				end
-			end
-			
-			entry.entity.destroy()
-		else
-			setSpillStage(entry)
-			
-			if doText and entry.gui then
-				for _,elem in pairs(entry.gui) do
-					elem.caption = getSpillTooltip(entry)
-				end
-			end
-			if liquidDamageLevels[entry.fluid] then
-				for _,player in pairs(game.players) do
-					if player.character then -- MP players not currently logged in do not have chars
-						if math.abs(player.character.position.x-entry.entity.position.x) <= 3 and math.abs(player.character.position.y-entry.entity.position.y) <= 3 then
-							player.character.damage(liquidDamageLevels[entry.fluid], game.forces.neutral)
-						end
-					end
-				end
-			end
-		end
-	end
-end
-
-function tickSpilledFluids(nvday, doText)
-	for _,entry in pairs(nvday.spills) do
-		if entry.entity.valid then
-			tickSpill(entry, nvday, doText, false)
-		else
-			nvday.spills[entry.key] = nil
-		end
-	end
-end
-
 local function getPollutionFogSize(pollution)
 	if pollution <= 0 then
 		return nil

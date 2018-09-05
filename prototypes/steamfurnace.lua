@@ -6,62 +6,7 @@ if not Config.enableSteamFurnace then return end
 local categoriesToAdd = {}
 
 local power = 1--15
---[[
-data:extend({
-	{
-		type = "recipe-category",
-		name = "steam-smelting",
-	}
-})--]]
---[[
-data:extend({
-  {
-	type = "item",
-    name = "steam-furnace",
-    icon = "__NauvisDay__/graphics/icons/steel-furnace.png",
-	icon_size = 32,
-    flags = {"goes-to-quickbar"},
-    subgroup = "smelting-machine",
-    order = "b[steam-furnace]",
-    place_result = "steam-furnace",
-    stack_size = 50,
-	icon_size = 32
-  },--]]--[[
-  {
-	type = "item",
-    name = "steam-furnace-flipped",
-    icon = "__NauvisDay__/graphics/icons/steel-furnace.png",
-	icon_size = 32,
-    flags = {"goes-to-quickbar"},
-    subgroup = "smelting-machine",
-    order = "b[steam-furnace]",
-    place_result = "steam-furnace-flipped",
-    stack_size = 50
-  },--]]--[[
-  {
-	type = "recipe",
-	name = "steam-furnace",
-	energy_required = 3.5,
-	enabled = "false",
-	ingredients = {
-		{"steel-furnace", 1},
-		{"pipe", 10},
-		{"stone", 5},
-	},
-	result = "steam-furnace",
-  },--]]--[[
-  {
-	type = "recipe",
-	name = "steam-furnace-flipped",
-	energy_required = 0.002,
-	enabled = "false",
-	ingredients = {
-		{"steam-furnace", 1},
-	},
-	result = "steam-furnace-flipped",
-  }--]]--[[
-})
---]]
+
 local function createAnimations(furnace)
 	local ret = {
     animation =
@@ -194,14 +139,18 @@ local function createAnimations(furnace)
 end
 
 local function createIcons(obj)
+	if not obj.icon then return end
 	obj.icon = string.gsub(obj.icon, "__base__", "__NauvisDay__")
 	obj.icon = string.gsub(obj.icon, "__bobplates__", "__NauvisDay__")
+	obj.icon = string.gsub(obj.icon, "steel%-furnace", obj.name)
+	log(obj.icon)
 end
 
 local function createSteamPoweredFurnace(base)
 	local obj = data.raw["furnace"][base]
 	if not obj then obj = data.raw["assembling-machine"][base] end
 	if not obj then return end
+
 	local furnace = table.deepcopy(obj)
 	local anim = createAnimations(furnace)
 	furnace.type = "assembling-machine"
@@ -283,6 +232,7 @@ local function createSteamPoweredFurnace(base)
 	},
 	result = furnace.name,
   }
+	createIcons(recipe)
 	
 	log("Creating a steam-powered version of " .. base)
 	data:extend({furnace, item, recipe})
