@@ -1,4 +1,10 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.0.138
+Date: Sep 7 2018
+	- Fixed steam furnaces not working
+	- Fixed some missing locale
+	- Fixed crash with some mods that add non-absorbing trees
+---------------------------------------------------------------------------------------------------
 Version: 1.0.135
 Date: Sep 5 2018
 	- Fixed Bob steam furnace icons

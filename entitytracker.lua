@@ -1,4 +1,5 @@
 require "functions"
+require "caches"
 require "constants"
 require "config"
 require "fans"

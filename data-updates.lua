@@ -4,16 +4,6 @@ require "modinterface"
 
 require "prototypes.airfilter"
 
---[[
-data.raw["map-settings"]["map-settings"].pollution.diffusion_ratio = 0.05--0.25--0.1 --default is 0.02
-data.raw["map-settings"]["map-settings"].pollution.min_to_diffuse = 5 --default is 15
-data.raw["map-settings"]["map-settings"].pollution.ageing = 2--want to increase this actually, to discourage paving--0.05--0.25 --default is 1
-data.raw["map-settings"]["map-settings"].min_to_show_per_chunk = 200 --default is 700
-
-data.raw["map-settings"]["map-settings"].enemy_evolution.time_factor = -0.00003--0 --default is 0.000004
-data.raw["map-settings"]["map-settings"].enemy_evolution.destroy_factor = 0.005 --default is 0.002
-data.raw["map-settings"]["map-settings"].enemy_evolution.pollution_factor = data.raw["map-settings"]["map-settings"].enemy_evolution.pollution_factor/pollutionScale*pollutionSpawnIncrease/1.25 --/1.5 to account for dramatic pollution increase
---]]
 for category, params in pairs(pollutionAndEvo) do
 	for entry, val in pairs(params) do
 		if type(val) == "table" then
@@ -49,7 +39,7 @@ for idx,label in pairs(coalBurners) do
 end
 
 for name,tree in pairs(data.raw["tree"]) do
-	if not string.find(name, "dead") then
+	if tree.emissions_per_tick and not string.find(name, "dead") then
 		--log(serpent.block("Checking candidate coal burner '" .. k .. "'"))
 		--log(serpent.block("ID'ed coal burner '" .. k .. "', increasing emissions " .. pollutionScale*coalPollutionScale .. "x"))
 		tree.emissions_per_tick = tree.emissions_per_tick*10
