@@ -65,6 +65,7 @@ local function createFilter(tier, speedFactor, efficiency) --efficiency can be >
       usage_priority = "secondary-input",
       emissions = -0.25*(1+(speedFactor-1)/2)*3*2 --x2 to account for inadvertent x4 from pollution code which affected the balancing, but x4 is a bit too much
     },
+	fixed_recipe = "air-cleaning-action",
     energy_usage = (600*speedFactor) .. "kW",
     ingredient_count = 1,
     module_slots = 0,
@@ -136,8 +137,8 @@ data:extend({
     ingredients =
     {
       {"assembling-machine-1", 1},
-      {"electronic-circuit", 6},
-      {"stone-brick", 5}
+      {"pipe", 15},
+      {"stone-brick", 10}
     },
     result = "air-filter-machine-1"
   },  
@@ -146,34 +147,16 @@ data:extend({
     name = "air-filter-machine-2",
     icon = "__NauvisDay__/graphics/icons/air-filter-machine-2.png",
 	icon_size = 32,
-    energy_required = 10,
-    enabled = "false",
-    ingredients =
-    {
-      {"assembling-machine-2", 1},
-      {"electronic-circuit", 10},
-      {"steel-plate", 10},
-      {"stone-brick", 6}
-    },
-    result = "air-filter-machine-2"
-  },
-  {
-    type = "recipe",
-    name = "air-filter-machine-2b",
-    icon = "__NauvisDay__/graphics/icons/air-filter-machine-2.png",
-	icon_size = 32,
-    energy_required = 10,
+    energy_required = 8,
     enabled = "false",
     ingredients =
     {
       {"air-filter-machine-1", 1},
-      {"electronic-circuit", 4},
+      {"electronic-circuit", 10},
       {"steel-plate", 10},
-      {"stone-brick", 1},
-      {"iron-gear-wheel", 4}
     },
     result = "air-filter-machine-2"
-  }, 
+  },
   {
     type = "recipe",
     name = "air-filter-machine-3",
@@ -183,62 +166,26 @@ data:extend({
     enabled = "false",
     ingredients =
     {
-      {"assembling-machine-2", 1},
+      {"air-filter-machine-2", 1},
       {"advanced-circuit", 5},
-      {"steel-plate", 10},
       {"concrete", 20}
     },
     result = "air-filter-machine-3"
   },
-  {
-    type = "recipe",
-    name = "air-filter-machine-3b",
-    icon = "__NauvisDay__/graphics/icons/air-filter-machine-3.png",
-	icon_size = 32,
-    energy_required = 10,
-    enabled = "false",
-    ingredients =
-    {
-      {"air-filter-machine-2", 1},
-      {"advanced-circuit", 5},
-      {"steel-plate", 5},
-      {"concrete", 20}
-    },
-    result = "air-filter-machine-3"
-  }, 
   {
     type = "recipe",
     name = "air-filter-machine-4",
     icon = "__NauvisDay__/graphics/icons/air-filter-machine-4.png",
 	icon_size = 32,
-    energy_required = 10,
-    enabled = "false",
-    ingredients =
-    {
-      {"assembling-machine-3", 1},
-      {"processing-unit", 5},
-      {"steel-plate", 20},
-      {"refined-concrete", 20}
-    },
-    result = "air-filter-machine-4"
-  },
-  {
-    type = "recipe",
-    name = "air-filter-machine-4b",
-    icon = "__NauvisDay__/graphics/icons/air-filter-machine-4.png",
-	icon_size = 32,
-    energy_required = 10,
+    energy_required = 15,
     enabled = "false",
     ingredients =
     {
       {"air-filter-machine-3", 1},
       {"processing-unit", 5},
-      {"steel-plate", 5},
-      {"refined-concrete", 8},
-      {"speed-module", 3},
-      {"iron-gear-wheel", 10},
+      {"refined-concrete", 20}
     },
     result = "air-filter-machine-4"
-  }
+  },
 })
 

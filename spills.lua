@@ -163,6 +163,7 @@ function tickSpill(entry, nvday, doText, simulate)
 				end
 			end
 			if liquidDamageLevels[entry.fluid] then
+				--what about units - a bit expensive to call
 				for _,player in pairs(game.players) do
 					if player.character then -- MP players not currently logged in do not have chars
 						if math.abs(player.character.position.x-entry.entity.position.x) <= 3 and math.abs(player.character.position.y-entry.entity.position.y) <= 3 then

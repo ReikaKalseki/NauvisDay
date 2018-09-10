@@ -158,6 +158,19 @@ else
 	data.raw.tile["rubber-floor"].localised_name = {"tile-name.iron-floor"}
 end
 
+if data.raw.technology["concrete-2"] then
+	table.insert(data.raw.technology["advanced-pollution-capture-2"].prerequisites, "concrete-2")
+end
+
+if data.raw.item["tin-plate"] then
+	table.insert(data.raw.recipe["air-filter-machine-2"].ingredients, {type="item", name="tin-plate", amount=8})
+end
+
+if data.raw.item["invar-alloy"] then
+	table.insert(data.raw.recipe["air-filter-machine-3"].ingredients, {type="item", name="invar-alloy", amount=8})
+	table.insert(data.raw.technology["advanced-pollution-capture"].prerequisites, "invar-processing")
+end
+
 --[[
 local rubbers = {}
 for name,tile in pairs(data.raw.tile) do

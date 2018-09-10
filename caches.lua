@@ -287,11 +287,30 @@ function tickBoreholes(nvday, tick)
   end
 end
 
+local function calculateBoreholeSizeStep(amount)
+	return math.max(10, math.min(250, 10*math.floor(amount/25/10)))
+end
+
+local function calculateCyclesForHoleSize(hole)
+	local amt = hole and hole.amount or 0
+	local val = 0
+	for i = 1,maxBoreholeSize do
+		val = val+calculateBoreholeSizeStep(val)
+		if val >= amt then
+			return i
+		end
+	end
+	return maxBoreholeSize
+end
+
 function addBoreholeMaker(nvday, entity)
   if entity.name == "borer" then
 	entity.set_recipe(entity.force.recipes["boring-action"])
-	local holes = entity.surface.find_entities_filtered({type = "resource", name = "borehole", area = {{entity.position.x-1, entity.position.y-1}, {entity.position.x+1, entity.position.y+1}}})
-	table.insert(nvday.borers, {borer=entity, size = 0, hole=#holes == 1 and holes[1] or nil}) --set size to zero, since products_finished is read only
+	local holes = entity.surface.find_entities_filtered({type = "resource", name = "borehole", area = {{entity.position.x-1, entity.position.y-1}, {entity.position.x+1, entity.position.y+1}}, limit = 1})
+	local hole = #holes == 1 and holes[1] or nil
+	local s = calculateCyclesForHoleSize(hole)
+	entity.products_finished = s
+	table.insert(nvday.borers, {borer=entity, size = s, hole=hole})
   end
 end
 
@@ -331,7 +350,7 @@ function tickBoreholeMakers(nvday, tick)
 		entry.borer.set_recipe(entry.borer.force.recipes["boring-action"])
 		--game.print(entry.borer.products_finished .. " / " .. entry.size)
 		--entry.borer.crafting_progress = math.max(0, entry.borer.crafting_progress-getBoreholeDrillTimeSubtraction(entry.size))
-		if entry.hole == nil or entry.hole.amount < maxBoreholeSize then
+		if entry.hole == nil or entry.size < maxBoreholeSize then
 			if entry.borer.products_finished > entry.size then
 				entry.size = entry.size+1
 				local hole = entry.hole
@@ -340,10 +359,11 @@ function tickBoreholeMakers(nvday, tick)
 					--game.print("Creating new borehole")
 					entry.hole = hole
 				else
-					hole.amount = hole.amount+10
+					local step = calculateBoreholeSizeStep(hole.amount)
+					hole.amount = hole.amount+step --each unit of amount is worth 2k, remember
 					--game.print("Deepening borehole to " .. hole.amount)
 				end
-				if hole.amount >= maxBoreholeSize then
+				if entry.size >= maxBoreholeSize then
 					disableBorer(entry.borer)
 				end
 			end

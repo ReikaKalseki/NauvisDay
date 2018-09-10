@@ -73,6 +73,7 @@ data:extend({
         }
       }
     },
+	fixed_recipe = "pollution-venting-action",
     energy_usage = "50kW",
     ingredient_count = 1,
     module_slots = 0,

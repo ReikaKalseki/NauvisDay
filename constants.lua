@@ -9,7 +9,7 @@ pollutionSpawnIncrease = 1.75
 
 overallAerosolizerWasteGenSpeed = 0.0625--0.5
 
-maxBoreholeSize = 1000000 --since fluids are x10, max size is this, but only has 1/10th as many "cycles"
+maxBoreholeSize = 500 --this is number of cycles, not fluid capacity
 
 maxAttackSizeCurve = {
 	{0, 10},

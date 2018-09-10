@@ -67,7 +67,8 @@ if data.raw["assembling-machine"]["bi_bio_farm"] then
       effectivity = 0.05,
       fuel_inventory_size = 0,
       burnt_inventory_size = 0,
-      emissions = 0.03
+      emissions = 0.03,
+	  render_no_power_icon = false,
     }
 	dead.animation.filename = "__NauvisDay__/graphics/entity/treefarm/dead-biofarm.png"
 	dead.working_visualisations.animation.filename ="__NauvisDay__/graphics/entity/treefarm/dead-biofarm-active.png"
@@ -89,7 +90,8 @@ if data.raw["assembling-machine"]["bob-greenhouse"] then
       effectivity = 0.05,
       fuel_inventory_size = 0,
       burnt_inventory_size = 0,
-      emissions = 0.03
+      emissions = 0.03,
+	  render_no_power_icon = false,
     }
 	dead.animation.filename = "__NauvisDay__/graphics/entity/treefarm/dead-greenhouse.png"
 	dead.working_visualisations[1].animation.filename = "__NauvisDay__/graphics/entity/treefarm/dead-greenhouse-active.png"

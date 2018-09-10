@@ -81,6 +81,7 @@ data:extend({
         }
       }
     },
+	fixed_recipe = "boring-action",
     energy_usage = "2.75MW",
     ingredient_count = 5,
     module_slots = 0,
@@ -135,6 +136,7 @@ data:extend({
     category = "boring",
     order = "f[plastic-bar]-f[boring]",
     energy_required = 15,
+	localised_name = "recipe-name.boring-action",
 	hidden = true,
     enabled = "false",
     ingredients =

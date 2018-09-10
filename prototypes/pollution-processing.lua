@@ -44,8 +44,8 @@ if data.raw.fluid["sulfur-dioxide"] then
 		},
 		results = {
 			{type="fluid", name="oxygen", amount=10},
-			{type="item", name="salt", amount=1},
-			{type="fluid", name="sulfur-dioxide", amount=30},
+			{type="item", name="salt", amount_min=1, amount_max=1, probability=0.6},
+			{type="fluid", name="sulfur-dioxide", amount=45},
 		},
 	  },
 	})

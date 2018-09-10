@@ -23,10 +23,6 @@ data:extend(
       },
       {
         type = "unlock-recipe",
-        recipe = "air-filter-machine-2b"
-      },
-      {
-        type = "unlock-recipe",
         recipe = "air-cleaning-action"
       },
       {
@@ -61,8 +57,8 @@ data:extend(
     prerequisites =
     {
 		"pollution-capture",
-		"plastics",
-		"electric-engine"
+		"advanced-electronics",
+		"concrete",
     },
     icon = "__NauvisDay__/graphics/technology/pollution.png",
     effects =
@@ -70,10 +66,6 @@ data:extend(
       {
         type = "unlock-recipe",
         recipe = "air-filter-machine-3"
-      },
-      {
-        type = "unlock-recipe",
-        recipe = "air-filter-machine-3b"
       },
     },
     unit =
@@ -98,6 +90,8 @@ data:extend(
 		"advanced-pollution-capture",
 		"advanced-oil-processing",
 		"automation-3",
+		"electric-engine",
+		"advanced-electronics-2",
     },
     icon = "__NauvisDay__/graphics/technology/pollution.png",
     effects =
@@ -105,10 +99,6 @@ data:extend(
       {
         type = "unlock-recipe",
         recipe = "air-filter-machine-4"
-      },
-      {
-        type = "unlock-recipe",
-        recipe = "air-filter-machine-4b"
       },
     },
     unit =
