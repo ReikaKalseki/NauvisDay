@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.0.144
+Date: Sep 10 2018
+	- Several machines no longer support attempting to change 'recipes' they only had one of
+	- Tweaked pollution-with-chloride processing recipe
+	- Changed and harmonized Deaerosolizer recipes
+	- Borehole driller is now more effective the longer it is left to work
+---------------------------------------------------------------------------------------------------
 Version: 1.0.138
 Date: Sep 7 2018
 	- Fixed steam furnaces not working
