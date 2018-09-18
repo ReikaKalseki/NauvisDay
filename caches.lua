@@ -71,7 +71,7 @@ function tickGasBoilers(nvday, tick)
 				local fluid = entry.input.fluidbox[1]
 				if fluid and fluid.name == "petroleum-gas" and fluid.amount >= 1 then
 					--game.print("Adding gas to boiler")
-					if entry.boiler.fluidbox[1] and entry.boiler.fluidbox[1].name == "water" and entry.boiler.fluidbox[1].amount > 10 and tick%10 == 0 then
+					if entry.boiler.fluidbox[1] and entry.boiler.fluidbox[1].name == "water" and entry.boiler.fluidbox[1].amount > 10 and tick%30 == 0 then
 						fluid.amount = fluid.amount-1
 						entry.input.fluidbox[1] = fluid
 					end

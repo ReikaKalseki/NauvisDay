@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.0.148
+Date: Sep 18 2018
+	- Pollution processing now consumes somewhat more sludge
+	- Improved tick performance
+	- NVDay now increases the power of the KSPower diesel generator to be competitive with the gas boiler
+	- Gas boiler now uses a bit less fuel per cycle
+---------------------------------------------------------------------------------------------------
 Version: 1.0.144
 Date: Sep 10 2018
 	- Several machines no longer support attempting to change 'recipes' they only had one of

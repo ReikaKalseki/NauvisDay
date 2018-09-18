@@ -169,16 +169,14 @@ function doAmbientPollutionEffects(nvday, tick)
 	if #game.players > 0 and fog then
 		spawnPollutionSmoke()
 	end
-	local n = #nvday.chunk_cache
 	local sp = 1--20--60
-	if n > 0 and tick%sp == 0 then
+	if true then -- tick%sp == 0 then
 		local surface = game.surfaces["nauvis"]
-		local tries = 20--8
+		local tries = 25--20--8
 		local k = 0
 		--tick = math.floor(tick/sp)
-		local idx = math.random(1, n)--tick%n
 		--game.print("Picking chunk " .. idx .. " of " .. n ..", = " .. chunk.x .. "," .. chunk.y .. "; attempt " .. k)
-		local chunk = nvday.chunk_cache[idx]
+		local chunk = surface.get_random_chunk()
 		if k == 0 then
 			local s = 8
 			local dx = math.random(0, 32-s)
