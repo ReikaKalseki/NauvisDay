@@ -5,6 +5,6 @@
   "author": "Reika",
   "homepage": "",
   "factorio_version" : "0.16",
-  "dependencies": ["base", "? bobplates"],
+  "dependencies": ["base", "? bobplates", "? bobassembly"],
   "description": "Pollution is much more of a problem than before, but you do have increased flexibility with it."
 }

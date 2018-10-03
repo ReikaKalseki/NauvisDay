@@ -81,4 +81,11 @@ data:extend({
             default_value = true,
             order = "r",
 		},
+        {
+            type = "double-setting",
+            name = "steam-furnace-speed",
+            setting_type = "startup",
+            default_value = 0.8,
+            order = "r",
+        },
 })

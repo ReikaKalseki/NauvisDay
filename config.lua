@@ -14,3 +14,5 @@ Config.enableGasBoiler = settings.startup["gas-boiler"].value--true
 Config.enableRefinery = settings.startup["clean-refinery"].value--true
 
 Config.wallNukerThresh = settings.startup["wall-nuker-pollution"].value--true
+
+Config.steamFurnaceSpeed = settings.startup["steam-furnace-speed"].value--true

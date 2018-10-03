@@ -1,6 +1,12 @@
 require "config"
 require "constants"
 
+function listHasValue(list, val)
+	for _,entry in pairs(list) do
+		if entry == val then return true end
+	end
+end
+
 function directionToVector(dir)
 	if dir == defines.direction.north then
 		return {dx=0, dy=-1}

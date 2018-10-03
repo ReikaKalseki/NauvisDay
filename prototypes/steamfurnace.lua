@@ -163,7 +163,7 @@ local function createSteamPoweredFurnace(base)
 	furnace.energy_source.emissions = furnace.energy_source.emissions/4
 	furnace.energy_source.effectivity = 1
 	furnace.energy_source.fuel_inventory_size = 0
-	furnace.crafting_speed = furnace.crafting_speed*0.8
+	furnace.crafting_speed = furnace.crafting_speed*Config.steamFurnaceSpeed
 	furnace.source_inventory_size = furnace.source_inventory_size and furnace.source_inventory_size+1 or 2
 	furnace.ingredient_count = furnace.ingredient_count and furnace.ingredient_count+1 or 2
 	if furnace.fluid_boxes and #furnace.fluid_boxes > 0 then

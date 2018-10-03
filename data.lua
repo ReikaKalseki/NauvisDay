@@ -15,7 +15,7 @@ require "prototypes.borer" --have a "borer" (assembling machine), which digs a h
 require "prototypes.detector"
 require "prototypes.steamfurnace"
 require "prototypes.gasboiler"
-require "prototypes.refinery"
+--require "prototypes.refinery" --moved to updates
 
 require "prototypes.rubberfloor"
 

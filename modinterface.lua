@@ -182,7 +182,3 @@ if Config.enableSteamFurnace and data.raw.item["stone-pipe"] then
 	})
 	table.insert(data.raw.technology["advanced-material-processing"].effects, {type="unlock-recipe", recipe="steam-furnace-2"})
 end
-
-if Config.enableRefinery and data.raw.technology["chemical-processing-2"] then
-	table.insert(data.raw.technology["clean-oil-processing"].prerequisites, "chemical-processing-2")
-end

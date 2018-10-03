@@ -3,6 +3,8 @@ require "constants"
 require "modinterface"
 
 require "prototypes.airfilter"
+require "prototypes.refinery"
+require "prototypes.tech2"
 
 for category, params in pairs(pollutionAndEvo) do
 	for entry, val in pairs(params) do
@@ -15,6 +17,7 @@ end
 
 local repl = {}
 for _,name in pairs(pollutionIncreaseExclusion) do
+	log("Excluding " .. name .. " from pollution increase")
 	repl[name] = 1
 end
 pollutionIncreaseExclusion = repl --turn into table for fast lookup

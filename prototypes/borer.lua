@@ -136,7 +136,7 @@ data:extend({
     category = "boring",
     order = "f[plastic-bar]-f[boring]",
     energy_required = 15,
-	localised_name = "recipe-name.boring-action",
+	localised_name = {"recipe-name.boring-action"},
 	hidden = true,
     enabled = "false",
     ingredients =
