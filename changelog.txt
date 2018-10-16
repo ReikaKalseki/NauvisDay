@@ -1,4 +1,15 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.0.164
+Date: Oct 15 2018
+	- Fixed spawner destruction creating biters on water
+	- Rubber flooring now placeable near water
+---------------------------------------------------------------------------------------------------
+Version: 1.0.160
+Date: Oct 10 2018
+	- Added option for steam furnace speed ratios
+	- Filtered refineries now have variants for all Bob refineries
+	- Fixed some locale
+---------------------------------------------------------------------------------------------------
 Version: 1.0.148
 Date: Sep 18 2018
 	- Pollution processing now consumes somewhat more sludge

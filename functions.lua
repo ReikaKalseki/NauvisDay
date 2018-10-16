@@ -178,7 +178,9 @@ function doSpawnerDestructionSpawns(spawner)
 			pos[1] = pos[1]-r+math.random()*2*r
 			pos[2] = pos[2]-r+math.random()*2*r
 			local biter = getSpawnedBiter(data, spawner.force.evolution_factor)
-			spawner.surface.create_entity{name=biter, position=pos, force = spawner.force}
+			if spawner.surface.can_place_entity{name = biter, position = pos} then
+				spawner.surface.create_entity{name=biter, position=pos, force = spawner.force}
+			end
 		end
 	end
 end

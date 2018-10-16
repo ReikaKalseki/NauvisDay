@@ -12,7 +12,7 @@ data:extend(
     place_as_tile =
     {
       result = "rubber-floor",
-      condition_size = 4,
+      condition_size = 1,
       condition = { "water-tile" }
     }
   },
