@@ -72,6 +72,7 @@ if Config.enableRefinery then
 			if recipe.results then
 				for _,result in pairs(recipe.results) do
 					amt = amt+result.amount
+					result.amount = result.amount/refineryItemConsumption
 				end
 			else
 				amt = amt+recipe.result.amount
@@ -83,10 +84,12 @@ if Config.enableRefinery then
 				if ingredient.name == "water" then
 					--ingredient.amount = ingredient.amount+amt
 					--added = true
+				elseif ingredient.type == "fluid" then
+					ingredient.amount = ingredient.amount/refineryItemConsumption
 				end
 			end
 			if not added then
-				table.insert(recipe.ingredients, 1, {type="fluid", name="water", amount=amt})
+				table.insert(recipe.ingredients, 1, {type="fluid", name="water", amount=amt*refineryWasteProductionRatio/refineryItemConsumption})
 			end
 
 			if data.raw.item["carbon"] then
@@ -107,7 +110,7 @@ if Config.enableRefinery then
 				table.insert(recipe.ingredients, {"air-filter", 1})
 			end
 			
-			table.insert(recipe.results, {type="fluid", name="waste", amount=amt})
+			table.insert(recipe.results, {type="fluid", name="waste", amount=amt*refineryWasteProductionRatio/refineryItemConsumption})
 						
 			if data.raw.item["air-filter-case"] then
 				table.insert(recipe.results, {"air-filter-case", 1})

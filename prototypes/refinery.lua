@@ -5,6 +5,12 @@ if not Config.enableRefinery then return end
 
 data:extend({{type = "recipe-category", name = "clean-oil-processing"}})
 
+function parseIngredient(entry)
+	local type = entry.name and entry.name or entry[1]
+	local amt = entry.amount and entry.amount or entry[2]
+	return {type, amt}
+end
+
 local function createRefinery(base)
 	local refinery = table.deepcopy(base)
 	refinery.name = "clean-" .. base.name
@@ -18,6 +24,7 @@ local function createRefinery(base)
 	refinery.energy_usage = (pow*1.25) .. (string.find(base.energy_usage, "MW") and "MW" or "kW")
 	refinery.ingredient_count = refinery.ingredient_count+1
 	refinery.energy_source.emissions = refinery.energy_source.emissions*20 --still 10x less than a refinery
+	refinery.crafting_speed = refinery.crafting_speed*refineryItemConsumption
 	refinery.fluid_boxes =
 		{	  
 		  {
@@ -91,6 +98,7 @@ local function createRefinery(base)
 		recipe2 = table.deepcopy(data.raw.recipe[base.name])
 		recipe2.name = refinery.name .. "-upgrade"
 		for _,ing in pairs(recipe2.ingredients) do
+			ing = parseIngredient(ing)
 			if ing[1] and string.find(ing[1], "refinery") then
 				ing[1] = "clean-" .. ing[1]
 				pre = ing[1]
