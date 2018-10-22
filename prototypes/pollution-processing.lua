@@ -22,7 +22,7 @@ if data.raw.fluid["sulfur-dioxide"] then
 		enabled = "false",
 		subgroup = "bob-fluid",
 		ingredients = {
-		  {type="fluid", name="waste", amount=10*pollutionLiquidProductionFactor*10}, --*10 since fluids x10
+		  {type="fluid", name="waste", amount=10*pollutionProcessingConsumption*pollutionLiquidProductionFactor*10}, --*10 since fluids x10
 		  {type="fluid", name="water", amount=20},
 		},
 		results = res,
@@ -38,7 +38,7 @@ if data.raw.fluid["sulfur-dioxide"] then
 		enabled = "false",
 		subgroup = "bob-fluid",
 		ingredients = {
-		  {type="fluid", name="waste", amount=7*pollutionLiquidProductionFactor*10}, --*10 since fluids x10
+		  {type="fluid", name="waste", amount=7*pollutionProcessingConsumption*pollutionLiquidProductionFactor*10}, --*10 since fluids x10
 		  {type="fluid", name="hydrogen-chloride", amount=20}, --*10 since fluids x10
 		  {type="item", name="sodium-hydroxide", amount=1},
 		},
@@ -59,7 +59,7 @@ else
 		energy_required = 2,
 		enabled = "false",
 		ingredients = {
-		  {type="fluid", name="waste", amount=1*pollutionLiquidProductionFactor*10}, --*10 since fluids x10
+		  {type="fluid", name="waste", amount=1*pollutionProcessingConsumption*pollutionLiquidProductionFactor*10}, --*10 since fluids x10
 		  {type="fluid", name="water", amount=20},
 		  {type="item", name="coal", amount=1}
 		},
@@ -76,7 +76,7 @@ else
 		energy_required = 2,
 		enabled = "false",
 		ingredients = {
-		  {type="fluid", name="waste", amount=4*pollutionLiquidProductionFactor*10},
+		  {type="fluid", name="waste", amount=4*pollutionProcessingConsumption*pollutionLiquidProductionFactor*10},
 		  {type="fluid", name="water", amount=20},
 		  {type="item", name="sulfur", amount=1}
 		},

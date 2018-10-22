@@ -57,6 +57,8 @@ fanPollutionLateralSpread =	{0.9,	0.85,	0.8,	0.7,	0.6,	0.5,	0.375,	0.25,	0.1,	0.
 refineryItemConsumption = 0.5
 refineryWasteProductionRatio = 1
 
+pollutionProcessingConsumption = 0.75--1
+
 waterConversionPatterns = { --weighted random
 	{50, {{1}}},
 	{25, {{1, 1}, {1, 1}}},
@@ -71,15 +73,18 @@ waterConversionPatterns = { --weighted random
 extraPollution = { --Further multipliers on a few entities or categories/group
 	["furnace"] = {
 		["steel-furnace"] = 2, --stacks with the previous 16x
+		["angels-flare-stack_*"] = 100,
+		["clarifier_*"] = 3,
 	},
 	["assembling-machine"] = {
 		["assembling-machine-1"] = 4,
 		["oil-refinery_*"] = 60, --was 3, then 12, then 40; needs to be a LOT
-		["chemical-plant"] = 2,
+		["chemical-plant_*"] = 2,
 		["ore-washer"] = 12,
 		["ore-washing-plant"] = 12,
 		["mixing-steel-furnace"] = 2,
 		["chemical-steel-furnace"] = 2,
+		["uranium-centrifuge_*"] = 4,
 	},
 	["boiler"] = {
 		["*"] = 1.2, --do across category
@@ -87,6 +92,20 @@ extraPollution = { --Further multipliers on a few entities or categories/group
 	["mining-drill"] = {
 		["pumpjack_*"] = 4, --anything with "pumpjack" in the name
 	},
+}
+
+recipePollutionIncreases = {
+	["kovarex-enrichment-process"] = 4,
+	["void-sulfur-dioxide"] = 24,
+	["angels-chemical-void-sulfur-dioxide"] = 24,
+	["void-chlorine"] = 40,
+	["angels-chemical-void-chlorine"] = 40,
+	["void-hydrogen-chloride"] = 40,
+	["angels-chemical-void-hydrogen-chloride"] = 40,
+	["void-carbon-monoxide"] = 30,
+	["angels-chemical-void-carbon-monoxide"] = 30,
+	["angels-chemical-void-formaldehyde"] = 30,
+	["angels-chemical-void-urea"] = 10,
 }
 
 pollutionIncreaseExclusion = { --some machines to skip pollution modification for; either technical entities, native already-chosen ones, or ones that do not ACTUALLY do what the pollution boost is designed to "punish"
