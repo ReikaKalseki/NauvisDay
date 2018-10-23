@@ -41,6 +41,15 @@ function initGlobal(markDirty)
 	if nvday.spills == nil then
 		nvday.spills = {}
 	end
+	if nvday.deaeros == nil then
+		nvday.deaeros = {}
+	end
+	if nvday.deaeros.indices == nil then
+		nvday.deaeros.indices = {}
+	end
+	if nvday.deaeros.cache == nil then
+		nvday.deaeros.cache = {}
+	end
 	nvday.dirty = markDirty
 end
 
@@ -166,7 +175,7 @@ local function onGameTick(event)
 	
 	if tick%60 == 0 then
 		local evo = game.forces.enemy.evolution_factor
-		game.map_settings.unit_group.max_unit_group_size = getMaxEnemyWaveSize(evo) --200 is vanilla
+		game.map_settings.unit_group.max_unit_group_size = getInterpolatedValue(maxAttackSizeCurveLookup, evo) --200 is vanilla
 	end
 	if game.forces.enemy.evolution_factor < 0 then
 		game.forces.enemy.evolution_factor = 0

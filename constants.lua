@@ -1,5 +1,31 @@
 require "config"
 
+function calcInterpolatedValue(curve, val)
+	local idx = 1
+	while idx <= #curve and curve[idx][1] < val do
+		idx = idx+1
+	end
+	idx = idx-1
+	if val <= curve[1][1] then idx = 1 end
+	if not curve[idx] then error("Queried out-of-bounds index " .. idx .. " on curve! \n" .. serpent.block(curve) .. " \n" .. debug.traceback()) end
+	local x1 = curve[idx][1]
+	local x2 = curve[idx+1][1]
+	local y1 = curve[idx][2]
+	local y2 = curve[idx+1][2]
+	return y1+(y2-y1)*((val-x1)/(x2-x1))
+end
+
+function buildLinearInterpolation(curve, step)
+	local values = {}
+	local minx = curve[1][1]
+	local maxx = curve[#curve][1]
+	for x = minx,maxx,step do
+		local y = calcInterpolatedValue(curve, x)
+		values[x] = y
+	end
+	return {values = values, granularity = step, range = {minx, maxx}}
+end
+
 local f = math.max(1, Config.basePollutionFactor)
 pollutionScale = 4*f
 firePollutionScale = 2*(1+(f-1)/2)
@@ -7,11 +33,9 @@ coalPollutionScale = 4*f
 miningPollutionScale = 2*f
 pollutionSpawnIncrease = 1.75
 
-overallAerosolizerWasteGenSpeed = 0.0625--0.5
-
 maxBoreholeSize = 500 --this is number of cycles, not fluid capacity
 
-maxAttackSizeCurve = {
+local maxAttackSizeCurve = {
 	{0, 10},
 	{0.05, 25},--{0.05, 10},
 	{0.1, 50},--{0.1, 20},
@@ -19,6 +43,7 @@ maxAttackSizeCurve = {
 	{0.5, 200},--{0.5, 100},
 	{1, 400}
 }
+maxAttackSizeCurveLookup = buildLinearInterpolation(maxAttackSizeCurve, 0.05)
 
 pollutionFogSizes = {
 	{2500, "small"},
@@ -48,6 +73,20 @@ pollutionAndEvo = {
 		pollution_factor = {0.000015/pollutionScale*pollutionSpawnIncrease, 0.0000125/pollutionScale*pollutionSpawnIncrease}, --default is 0.000015
 	}
 }
+
+deaeroTickRate = 30
+deaeroTickSpread = 10
+overallAerosolizerWasteGenSpeed = 0.0625--0.5
+local deaeroEfficiencyCurve = {
+	{0, 0},
+	{1000, 0.05},
+	{2500, 0.2},
+	{4000, 0.5},
+	{10000, 1},
+	{30000, 2},
+	{100000, 5}
+}
+deaeroEfficiencyCurveLookup = buildLinearInterpolation(deaeroEfficiencyCurve, 500)
 
 fanTickRate = 15
 fanPollutionMoveFactor = 0.025

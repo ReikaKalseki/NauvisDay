@@ -1,4 +1,5 @@
 require "constants"
+require "functions"
 
 local function createFilter(tier, speedFactor, efficiency) --efficiency can be > 1
 	local ret =
@@ -105,28 +106,38 @@ data:extend({
   }
 })
 
+local function createCleaningRecipe(efficiency)
+	return
+	{
+		type = "recipe",
+		name = getDeaeroRecipeName(efficiency),
+		icon = "__NauvisDay__/graphics/icons/filter-air.png",
+		icon_size = 32,
+		category = "air-cleaning",
+		order = "f[plastic-bar]-f[cleaning]",
+		energy_required = 0.2/overallAerosolizerWasteGenSpeed/efficiency,
+		enabled = "false",
+		hidden = true,
+		ingredients =
+		{
+			{type="fluid", name="water", amount=10*5*(1+(pollutionLiquidProductionFactor-1)/2)},
+		},
+		results=
+		{
+			{type="fluid", name="waste", amount=10*5*pollutionLiquidProductionFactor},
+		},
+		emissions_multiplier = efficiency,
+		--subgroup = "intermediate-product",
+	}
+end
+
+for poll,eff in pairs(deaeroEfficiencyCurveLookup.values) do
+	if eff > 0 then
+		data:extend({createCleaningRecipe(eff)})
+	end
+end
+
 data:extend({
-  {
-    type = "recipe",
-    name = "air-cleaning-action",
-    icon = "__NauvisDay__/graphics/icons/filter-air.png",
-	icon_size = 32,
-    category = "air-cleaning",
-    order = "f[plastic-bar]-f[cleaning]",
-    energy_required = 0.2/overallAerosolizerWasteGenSpeed,
-    enabled = "false",
-	hidden = true,
-    ingredients =
-    {
-      {type="fluid", name="water", amount=10*5*(1+(pollutionLiquidProductionFactor-1)/2)},
-    },
-    results=
-    {
-      {type="fluid", name="waste", amount=10*5*pollutionLiquidProductionFactor},
-    },
-	--subgroup = "intermediate-product",
-  },
-  
   {
     type = "recipe",
     name = "air-filter-machine-1",

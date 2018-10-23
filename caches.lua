@@ -1,6 +1,63 @@
 require "config"
 require "constants"
 
+local function tickDeaero(entry)
+	--game.print(entry.id)
+	local pollution = entry.entity.surface.get_pollution(entry.entity.position)
+	local eff = getInterpolatedValue(deaeroEfficiencyCurveLookup, pollution)
+	game.print("Deaero " .. entry.id .. " has " .. pollution .. " pollution, efficiency = " .. eff)
+	if eff <= 0 then
+		entry.entity.active = false
+	else
+		entry.entity.active = true
+		local n = getDeaeroRecipeName(eff)
+		--local recipe = entry.entity.force.recipes[n]
+		local water = entry.entity.fluidbox[1]
+		local sludge = entry.entity.fluidbox[2]
+		local frac = entry.entity.crafting_progress
+		entry.entity.set_recipe(n)
+		entry.entity.fluidbox[1] = water
+		entry.entity.fluidbox[2] = sludge
+		entry.entity.crafting_progress = frac
+	end
+end
+
+function tickDeaerosolizers(nvday, tick)
+	if tick%deaeroTickRate == 0 then
+		if not nvday.deaeros.modulo then nvday.deaeros.modulo = 0 end
+		--game.print(tick .. " : " .. nvday.deaeros.modulo)
+		if nvday.deaeros.indices[nvday.deaeros.modulo] then
+			for unit,entry in pairs(nvday.deaeros.indices[nvday.deaeros.modulo]) do
+				if entry.entity.valid then
+					tickDeaero(entry)
+				else
+					nvday.deaeros.indices[nvday.deaeros.modulo][entry.id] = nil
+					nvday.deaeros.cache[entry.id] = nil
+				end
+			end
+		end
+		nvday.deaeros.modulo = (nvday.deaeros.modulo+1)%deaeroTickSpread
+	end
+end
+
+function addDeaerosolizer(nvday, entity)
+	local entry = {entity = entity, age = game.tick, modulo = math.random(0, deaeroTickSpread-1), id = entity.unit_number}
+	if not nvday.deaeros.indices[entry.modulo] then
+		nvday.deaeros.indices[entry.modulo] = {}
+	end
+	nvday.deaeros.indices[entry.modulo][entry.id] = entry
+	nvday.deaeros.cache[entry.id] = entry
+	--game.print(entry.id)
+end
+
+function removeDeaerosolizer(nvday, entity)
+	local entry = nvday.deaeros.cache[entity.unit_number]
+	if entry then
+		nvday.deaeros.indices[entry.modulo][entry.id] = nil
+		nvday.deaeros.cache[entry.id] = nil
+	end
+end
+
 local function hasIngredients(furnace)
 	local inv = furnace.get_inventory(defines.inventory.furnace_source)
 	local fluids = {}

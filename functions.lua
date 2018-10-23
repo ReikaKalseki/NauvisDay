@@ -1,6 +1,21 @@
 require "config"
 require "constants"
 
+function getInterpolatedValue(curve, val)
+	local rnd = math.floor(val/curve.granularity+0.5)*curve.granularity
+	if rnd <= curve.range[1] then
+		return curve.values[curve.range[1]]
+	end
+	if rnd >= curve.range[2] then
+		return curve.values[curve.range[2]]
+	end
+	return curve.values[rnd]
+end
+
+function getDeaeroRecipeName(efficiency)
+	return efficiency ~= 1 and ("air-cleaning-action-F" .. math.floor(efficiency*1000+0.5)) or "air-cleaning-action" --for backwards compat
+end
+
 function listHasValue(list, val)
 	for _,entry in pairs(list) do
 		if entry == val then return true end
@@ -25,23 +40,6 @@ end
 
 function getPerpendicularDirection(dir) --direction is a number from 0 to 7
 	return (dir+2)%8
-end
-
-function getMaxEnemyWaveSize(evo)
-	if evo <= 0 then
-		return maxAttackSizeCurve[1][2]
-	end
-	local idx = 1
-	while idx <= #maxAttackSizeCurve and maxAttackSizeCurve[idx][1] < evo do
-		idx = idx+1
-	end
-	idx = idx-1
-	--game.print("Evo of " .. evo .. " > idx= " .. idx .. ": " .. maxAttackSizeCurve[idx][1] .. "," .. maxAttackSizeCurve[idx][2] .. " & " .. maxAttackSizeCurve[idx+1][1] .. "," .. maxAttackSizeCurve[idx+1][2])
-	local x1 = maxAttackSizeCurve[idx][1]
-	local x2 = maxAttackSizeCurve[idx+1][1]
-	local y1 = maxAttackSizeCurve[idx][2]
-	local y2 = maxAttackSizeCurve[idx+1][2]
-	return math.ceil(y1+(y2-y1)*((evo-x1)/(x2-x1)))
 end
 
 function setPollutionAndEvoSettings(nvday)
