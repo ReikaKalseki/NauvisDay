@@ -5,7 +5,7 @@ local function tickDeaero(entry)
 	--game.print(entry.id)
 	local pollution = entry.entity.surface.get_pollution(entry.entity.position)
 	local eff = getInterpolatedValue(deaeroEfficiencyCurveLookup, pollution)
-	game.print("Deaero " .. entry.id .. " has " .. pollution .. " pollution, efficiency = " .. eff)
+	--game.print("Deaero " .. entry.id .. " has " .. pollution .. " pollution, efficiency = " .. eff)
 	if eff <= 0 then
 		entry.entity.active = false
 	else

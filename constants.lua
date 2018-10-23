@@ -20,8 +20,9 @@ function buildLinearInterpolation(curve, step)
 	local minx = curve[1][1]
 	local maxx = curve[#curve][1]
 	for x = minx,maxx,step do
+		local key = string.format('%.04f', x)
 		local y = calcInterpolatedValue(curve, x)
-		values[x] = y
+		values[key] = y
 	end
 	return {values = values, granularity = step, range = {minx, maxx}}
 end
@@ -82,9 +83,10 @@ local deaeroEfficiencyCurve = {
 	{1000, 0.05},
 	{2500, 0.2},
 	{4000, 0.5},
-	{10000, 1},
-	{30000, 2},
-	{100000, 5}
+	{10000, 0.8},
+	{25000, 1},
+	{40000, 1.5},
+	{100000, 2.5}
 }
 deaeroEfficiencyCurveLookup = buildLinearInterpolation(deaeroEfficiencyCurve, 500)
 

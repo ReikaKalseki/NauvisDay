@@ -3,13 +3,16 @@ require "constants"
 
 function getInterpolatedValue(curve, val)
 	local rnd = math.floor(val/curve.granularity+0.5)*curve.granularity
+	--game.print(rnd .. " from " .. serpent.block(curve.values))
 	if rnd <= curve.range[1] then
-		return curve.values[curve.range[1]]
+		return curve.values[string.format('%.04f', curve.range[1])]
 	end
 	if rnd >= curve.range[2] then
-		return curve.values[curve.range[2]]
+		return curve.values[string.format('%.04f', curve.range[2])]
 	end
-	return curve.values[rnd]
+	local key = string.format('%.04f', rnd)
+	--if val < 1 then game.print(rnd .. " from " .. serpent.block(curve.values)) end
+	return curve.values[key]
 end
 
 function getDeaeroRecipeName(efficiency)

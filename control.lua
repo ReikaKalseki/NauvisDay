@@ -56,6 +56,19 @@ end
 script.on_configuration_changed(function()
 	initGlobal(true)
 	setPollutionAndEvoSettings(global.nvday)
+	
+	local names = {}
+	for i = 1,4 do
+		table.insert(names, "air-filter-machine-" .. i)
+	end
+	local nvday = global.nvday
+	local n = 0
+	for _,entity in pairs(game.surfaces.nauvis.find_entities_filtered{name = names}) do
+		addDeaerosolizer(nvday, entity)
+		n = n+1
+		--entity.force.print("NauvisDay: Recaching Deaero #" .. entity.unit_number .. " @ " .. serpent.block(entity.position))
+	end
+	game.print("NauvisDay: Recached " .. n .. " deaerosolizers.")
 end)
 
 script.on_init(function()
@@ -175,7 +188,8 @@ local function onGameTick(event)
 	
 	if tick%60 == 0 then
 		local evo = game.forces.enemy.evolution_factor
-		game.map_settings.unit_group.max_unit_group_size = getInterpolatedValue(maxAttackSizeCurveLookup, evo) --200 is vanilla
+		local cap = getInterpolatedValue(maxAttackSizeCurveLookup, evo)
+		game.map_settings.unit_group.max_unit_group_size = math.ceil(cap) --200 is vanilla
 	end
 	if game.forces.enemy.evolution_factor < 0 then
 		game.forces.enemy.evolution_factor = 0
