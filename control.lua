@@ -189,6 +189,7 @@ local function onGameTick(event)
 	if tick%60 == 0 then
 		local evo = game.forces.enemy.evolution_factor
 		local cap = getInterpolatedValue(maxAttackSizeCurveLookup, evo)
+		if not cap then game.print("ERROR: NULL INTERPOLATE FROM " .. serpent.block(evo) .. " into " .. serpent.block(maxAttackSizeCurveLookup.values)) end
 		game.map_settings.unit_group.max_unit_group_size = math.ceil(cap) --200 is vanilla
 	end
 	if game.forces.enemy.evolution_factor < 0 then

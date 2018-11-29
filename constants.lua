@@ -24,6 +24,12 @@ function buildLinearInterpolation(curve, step)
 		local y = calcInterpolatedValue(curve, x)
 		values[key] = y
 	end
+	
+	--respecify limit
+	local key = string.format('%.04f', maxx)
+	local y = calcInterpolatedValue(curve, maxx)
+	values[key] = y
+	
 	return {values = values, granularity = step, range = {minx, maxx}}
 end
 
