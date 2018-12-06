@@ -60,6 +60,14 @@ pollutionFogSizes = {
 	{180000, ""}, --just here for a "100% huge at this value"
 }
 
+acidFogSizes = { --the keys are the ratios of pollution to minimum threshold
+	{1, "small"}, --90k default
+	{4/3, "medium"}, --120k at default
+	{2, "big"}, --180k at default
+	{8/3, "huge"}, --240k at default
+	{10/3, ""}, --just here for a "100% huge at this value" - 300k at default
+}
+
 --These forcibly override map settings at all times to get the intended effect
 pollutionAndEvo = {
 	["pollution"] = {

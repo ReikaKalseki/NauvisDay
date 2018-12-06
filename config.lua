@@ -7,6 +7,8 @@ Config.cleanWaterThreshold = settings.startup["clean-water-threshold"].value--50
 Config.pollutedWaterTileCleanup = settings.startup["polluted-water-tile-cleanup"].value--100 --the amount of air pollution removed when a water tile turns polluted and, if cleaned, released when it turns back
 Config.pollutedWaterTileRelease = settings.startup["polluted-water-tile-release-factor"].value--1
 
+Config.acidRainThreshold = settings.startup["acid-rain-threshold"].value
+
 Config.depleteWells = settings.startup["use-depleted-oil-for-well"].value--true
 
 Config.enableSteamFurnace = settings.startup["steam-furnace"].value--true

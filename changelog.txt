@@ -1,4 +1,10 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.0.180
+Date: Nov 28 2018
+	- Deaerosolizer efficiency and speed is now tied to pollution levels around them
+	- Improved and expanded Angel's Mods handling
+	- Fixed crash when spilling some modded fluid types
+---------------------------------------------------------------------------------------------------
 Version: 1.0.172
 Date: Oct 20 2018
 	- Fixed crash on load with some users due to refinery recipe changes

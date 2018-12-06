@@ -27,6 +27,7 @@ require "prototypes.asphalt"
 require "prototypes.pollution-processing"
 
 require "prototypes.pollution-fog"
+require "prototypes.acid-rain"
 
 require "prototypes.fx"
 

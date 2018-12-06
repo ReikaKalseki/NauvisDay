@@ -1,6 +1,40 @@
 require "constants"
 require "functions"
 
+local function getAcidFogSize(pollution)
+	local ratio = pollution/Config.acidRainThreshold
+	if ratio < 1 then
+		return nil
+	end
+	if ratio <= acidFogSizes[1][1] then
+		if math.random(0, acidFogSizes[1][1]) < ratio then
+			return acidFogSizes[1][2]
+		else
+			return nil
+		end
+	end
+	if ratio >= acidFogSizes[#acidFogSizes][1] then
+		return acidFogSizes[#acidFogSizes-1][2]
+	end
+	local idx = 1
+	while idx <= #acidFogSizes and acidFogSizes[idx][1] < ratio do
+		idx = idx+1
+	end
+	idx = idx-1
+	if idx == 1 then
+		return acidFogSizes[1][2]
+	end
+	--game.print("Pollution of " .. pollution .. " > idx= " .. idx .. ": " .. acidFogSizes[idx-1][1] .. "," .. acidFogSizes[idx-1][2] .. " & " .. acidFogSizes[idx][1] .. "," .. acidFogSizes[idx][2])
+	local x1 = acidFogSizes[idx][1]
+	local x2 = acidFogSizes[idx+1][1]
+	local y1 = acidFogSizes[idx-1][2]
+	local y2 = acidFogSizes[idx][2]
+	local f = math.random()
+	--local ret = f < (pollution-x1)/(x2-x1) and y2 or y1
+	--game.print(f .. " of " .. (pollution-x1)/(x2-x1) .. " > " .. ret)
+	return f < (ratio-x1)/(x2-x1) and y2 or y1
+end
+
 local function getPollutionFogSize(pollution)
 	if pollution <= 0 then
 		return nil
@@ -43,9 +77,17 @@ local function spawnPollutionSmoke(pos, surface)
 		pos.y = player.position.y+math.random(-100, 100)
 	end
 	local pollution = surface.get_pollution(pos)
-	local cloud = getPollutionFogSize(pollution)
-	if cloud then
-		surface.create_entity({name="pollution-fog-" .. cloud, position=pos, force = game.forces.neutral})
+	--game.print(pollution .. " / " .. Config.acidRainThreshold .. " > f = " .. (Config.acidRainThreshold/pollution))
+	if pollution >= Config.acidRainThreshold and math.random() > Config.acidRainThreshold/pollution then -- so a 1/N chance where N is the number of times the pollution is of the threshold
+		local acid = getAcidFogSize(pollution)
+		if acid then
+			surface.create_entity({name="acid-rain-" .. acid, position=pos, force = game.forces.neutral})
+		end
+	else
+		local cloud = getPollutionFogSize(pollution)
+		if cloud then
+			surface.create_entity({name="pollution-fog-" .. cloud, position=pos, force = game.forces.neutral})
+		end
 	end
 end
 
@@ -142,9 +184,6 @@ function doWaterPollution(surface, chunk, tick)
 	local x = math.random(x1,x2)
 	local y = math.random(y1,y2)
 	local pollution = surface.get_pollution({x,y})
-	if pollution <= 0 then
-		return false
-	end
 	local tile_changes = {}
 	local shape = getWeightedRandom(waterConversionPatterns)
 	local col = #shape
@@ -162,6 +201,10 @@ function doWaterPollution(surface, chunk, tick)
 		surface.set_tiles(tile_changes)
 	end
 	return true
+end
+
+local function spawnAcidRain()
+
 end
 
 function doAmbientPollutionEffects(nvday, tick)

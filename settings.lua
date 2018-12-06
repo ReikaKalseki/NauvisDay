@@ -10,6 +10,15 @@ data:extend({
         },
         {
             type = "int-setting",
+            name = "acid-rain-threshold",
+            setting_type = "startup",
+            default_value = 90000,
+            order = "r",
+			--localised_name = "Water pollution threshold",
+			--localised_description = "The minimum amount of air pollution in a chunk before it will start contaminating the water",
+        },
+        {
+            type = "int-setting",
             name = "polluted-water-threshold",
             setting_type = "startup",
             default_value = 60000,
