@@ -4,7 +4,7 @@ data:extend(
     type = "item",
     name = "pollution-block",
     icon = "__NauvisDay__/graphics/icons/pollution-block.png",
-    flags = {"goes-to-quickbar"},
+    flags = {},
     subgroup = "intermediate-product",
     --order = "f[stone-wall]-f[tough-wall-1-2]",
     place_result = "pollution-block",	

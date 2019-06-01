@@ -697,7 +697,7 @@ data:extend({
     name = "storage-machine",
     icon = "__NauvisDay__/graphics/icons/pollution-storage-machine.png",
 	icon_size = 32,
-    flags = { "goes-to-quickbar" },
+    flags = {  },
     subgroup = "production-machine",
     order = "f[storage-machine]",
     place_result = "storage-machine",

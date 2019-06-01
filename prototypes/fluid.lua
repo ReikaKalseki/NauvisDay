@@ -73,7 +73,7 @@ for name,tile in pairs(data.raw.tile) do
 		--log("Inserting " .. name .. " into " .. (water.allowed_neighbors and (#water.allowed_neighbors .. " @ " .. name) or "nil") .. " for " .. water.name)
 		if not water.allowed_neighbors then water.allowed_neighbors = {} end
 		table.insert(water.allowed_neighbors, name)
-		water.ageing=-0.0625---20---0.125 instead of making it emit pollution (net), make it only reduce absorption, but not work for offshore pumps and the like
+		water.pollution_absorption_per_second=-0.0625---20---0.125 instead of making it emit pollution (net), make it only reduce absorption, but not work for offshore pumps and the like
 		water.map_color={r=64, g=77, b=29}
 		water.localised_name = {"polluted-fluid.fluid", {"tile-name." .. water.name}}
 		water.collision_mask =

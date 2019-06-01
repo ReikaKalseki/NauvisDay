@@ -11,7 +11,6 @@ data:extend({--[[
 		flags = {"placeable-neutral"},
 		order="a-b-a",
 		minable = {
-			  hardness = 0.5,
 			  mining_time = 10,
 			  result = nil
 		},
@@ -555,7 +554,7 @@ data:extend({
     name = "pollution-fan",
     icon = "__NauvisDay__/graphics/icons/fan.png",
 	icon_size = 32,
-    flags = { "goes-to-quickbar" },
+    flags = {  },
     subgroup = "circuit-network",
     place_result = "pollution-fan",
     order = "b[combinators]-c[pollution-fan]",

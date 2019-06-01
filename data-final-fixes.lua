@@ -82,8 +82,8 @@ if Config.enableRefinery then
 			local added = false
 			for _,ingredient in pairs(recipe.ingredients) do
 				if ingredient.name == "water" then
-					--ingredient.amount = ingredient.amount+amt
-					--added = true
+					ingredient.amount = ingredient.amount+amt
+					added = true
 				elseif ingredient.type == "fluid" then
 					ingredient.amount = ingredient.amount/refineryItemConsumption
 				end
@@ -178,7 +178,7 @@ end
 local rubbers = {}
 for name,tile in pairs(data.raw.tile) do
 	local rubber = table.deepcopy(data.raw.tile["rubber-floor"])
-	rubber.ageing = tile.ageing
+	rubber.pollution_absorption_per_second = tile.pollution_absorption_per_second
 	rubber.name = name .. "-" .. rubber.name
 	rubber.localised_name = "tile-name.rubber-floor"
 end

@@ -8,7 +8,7 @@ local function createFilter()
     icon = "__NauvisDay__/graphics/icons/greenhouse.png",
 	icon_size = 32,
     flags = {"placeable-neutral", "placeable-player", "player-creation"},
-    minable = {hardness = 0.2, mining_time = 0.5, result = "greenhouse"},
+    minable = {mining_time = 0.5, result = "greenhouse"},
     fast_replaceable_group = "greenhouse",
     max_health = 100,
     corpse = "big-remnants",
@@ -74,7 +74,7 @@ data:extend({
 	type = "item",
 	name = "greenhouse",
 	icon = "__NauvisDay__/graphics/icons/greenhouse.png",
-	flags = { "goes-to-quickbar" },
+	flags = {  },
 	subgroup = "production-machine",
 	order = "f[greenhouse]",
 	place_result = "greenhouse",
@@ -106,7 +106,7 @@ data:extend({
     },
     results=
     {
-      {type="item", name="raw-wood", amount=5*10}
+      {type="item", name="wood", amount=5*10}
     },
   },
   

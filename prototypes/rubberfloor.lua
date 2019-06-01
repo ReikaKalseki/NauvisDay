@@ -5,7 +5,7 @@ data:extend(
     name = "rubber-floor",
     icon = "__NauvisDay__/graphics/icons/rubber-floor.png",
 	icon_size = 32,
-    flags = {"goes-to-main-inventory"},
+    flags = {},
     subgroup = "terrain",
     order = "b[rubber-floor]-a[plain]",
     stack_size = 100,
@@ -41,7 +41,7 @@ data:extend(
       type = "tile",
       name = "rubber-floor",
       needs_correction = false,
-      minable = {hardness = 0.2, mining_time = 0.5, result = "rubber-floor"},
+      minable = {mining_time = 0.5, result = "rubber-floor"},
       mined_sound = { filename = "__core__/sound/deconstruct-small.ogg" },
       collision_mask = {"ground-tile"},
       walking_speed_modifier = 1.3,
@@ -107,7 +107,7 @@ data:extend(
         },
       },
       map_color={r=10, g=10, b=10},
-      ageing=data.raw.tile["grass-1"].ageing, --multiple grass types now
+      pollution_absorption_per_second=data.raw.tile["grass-1"].pollution_absorption_per_second, --multiple grass types now
       vehicle_friction_modifier = 0.8
     },
   })

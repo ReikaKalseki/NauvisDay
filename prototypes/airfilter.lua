@@ -9,7 +9,7 @@ else
 			name = "charcoal",
 			icon = "__NauvisDay__/graphics/icons/charcoal.png",
 			icon_size = 32,
-			flags = { "goes-to-quickbar" },
+			flags = {  },
 			subgroup = "intermediate-product",
 			order = "f[charcoal]",
 			stack_size = 200,
@@ -39,7 +39,7 @@ else
 		enabled = "true",
 		ingredients =
 		{
-		  {"raw-wood", 2},
+		  {"wood", 2},
 		},
 		result = "charcoal",
 		result_count = 3
@@ -54,7 +54,7 @@ if data.raw.item["carbon"] == nil then
 			name = "air-filter",
 			icon = "__NauvisDay__/graphics/icons/air-filter.png",
 			icon_size = 32,
-			flags = { "goes-to-quickbar" },
+			flags = {  },
 			subgroup = "intermediate-product",
 			order = "f[air-filter]",
 			stack_size = 25,
@@ -65,7 +65,7 @@ if data.raw.item["carbon"] == nil then
 			name = "air-filter-case",
 			icon = "__NauvisDay__/graphics/icons/air-filter-case.png",
 			icon_size = 32,
-			flags = { "goes-to-quickbar" },
+			flags = {  },
 			subgroup = "intermediate-product",
 			order = "f[air-filter-case]",
 			stack_size = 25,

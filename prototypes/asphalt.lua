@@ -5,7 +5,7 @@ data:extend(
     name = "asphalt",
     icon = "__NauvisDay__/graphics/icons/concrete.png",
 	icon_size = 32,
-    flags = {"goes-to-main-inventory"},
+    flags = {},
     subgroup = "terrain",
     order = "b[asphalt]-a[plain]",
     stack_size = 100,
@@ -24,7 +24,7 @@ data:extend(
       type = "tile",
       name = "asphalt",
       needs_correction = false,
-      minable = {hardness = 0.2, mining_time = 0.5, result = "asphalt"},
+      minable = {mining_time = 0.5, result = "asphalt"},
       mined_sound = { filename = "__base__/sound/deconstruct-bricks.ogg" },
       collision_mask = {"ground-tile"},
       walking_speed_modifier = 1.6,
@@ -98,7 +98,7 @@ data:extend(
         }
       },
       map_color={r=30, g=30, b=30},
-      ageing=0,
+      pollution_absorption_per_second=0,
       vehicle_friction_modifier = 0.6
     },
   })

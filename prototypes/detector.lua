@@ -5,7 +5,7 @@ data:extend({
     icon = "__base__/graphics/icons/constant-combinator.png",
 	icon_size = 32,
     flags = {"placeable-neutral", "player-creation"},
-    minable = {hardness = 0.2, mining_time = 0.5, result = "pollution-detector"},
+    minable = {mining_time = 0.5, result = "pollution-detector"},
     max_health = 50,
     corpse = "small-remnants",
 
@@ -153,7 +153,7 @@ data:extend({
     name = "pollution-detector",
     icon = "__NauvisDay__/graphics/icons/pollution-detector.png",
 	icon_size = 32,
-    flags = { "goes-to-quickbar" },
+    flags = {  },
     subgroup = "circuit-network",
     place_result="pollution-detector",
     order = "b[combinators]-c[pollution-detector]",

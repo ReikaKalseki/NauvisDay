@@ -22,8 +22,8 @@ local function createRefinery(base)
 	if type(pow) == "string" then pow = tonumber(pow) end	
 	if pow == nil then error(base.name .. " with " .. base.energy_usage) end
 	refinery.energy_usage = (pow*1.25) .. (string.find(base.energy_usage, "MW") and "MW" or "kW")
-	refinery.ingredient_count = refinery.ingredient_count+1
-	refinery.energy_source.emissions = refinery.energy_source.emissions*20 --still 10x less than a refinery
+	--refinery.ingredient_count = refinery.ingredient_count+1
+	refinery.energy_source.emissions_per_minute = refinery.energy_source.emissions_per_minute*20 --still 10x less than a refinery
 	refinery.crafting_speed = refinery.crafting_speed*refineryItemConsumption
 	refinery.fluid_boxes =
 		{	  

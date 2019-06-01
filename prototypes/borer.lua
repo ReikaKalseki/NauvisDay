@@ -7,7 +7,7 @@ data:extend({
     icon = "__NauvisDay__/graphics/icons/borer.png",
 	icon_size = 32,
     flags = {"placeable-neutral", "placeable-player", "player-creation"},
-    minable = {hardness = 0.2, mining_time = 0.5, result = "borer"},
+    minable = {mining_time = 0.5, result = "borer"},
     fast_replaceable_group = "borer",
     max_health = 400,
     corpse = "big-remnants",
@@ -95,7 +95,7 @@ data:extend({
     name = "borer",
     icon = "__NauvisDay__/graphics/icons/borer.png",
 	icon_size = 32,
-    flags = { "goes-to-quickbar" },
+    flags = {  },
     subgroup = "production-machine",
     order = "f[borer]",
     place_result = "borer",
@@ -143,7 +143,7 @@ data:extend({
     {
       {type="item", name="concrete", amount=200},
       {type="item", name="construction-robot", amount=1},
-      {type="item", name="steel-axe", amount=2},
+      --{type="item", name="steel-axe", amount=2},
       {type="item", name="plastic-bar", amount=5},
     },
     results=

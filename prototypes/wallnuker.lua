@@ -157,7 +157,7 @@ local function createNukedArea()
 	tile.name = "nuker-goo"
 	tile.autoplace = nil
 	--log("Inserting " .. name .. " into " .. (tile.allowed_neighbors and (#tile.allowed_neighbors .. " @ " .. name) or "nil") .. " for " .. tile.name)
-	tile.ageing = 0
+	tile.pollution_absorption_per_second = 0
 	tile.map_color={r=83, g=28, b=105} --out of 255
 	tile.collision_mask =
     {

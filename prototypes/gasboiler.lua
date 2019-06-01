@@ -50,7 +50,7 @@ data:extend({
     name = "gas-boiler",
     icon = "__NauvisDay__/graphics/icons/gas-boiler.png",
 	icon_size = 32,
-    flags = {"goes-to-quickbar"},
+    flags = {},
     subgroup = "energy",
     order = "b[gas-boiler]",
     place_result = "gas-boiler",
@@ -79,7 +79,7 @@ data:extend({
     icon = "__base__/graphics/icons/boiler.png",
 	icon_size = 32,
     flags = {"placeable-neutral", "player-creation"},
-    minable = {hardness = 0.2, mining_time = 0.5, result = "gas-boiler"},
+    minable = {mining_time = 0.5, result = "gas-boiler"},
     max_health = 200,
     corpse = "small-remnants",
     vehicle_impact_sound =  { filename = "__base__/sound/car-metal-impact.ogg", volume = 0.65 },
@@ -550,7 +550,7 @@ data:extend({
         pipe_covers = pipecoverspictures(),
         base_area = 10,
         base_level = -1,
-        pipe_connections = {{ type="input", position = {0, -0.5} }},
+        pipe_connections = {{ type="input", position = {0, -0.51} }},
         secondary_draw_orders = { north = -1 }
       },
       {
