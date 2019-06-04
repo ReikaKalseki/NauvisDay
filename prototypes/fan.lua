@@ -240,7 +240,7 @@ data:extend({--[[
 		energy_source =
 		{
 		  type = "electric",
-		  emissions = 0,
+		  emissions_per_minute = 0,
 		  usage_priority = "secondary-input"
 		},
 		energy_usage = "120kW",
@@ -307,7 +307,7 @@ data:extend({--[[
 		{
 		  type = "electric",
 		  usage_priority = "secondary-input",
-		  emissions = 0,
+		  emissions_per_minute = 0,
 		},
 		energy_usage = "120kW",
 		working_sound = nil--[[{

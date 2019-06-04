@@ -663,7 +663,7 @@ data:extend(
     {
       type = "electric",
       -- will produce this much * energy pollution units per tick
-      emissions = 0.15 / 1.5,
+      emissions_per_minute = 20,
       usage_priority = "secondary-input"
     },
     energy_usage = "200kW",

@@ -1,48 +1,13 @@
 require "config"
 require "constants"
 
-function getInterpolatedValue(curve, val)
-	local rnd = math.floor(val/curve.granularity+0.5)*curve.granularity
-	--game.print(rnd .. " from " .. serpent.block(curve.values))
-	if rnd <= curve.range[1] then
-		return curve.values[string.format('%.04f', curve.range[1])]
-	end
-	if rnd >= curve.range[2] then
-		return curve.values[string.format('%.04f', curve.range[2])]
-	end
-	local key = string.format('%.04f', rnd)
-	--if val < 1 then game.print(rnd .. " from " .. serpent.block(curve.values)) end
-	return curve.values[key]
-end
+require "__DragonIndustries__.mathhelper"
+require "__DragonIndustries__.arrays"
+require "__DragonIndustries__.interpolation"
+require "__DragonIndustries__.biters"
 
 function getDeaeroRecipeName(efficiency)
 	return efficiency ~= 1 and ("air-cleaning-action-F" .. math.floor(efficiency*1000+0.5)) or "air-cleaning-action" --for backwards compat
-end
-
-function listHasValue(list, val)
-	for _,entry in pairs(list) do
-		if entry == val then return true end
-	end
-end
-
-function directionToVector(dir)
-	if dir == defines.direction.north then
-		return {dx=0, dy=-1}
-	elseif dir == defines.direction.south then
-		return {dx=0, dy=1}
-	elseif dir == defines.direction.east then
-		return {dx=1, dy=0}
-	elseif dir == defines.direction.west then
-		return {dx=-1, dy=0}
-	end
-end
-
-function getOppositeDirection(dir) --direction is a number from 0 to 7
-	return (dir+4)%8
-end
-
-function getPerpendicularDirection(dir) --direction is a number from 0 to 7
-	return (dir+2)%8
 end
 
 function setPollutionAndEvoSettings(nvday)
@@ -111,64 +76,6 @@ function doTreeFarmTreeDeath(entity)
 	end
 end
 
-function getPossibleBiters(curve, evo)
-	local ret = {}
-	local totalWeight = 0
-	for _,entry in pairs(curve) do
-		local biter = entry.unit
-		local vals = entry.spawn_points -- eg "{0.5, 0.0}, {1.0, 0.4}"
-		for idx = 1,#vals do
-			local point = vals[idx]
-			local ref = point.evolution_factor
-			local chance = point.weight
-			if evo >= ref then
-				local interp = 0
-				if idx == #vals then
-					interp = chance
-				else
-					interp = chance+(vals[idx+1].weight-chance)*(vals[idx+1].evolution_factor-ref)
-				end
-				if interp > 0 then
-					table.insert(ret, {biter, interp+totalWeight})
-					totalWeight = totalWeight+interp
-					--game.print("Adding " .. biter .. " with weight " .. interp)
-				end
-				break
-			end
-		end
-	end
-	--game.print("Fake Evo " .. evo)
-	--for i=1,#ret do game.print(ret[i][1] .. ": " .. ((i == 1 and 0 or ret[i-1][2]) .. " -> " .. ret[i][2])) end
-	return ret, totalWeight
-end
-
-function selectWeightedBiter(biters, total)
-	local f = math.random()*total
-	local ret = "nil"
-	local smallest = 99999999
-	for i = 1,#biters do
-		if f <= biters[i][2] and smallest > biters[i][2] then
-			smallest = biters[i][2]
-			ret = biters[i][1]
-		end
-	end
-	--game.print("Selected " .. ret .. " with " .. f .. " / " .. total)
-	return ret
-end
-
-function getSpawnedBiter(curve, evo)
-	--game.print("Real Evo " .. evo)
-	if math.random() < 0.5 then
-		evo = evo-0.1
-	end
-	if math.random() < 0.25 then
-		evo = evo-0.1
-	end
-	evo = math.max(evo, 0)
-	local biters, total = getPossibleBiters(curve, evo)
-	return selectWeightedBiter(biters, total)
-end
-
 function doSpawnerDestructionSpawns(spawner)
 	if spawner.type == "unit-spawner" then
 		local num = math.random(2, 20)
@@ -219,25 +126,6 @@ function ensureNoEarlyAttacks(tick)
 			end
 		end
 	end
-end
-
-function getWeightedRandom(vals)
-	local sum = 0
-	for _,entry in pairs(vals) do
-		local weight = entry[1]
-		sum = sum+weight
-	end
-	
-	--Copied and Luafied from DragonAPI WeightedRandom
-	local d = math.random()*sum;
-	local p = 0
-	for _,entry in pairs(vals) do
-		p = p + entry[1]
-		if d <= p then
-			return entry[2]
-		end
-	end
-	return nil
 end
 
 function checkPollutionBlock(entity)

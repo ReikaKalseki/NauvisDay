@@ -18,7 +18,7 @@ if data.raw.resource["crude-oil-sand"] then
 	newpump.name = "fracking-well"
 	newpump.minable.result = "fracking-well"
 	newpump.resource_categories = {"oil-fracking"}
-	newpump.energy_source.emissions = newpump.energy_source.emissions*9
+	newpump.energy_source.emissions_per_minute = newpump.energy_source.emissions_per_minute*9
 	
 	--[[
 	local dirs = {"north", "south", "west", "east"}
@@ -67,7 +67,7 @@ if data.raw["assembling-machine"]["bi_bio_farm"] then
       effectivity = 0.05,
       fuel_inventory_size = 0,
       burnt_inventory_size = 0,
-      emissions = 0.03,
+      emissions_per_minute = 40,
 	  render_no_power_icon = false,
     }
 	dead.animation.filename = "__NauvisDay__/graphics/entity/treefarm/dead-biofarm.png"
@@ -90,7 +90,7 @@ if data.raw["assembling-machine"]["bob-greenhouse"] then
       effectivity = 0.05,
       fuel_inventory_size = 0,
       burnt_inventory_size = 0,
-      emissions = 0.03,
+      emissions_per_minute = 40,
 	  render_no_power_icon = false,
     }
 	dead.animation.filename = "__NauvisDay__/graphics/entity/treefarm/dead-greenhouse.png"

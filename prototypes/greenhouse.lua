@@ -54,7 +54,7 @@ local function createFilter()
     {
       type = "electric",
       usage_priority = "secondary-input",
-      emissions = -0.5,-- -0.05, --this is per power input, and since power is very low, needs to be large to have any real effect; compare with min-tier deaero which is 150kW with val of 0.46875 -> would need 5x bigger for same effect here
+      emissions_per_minute = -15,
     },
 	fixed_recipe = "greenhouse-action",
     energy_usage = "30kW",

@@ -64,7 +64,7 @@ local function createFilter(tier, speedFactor, efficiency) --efficiency can be >
     {
       type = "electric",
       usage_priority = "secondary-input",
-      emissions = -0.25*(1+(speedFactor-1)/2)*3*2 --x2 to account for inadvertent x4 from pollution code which affected the balancing, but x4 is a bit too much
+      emissions_per_minute = -900*(speedFactor^1.25)
     },
 	fixed_recipe = "air-cleaning-action",
     energy_usage = (600*speedFactor) .. "kW",

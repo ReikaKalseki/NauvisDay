@@ -1,3 +1,26 @@
+local function increasePollution(obj, f)
+	if obj.energy_source.emissions then
+		obj.energy_source.emissions = obj.energy_source.emissions*f
+	end
+	if obj.energy_source.emissions_per_second_per_watt then
+		obj.energy_source.emissions_per_second_per_watt = obj.energy_source.emissions_per_second_per_watt*f
+	end
+	if obj.energy_source.emissions_per_minute then
+		obj.energy_source.emissions_per_minute = obj.energy_source.emissions_per_minute*f
+	end
+	
+	--log(serpent.block("Entity had no emissions parameter. Entity: "))
+	--log(serpent.block(obj))
+end
+
+local function increaseFuelEmissions(fuel, factor)
+	local obj = data.raw.item[fuel]
+	if not obj.fuel_emissions_multiplier then
+		obj.fuel_emissions_multiplier = 1
+	end
+	obj.fuel_emissions_multiplier = obj.fuel_emissions_multiplier*factor
+end
+
 local function getExtraPollution(label, name)
 	if extraPollution[label] then
 		if extraPollution[label][name] then
@@ -36,13 +59,7 @@ function increaseEmissionValues()
 				--log(serpent.block("Checking candidate coal burner '" .. k .. "'"))
 				if obj.energy_source.type == "burner" and obj.energy_source.fuel_category == "chemical" then
 					--log(serpent.block("ID'ed coal burner '" .. k .. "', increasing emissions " .. coalPollutionScale .. "x"))
-					if obj.energy_source.emissions then
-						obj.energy_source.emissions = obj.energy_source.emissions*coalPollutionScale
-						--log(serpent.block("Success"))
-					else
-						--log(serpent.block("Entity had no emissions parameter. Entity: "))
-						--log(serpent.block(obj))
-					end
+					increasePollution(obj, coalPollutionScale)
 				end
 			end
 		end
@@ -62,22 +79,15 @@ function increaseEmissionValues()
 			if pollutionIncreaseExclusion[k] ~= 1 then
 				--log(serpent.block("Checking candidate polluter '" .. k .. "'"))
 				log(serpent.block("ID'ed polluter '" .. k .. "', increasing emissions " .. pollutionScale .. "x"))
-				if obj.energy_source.emissions then
-					obj.energy_source.emissions = obj.energy_source.emissions*pollutionScale
-					if label == "mining-drill" then
-						obj.energy_source.emissions = obj.energy_source.emissions*miningPollutionScale
-						log(serpent.block("ID'ed mining polluter '" .. k .. "', increasing emissions again " .. miningPollutionScale .. "x"))
-					end
-					--log(serpent.block(extraPollution[label]))
-					local f = getExtraPollution(label, k)
-					if f then
-						obj.energy_source.emissions = obj.energy_source.emissions*f
-						log(serpent.block("ID'ed 'extra' polluter '" .. k .. "', increasing emissions again " .. f .. "x"))
-					end
-					--log(serpent.block("Success"))
-				else
-					--log(serpent.block("Entity had no emissions parameter. Entity: "))
-					--log(serpent.block(obj))
+				increasePollution(obj, pollutionScale)
+				if label == "mining-drill" then
+					increasePollution(obj, miningPollutionScale)
+					log(serpent.block("ID'ed mining polluter '" .. k .. "', increasing emissions again " .. miningPollutionScale .. "x"))
+				end
+				local f = getExtraPollution(label, k)
+				if f then
+					increasePollution(obj, f)
+					log(serpent.block("ID'ed 'extra' polluter '" .. k .. "', increasing emissions again " .. f .. "x"))
 				end
 			end
 		end
@@ -99,4 +109,9 @@ function increaseEmissionValues()
 			log("Increasing recipe '" .. k .. "' emissions by " .. recipePollutionIncreases[k] .. "x")
 		end
 	end
+	
+	increaseFuelEmissions("coal", 1.2)
+	increaseFuelEmissions("solid-fuel", 0.8)
+	increaseFuelEmissions("wood", 0.7)
+	increaseFuelEmissions("nuclear-fuel", 3)
 end

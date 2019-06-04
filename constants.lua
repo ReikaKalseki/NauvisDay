@@ -1,37 +1,6 @@
 require "config"
 
-function calcInterpolatedValue(curve, val)
-	local idx = 1
-	while idx <= #curve and curve[idx][1] < val do
-		idx = idx+1
-	end
-	idx = idx-1
-	if val <= curve[1][1] then idx = 1 end
-	if not curve[idx] then error("Queried out-of-bounds index " .. idx .. " on curve! \n" .. serpent.block(curve) .. " \n" .. debug.traceback()) end
-	local x1 = curve[idx][1]
-	local x2 = curve[idx+1][1]
-	local y1 = curve[idx][2]
-	local y2 = curve[idx+1][2]
-	return y1+(y2-y1)*((val-x1)/(x2-x1))
-end
-
-function buildLinearInterpolation(curve, step)
-	local values = {}
-	local minx = curve[1][1]
-	local maxx = curve[#curve][1]
-	for x = minx,maxx,step do
-		local key = string.format('%.04f', x)
-		local y = calcInterpolatedValue(curve, x)
-		values[key] = y
-	end
-	
-	--respecify limit
-	local key = string.format('%.04f', maxx)
-	local y = calcInterpolatedValue(curve, maxx)
-	values[key] = y
-	
-	return {values = values, granularity = step, range = {minx, maxx}}
-end
+require "__DragonIndustries__.interpolation"
 
 local f = math.max(1, Config.basePollutionFactor)
 pollutionScale = 4*f
