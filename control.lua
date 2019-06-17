@@ -9,7 +9,7 @@ require "fans"
 require "spills"
 require "wallnukerai"
 
-require "entitytracker"
+require "tracker-hooks"
 require "caches"
 
 function initGlobal(markDirty)
@@ -55,6 +55,7 @@ end
 
 script.on_configuration_changed(function()
 	initGlobal(true)
+	--setupTrackers()
 	setPollutionAndEvoSettings(global.nvday)
 	
 	local names = {}
@@ -73,7 +74,12 @@ end)
 
 script.on_init(function()
 	initGlobal(true)
+	--setupTrackers()
 	setPollutionAndEvoSettings(global.nvday)
+end)
+
+script.on_load(function()
+	--setupTrackers()
 end)
 
 script.on_event(defines.events.on_console_command, function(event)
@@ -92,11 +98,7 @@ local function onEntityAdded(event)
 	
 	local entity = event.created_entity
 	
-	local func = tracker["add"][entity.name]
-	--game.print(entity.name .. " > " .. (func and "hasCall" or "noCall"))
-	if func then
-		func(nvday, entity)
-	end
+	trackEntityAddition(entity, nvday)
 	
 	if string.find(entity.name, "air-filter-machine-", 1, 1) then
 		if entity.type == "assembling-machine" then --check type since AirFilter mod is otherwise going to be caught here
@@ -120,15 +122,12 @@ end
 local function onEntityRemoved(event)
 	local nvday = global.nvday
 	
+	trackEntityRemoval(event.entity, nvday)
+	
 	fluidSpill(event.entity)
 	checkPollutionBlock(event.entity)
 	doSpawnerDestructionSpawns(event.entity)
 	doTreeFarmTreeDeath(event.entity)
-	
-	local func = tracker["remove"][event.entity.name]
-	if func then
-		func(nvday, event.entity)
-	end
 end
 
 local function onEntityDied(event)
@@ -171,6 +170,8 @@ local function onGameTick(event)
 		end
 	end
 	
+	runTickHooks(nvday, event.tick)
+	
 	local tick = event.tick
 	doAmbientPollutionEffects(nvday, tick)
 	if tick%3600 == 0 then --check once every 60 seconds
@@ -180,10 +181,6 @@ local function onGameTick(event)
 	
 	if tick%15 == 0 then
 		tickSpilledFluids(nvday, tick%60 == 0)
-	end
-	
-	for name,func in pairs(tracker["tick"]) do
-		func(nvday, tick)
 	end
 	
 	if tick%60 == 0 then
