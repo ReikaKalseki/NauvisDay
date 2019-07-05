@@ -1,6 +1,8 @@
 require "config"
 require "constants"
 
+require "__DragonIndustries__.tech"
+
 local recipes = {}
 
 local function createSteamRecipe(recipe)
@@ -38,7 +40,7 @@ if Config.enableSteamFurnace then
 	end
 
 	for _,tech in pairs(data.raw.technology) do
-		if tech.effects then
+		if tech.effects and not isCampaignOnlyTech(tech) then
 			for _,ir in pairs(recipes) do
 				for _,effect in pairs(tech.effects) do
 					if effect.type == "unlock-recipe" then
