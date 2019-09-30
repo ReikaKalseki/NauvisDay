@@ -5,7 +5,7 @@ local function spawnNuker(surface, spawner, target)
 	--for i = 1,size do
 		local spawn = surface.create_entity({name = "wall-nuker", position = {math.random(pos.x-4, pos.x+4), math.random(pos.y-4, pos.y+4)}, force = game.forces.enemy})
 		spawn.set_command({type = defines.command.attack, target = target, distraction = defines.distraction.none})
-		rendering.draw_light{sprite="utility/light_medium", scale=0.7, intensity=1, color={r = 1, g = 0.75, b = 0.2}, target=entity, surface=surface}
+		rendering.draw_light{sprite="utility/light_medium", scale=0.7, intensity=1, color={r = 1, g = 0.75, b = 0.2}, target=spawn, surface=surface}
 	--end
 end
 

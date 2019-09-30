@@ -214,7 +214,7 @@ function doAmbientPollutionEffects(nvday, tick)
 	end
 	local sp = 1--20--60
 	if true then -- tick%sp == 0 then
-		local surface = game.surfaces["nauvis"]
+		local surface = getRandomTableEntry(game.surfaces)--game.surfaces["nauvis"]
 		local tries = 25--20--8
 		local k = 0
 		--tick = math.floor(tick/sp)

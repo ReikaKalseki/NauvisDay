@@ -83,10 +83,11 @@ if Config.enableRefinery then
 			
 			local added = false
 			for _,ingredient in pairs(recipe.ingredients) do
+				ingredient.fluidbox_index = nil
 				if ingredient.name == "water" then
 					ingredient.amount = ingredient.amount+amt
 					added = true
-				elseif ingredient.type == "fluid" then
+				else
 					ingredient.amount = ingredient.amount/refineryItemConsumption
 				end
 			end
@@ -116,6 +117,10 @@ if Config.enableRefinery then
 						
 			if data.raw.item["air-filter-case"] then
 				table.insert(recipe.results, {"air-filter-case", 1})
+			end
+			
+			for _,result in pairs(recipe.results) do
+				result.fluidbox_index = nil
 			end
 			
 			log("Added a clean version of " .. name)
