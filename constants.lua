@@ -7,7 +7,7 @@ pollutionScale = 4*f
 firePollutionScale = 2*(1+(f-1)/2)
 coalPollutionScale = 4*f
 miningPollutionScale = 2*f
-pollutionSpawnIncrease = 1.75/60 --/60 from 0.17's pollution redesign
+pollutionSpawnIncrease = 1.75/5 --/60, then /15, then /5 from 0.17's pollution redesign
 
 maxBoreholeSize = 500 --this is number of cycles, not fluid capacity
 

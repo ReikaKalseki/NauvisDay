@@ -130,7 +130,7 @@ function tickGasBoilers(nvday, tick)
 					--game.print("Adding gas to boiler")
 					if entry.boiler.fluidbox[1] and entry.boiler.fluidbox[1].name == "water" and entry.boiler.fluidbox[1].amount > 10 and tick%30 == 0 then
 						fluid.amount = fluid.amount-1
-						entry.input.fluidbox[1] = fluid
+						entry.input.fluidbox[1] = fluid.amount > 0 and fluid or nil
 					end
 					entry.boiler.burner.currently_burning = game.item_prototypes["coal"]
 					entry.boiler.burner.remaining_burning_fuel = 8000000

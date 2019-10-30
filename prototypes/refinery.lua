@@ -123,8 +123,14 @@ end
 
 --createRefinery(data.raw["assembling-machine"]["oil-refinery"])
 
+local function isValidRefinery(name, refinery)
+	if string.find(name, "^oil%-refinery%-MS%-%d+$") then
+		return false
+	return true
+end
+
 for name,refinery in pairs(data.raw["assembling-machine"]) do
-	if #refinery.crafting_categories == 1 and refinery.crafting_categories[1] == "oil-processing" then
+	if #refinery.crafting_categories == 1 and refinery.crafting_categories[1] == "oil-processing" and isValidRefinery(name, refinery) then
 		createRefinery(refinery)
 	end
 end
