@@ -1,4 +1,8 @@
+require "__DragonIndustries__.color"
+
 require "constants"
+
+local color = convertColor(0x7C692E, true)
 
 if data.raw.fluid["sulfur-dioxide"] then
 	local res = {
@@ -26,6 +30,13 @@ if data.raw.fluid["sulfur-dioxide"] then
 		  {type="fluid", name="water", amount=20},
 		},
 		results = res,
+		crafting_machine_tint =
+		{
+		  primary = color,
+		  secondary = color,
+		  tertiary = color,
+		  quaternary = color,
+		}
 	  },
 	  {
 		type = "recipe",
@@ -47,9 +58,21 @@ if data.raw.fluid["sulfur-dioxide"] then
 			{type="item", name="salt", amount_min=1, amount_max=1, probability=0.6},
 			{type="fluid", name="sulfur-dioxide", amount=45},
 		},
+		crafting_machine_tint =
+		{
+		  primary = color,
+		  secondary = color,
+		  tertiary = color,
+		  quaternary = color,
+		}
 	  },
 	})
 else
+	local res = {{type="fluid", name="sulfuric-acid", amount=20}}
+	if data.raw.fluid["carbon-dioxide"] then
+		table.insert(res, {type="fluid", name="carbon-dioxide", amount=5})
+	end
+	
 	data:extend({
 	  {
 		type = "recipe",
@@ -63,10 +86,14 @@ else
 		  {type="fluid", name="water", amount=20},
 		  {type="item", name="coal", amount=1}
 		},
-		results=
+		results = res,
+		crafting_machine_tint =
 		{
-		  {type="fluid", name="sulfuric-acid", amount=20}
-		},
+		  primary = color,
+		  secondary = color,
+		  tertiary = color,
+		  quaternary = color,
+		}
 	  },
 		{
 		type = "recipe",
@@ -84,9 +111,18 @@ else
 		{
 		  {type="fluid", name="sulfuric-acid", amount=50}
 		},
+		crafting_machine_tint =
+		{
+		  primary = color,
+		  secondary = color,
+		  tertiary = color,
+		  quaternary = color,
+		}
 	  }
 	})
 end
+
+color = convertColor(0x635C48, true)
 
 data:extend({
    {
@@ -106,6 +142,13 @@ data:extend({
     {
       {type="item", name="asphalt", amount=50}
     },
+	crafting_machine_tint =
+	{
+	  primary = color,
+	  secondary = color,
+	  tertiary = color,
+	  quaternary = color,
+	}
   }
 })
 

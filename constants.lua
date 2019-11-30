@@ -186,6 +186,10 @@ liquidPollutionFactors = {
 	["nitrogen-oxide"] = 0.6,
 	["ozone"] = 0.5,
 	["hydrogen-peroxide"] = 0.7, --oxidizer but decomposes to O2 and water, leaving no widespread effects
+	["ethanol"] = 0.3,
+	["acetone"] = 0.2,
+	["isopropanol"] = 0.25,
+	["acetic-acid"] = 0.1,
 		
 	--moderately toxic/unpleasant, moderate pollution
 	["crude-oil"] = 1.4,
@@ -193,6 +197,7 @@ liquidPollutionFactors = {
 	["light-oil"] = 1.2,
 	["petroleum-gas"] = 0.9, --methane = greenhouse effect, but is not really toxic nor something noticeable
 	["ammonia"] = 1.1,
+	["benzene"] = 1.5,
 	
 	--highly toxic, highly polluting
 	["carbon-monoxide"] = 1.6,
@@ -239,6 +244,10 @@ liquidEvaporationFactors = {
 	["sulfuric-acid"] = 0.5,
 	["hydrogen-chloride"] = 1.8,
 	
+	["ethanol"] = 2.5,
+	["acetone"] = 1.8,
+	["benzene"] = 1.5,
+	
 	["hydrogen-peroxide"] = 6, --to simulate rapid decomposition, and to make more immediately dangerous
 	
 	["crude-oil"] = 0.2,
@@ -263,5 +272,7 @@ liquidDamageLevels = {
 	["hydrogen-chloride"] = 5,
 	["nitric-acid"] = 6,
 	["hydrogen-cyanide"] = 10,
+	["benzene"] = 1,
+	
 	["waste"] = 1
 }

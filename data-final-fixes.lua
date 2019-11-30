@@ -197,6 +197,22 @@ for _,tile in pairs(rubbers) do
 end
 --]]
 
+for name,recipe in pairs(data.raw.recipe) do
+	if recipe.category == "void-fluid" then --bob void pump
+		local fluid = recipe.ingredients[1].name
+		local f = liquidPollutionFactors[fluid]
+		if f then
+			f = 1+f
+			local res = f
+			if recipe.emissions_multiplier then
+				res = f*recipe.emissions_multiplier
+			end
+			recipe.emissions_multiplier = res
+			log("Setting bob venting of " .. fluid .. " to " .. f .. "x emissions (net " .. res .. ") multiplier")
+		end
+	end
+end
+
 for name,fluid in pairs(data.raw.fluid) do
 	for stage = 5,1,-1 do --higher is more fluid
 		local radius = 2

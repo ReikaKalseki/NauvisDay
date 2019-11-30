@@ -126,6 +126,7 @@ end
 local function isValidRefinery(name, refinery)
 	if string.find(name, "^oil%-refinery%-MS%-%d+$") then
 		return false
+	end
 	return true
 end
 
