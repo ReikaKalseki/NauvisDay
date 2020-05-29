@@ -136,6 +136,7 @@ function tickSpill(entry, nvday, doText, simulate)
 	entry.lastevap = amt*4
 	
 	if not simulate then
+		--game.print(entry.fluid .. " spill creating " .. pol .. " units of pollution")
 		entry.entity.surface.pollute(entry.entity.position, pol)
 		entry.amount = entry.amount-amt
 		entry.age = entry.age+1
@@ -178,6 +179,7 @@ end
 
 function tickSpilledFluids(nvday, doText)
 	for _,entry in pairs(nvday.spills) do
+		--game.print("Ticking spill: " .. (entry.entity.valid and "yes" or "no"))
 		if entry.entity.valid then
 			tickSpill(entry, nvday, doText, false)
 		else

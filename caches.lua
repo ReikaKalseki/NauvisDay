@@ -11,11 +11,13 @@ local function tickDeaero(entry)
 	else
 		entry.entity.active = true
 		local n = getDeaeroRecipeName(eff)
+		--game.print(n)
 		--local recipe = entry.entity.force.recipes[n]
 		local water = entry.entity.fluidbox[1]
 		local sludge = entry.entity.fluidbox[2]
 		local frac = entry.entity.crafting_progress
 		entry.entity.set_recipe(n)
+		--game.print(n .. " > " .. entry.entity.get_recipe().name)
 		entry.entity.fluidbox[1] = water
 		entry.entity.fluidbox[2] = sludge
 		entry.entity.crafting_progress = frac

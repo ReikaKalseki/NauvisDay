@@ -103,6 +103,7 @@ local function onEntityAdded(event)
 	if string.find(entity.name, "air-filter-machine-", 1, 1) then
 		if entity.type == "assembling-machine" then --check type since AirFilter mod is otherwise going to be caught here
 			entity.set_recipe("air-cleaning-action")
+			game.print("Initializing Deaero.")
 			--entity.operable = false
 		else
 			if event.player_index then
@@ -142,6 +143,7 @@ local function onEntityDamaged(event)
 	local source = event.cause
 	local type = event.damage_type
 	local amount = event.final_damage_amount
+	if source then game.print(source.name) end
 	if source and source.name == "wall-nuker" and target.type ~= "player" then
 		source.damage(game.entity_prototypes[source.name].max_health/10, source.force, type.name)
 	end
@@ -180,6 +182,11 @@ local function onGameTick(event)
 	ensureNoEarlyAttacks(tick)
 	
 	if tick%15 == 0 then
+		for _,player in pairs(game.players) do
+			if player.selected == nil then
+				setSpillGui(player, nil)
+			end
+		end
 		tickSpilledFluids(nvday, tick%60 == 0)
 	end
 	

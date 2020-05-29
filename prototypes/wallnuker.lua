@@ -76,10 +76,10 @@ data:extend({
     attack_parameters =
     {
       type = "projectile",
-      range = 0.0,
+      range = 0.25,
       cooldown = 12,--0,--35,
       ammo_category = "melee",
-      ammo_type = make_unit_melee_ammo_type(0),
+      ammo_type = make_unit_melee_ammo_type(0.1),
       sound = {
 		{
 		  filename = "__NauvisDay__/sound/wallnuker-detonate.ogg",
@@ -95,7 +95,7 @@ data:extend({
     distraction_cooldown = 300,
     min_pursue_time = 10 * 60,
     max_pursue_distance = 50,
-    corpse = "small-biter-corpse",
+    --corpse = "small-biter-corpse",
     dying_explosion = "blood-explosion-small",
     dying_sound =  sounds.biter_dying(0.4),
     working_sound = {

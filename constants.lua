@@ -11,6 +11,9 @@ pollutionSpawnIncrease = 1.75/5 --/60, then /15, then /5 from 0.17's pollution r
 
 maxBoreholeSize = 500 --this is number of cycles, not fluid capacity
 
+deaeroCoefficient = 1600 --was 900 pre 0.18, but the changes (presumably in 0.17) necessitated a buff
+deaeroExponent = 1.4 -- was 1.25 until the same
+
 local maxAttackSizeCurve = {
 	{0, 10},
 	{0.05, 25},--{0.05, 10},
