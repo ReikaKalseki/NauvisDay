@@ -143,7 +143,6 @@ local function onEntityDamaged(event)
 	local source = event.cause
 	local type = event.damage_type
 	local amount = event.final_damage_amount
-	if source then game.print(source.name) end
 	if source and source.name == "wall-nuker" and target.type ~= "player" then
 		source.damage(game.entity_prototypes[source.name].max_health/10, source.force, type.name)
 	end

@@ -134,7 +134,7 @@ end
 for poll,eff in pairs(deaeroEfficiencyCurveLookup.values) do
 	if eff > 0 then
 		local rec = createCleaningRecipe(eff)
-		log("Created recipe " .. rec.name .. " with time " .. rec.energy_required .. " for efficiency " .. eff)
+		--log("Created recipe " .. rec.name .. " with time " .. rec.energy_required .. " for efficiency " .. eff)
 		data:extend({rec})
 	end
 end
