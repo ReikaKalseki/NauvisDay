@@ -53,7 +53,7 @@ data:extend({
           {
             type = "create-particle",
             repeat_count = 2,--5,
-            entity_name = "explosion-remnants-particle",
+            particle_name = "explosion-remnants-particle",
             initial_height = 0.25,
             speed_from_center = 0.03,
             speed_from_center_deviation = 0.05,

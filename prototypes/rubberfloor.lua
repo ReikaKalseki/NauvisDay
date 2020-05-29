@@ -35,6 +35,17 @@ data:extend(
 }
 )
 
+local function createStepSounds()
+	local ret = {}
+	for i = 1,9 do
+		local val = {
+          filename = "__core__/sound/walking/transport-belt-0" .. i .. ".ogg",
+          volume = 0.5
+        }
+		table.insert(ret, val)
+	end
+end
+
 data:extend(
   {
     {
@@ -95,17 +106,7 @@ data:extend(
         count = 10
       }
     },
-      walking_sound =
-      {
-        {
-          filename = "__core__/sound/walking/metal-01.ogg",
-          volume = 0.5
-        },
-        {
-          filename = "__core__/sound/walking/metal-02.ogg",
-          volume = 0.5
-        },
-      },
+      walking_sound = createStepSounds(),
       map_color={r=10, g=10, b=10},
       pollution_absorption_per_second=data.raw.tile["grass-1"].pollution_absorption_per_second, --multiple grass types now
       vehicle_friction_modifier = 0.8

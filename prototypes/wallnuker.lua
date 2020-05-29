@@ -56,6 +56,8 @@ local scale = 0.5
   }
 end
 
+local sounds = require ("__base__.prototypes.entity.demo-sounds")
+
 data:extend({
   {
     type = "unit",
@@ -95,7 +97,7 @@ data:extend({
     max_pursue_distance = 50,
     corpse = "small-biter-corpse",
     dying_explosion = "blood-explosion-small",
-    dying_sound =  make_biter_dying_sounds(0.4),
+    dying_sound =  sounds.biter_dying(0.4),
     working_sound = {
 		{
 		  filename = "__NauvisDay__/sound/wallnuker.ogg",

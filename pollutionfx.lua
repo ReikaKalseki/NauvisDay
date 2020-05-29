@@ -151,8 +151,9 @@ function tickBlockPollution(surface, chunk, tick, dx, dy, tile_changes)
 			local pumps = surface.find_entities_filtered({area = {{dx-2, dy-2}, {dx+2, dy+2}}, type = "offshore-pump"}) --need to also convert offshore pumps into nonfunctional variants that still drop offshore pumps
 			for _,pump in pairs(pumps) do
 				if not string.find(pump.name, "polluted") then
-					pump.surface.create_entity{name="polluted-" .. pump.name, position=pump.position, force = pump.force, direction = pump.direction, fast_replace = true, spill = false}
+					local new = pump.surface.create_entity{name="polluted-" .. pump.name, position=pump.position, force = pump.force, direction = pump.direction, fast_replace = true, spill = false}
 					pump.destroy()
+					new.active = false
 				end
 			end
 			surface.pollute({dx, dy}, -Config.pollutedWaterTileCleanup)
@@ -167,8 +168,9 @@ function tickBlockPollution(surface, chunk, tick, dx, dy, tile_changes)
 			local pumps = surface.find_entities_filtered({area = {{dx-2, dy-2}, {dx+2, dy+2}}, type = "offshore-pump"})
 			for _,pump in pairs(pumps) do
 				if string.find(pump.name, "polluted") then
-					pump.surface.create_entity{name=string.sub(pump.name, sublen), position=pump.position, force = pump.force, direction = pump.direction, fast_replace = true, spill = false}
+					local new = pump.surface.create_entity{name=string.sub(pump.name, sublen), position=pump.position, force = pump.force, direction = pump.direction, fast_replace = true, spill = false}
 					pump.destroy()
+					new.active = true
 				end
 			end
 			surface.pollute({dx, dy}, Config.pollutedWaterTileCleanup*Config.pollutedWaterTileRelease)

@@ -1,36 +1,15 @@
 require("__DragonIndustries__.cloning")
 
-local detector = createSignalOutput("NauvisDay", "pollution-detector")
+local detector = createSignalOutput("NauvisDay", "pollution-detector", "pollution")
 
-data:extend({
-  detector
-})
+detector.entity.icon_size = 32
+detector.entity.icon_mipmaps = 0
+detector.item.icon_size = 32
+detector.item.icon_mipmaps = 0
+detector.signal.icon_size = 32
+detector.signal.icon_mipmaps = 0
 
-
-data:extend({
-  {
-    type = "item",
-    name = "pollution-detector",
-    icon = "__NauvisDay__/graphics/icons/pollution-detector.png",
-	icon_size = 32,
-    flags = {  },
-    subgroup = "circuit-network",
-    place_result="pollution-detector",
-    order = "b[combinators]-c[pollution-detector]",
-    stack_size = 50,
-	icon_size = 32
-  },
-  { --for display in the circuit gui
-    type = "virtual-signal",
-    name = "pollution",
-    icon = "__NauvisDay__/graphics/icons/pollution.png",
-	icon_size = 32,
-    subgroup = "virtual-signal-special",
-    order = "pollution",
-  }
-})
-
-
+registerObjectArray(detector)
 
 data:extend({
   {

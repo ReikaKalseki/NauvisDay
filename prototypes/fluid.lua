@@ -1,5 +1,7 @@
 require "constants"
 
+require "__DragonIndustries__.registration"
+
 data:extend(
 {
   {
@@ -102,12 +104,7 @@ for name,tile in pairs(data.raw.tile) do
 	end
 end
 
-for k,water in pairs(waters) do
-	data:extend(
-	{
-		water
-	})
-end
+registerObjectArray(waters)
 
 local pumps = {}
 for name,val in pairs(data.raw["offshore-pump"]) do
@@ -115,16 +112,11 @@ for name,val in pairs(data.raw["offshore-pump"]) do
 	local pump = util.table.deepcopy(val)
 	pump.localised_name = {"polluted-fluid.pump", {"entity-name." .. pump.name}}
 	pump.name = "polluted-" .. pump.name
-	pump.pumping_speed = 0
+	pump.pumping_speed = 1
 	pump.fluid_box.base_area = 0.00001
 	pump.order="d[remnants]-c[offshore-pump]"
 	--log(serpent.block(pump))
 	table.insert(pumps, pump)
 end
 
-for k,pump in pairs(pumps) do
-	data:extend(
-	{
-		pump
-	})
-end
+registerObjectArray(pumps)

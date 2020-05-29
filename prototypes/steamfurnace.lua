@@ -143,7 +143,9 @@ local function createIcons(obj)
 	obj.icon = string.gsub(obj.icon, "__base__", "__NauvisDay__")
 	obj.icon = string.gsub(obj.icon, "__bobplates__", "__NauvisDay__")
 	obj.icon = string.gsub(obj.icon, "steel%-furnace", obj.name)
-	log(obj.icon)
+	obj.icon_size = 32
+	obj.icon_mipmaps = 0
+	--log(obj.icon)
 end
 
 local function createSteamPoweredFurnace(base)
