@@ -3,7 +3,7 @@ require "config"
 require "__DragonIndustries__.interpolation"
 
 local f = math.max(1, Config.basePollutionFactor)
-pollutionScale = 12*f --was 4*f before 0.18, but values needed rebalancing
+pollutionScale = 40*f --was 4*f before 0.18, but values needed massive rebalancing
 firePollutionScale = 2*(1+(f-1)/2)
 coalPollutionScale = 6*f --was 4*f before 0.18
 miningPollutionScale = 3*f --was 2*f before 0.18
@@ -43,7 +43,7 @@ acidFogSizes = { --the keys are the ratios of pollution to minimum threshold
 --These forcibly override map settings at all times to get the intended effect
 pollutionAndEvo = {
 	["pollution"] = {
-		diffusion_ratio = 0.05,--0.25--0.1 --default is 0.02
+		diffusion_ratio = 0.04,--0.25--0.1 --default is 0.02
 		min_to_diffuse = 5, --default is 15
 		ageing = 4,--want to increase this actually, to discourage clearing and paving--0.05--0.25 --default is 1
 		min_to_show_per_chunk = 200, --default is 700
@@ -53,6 +53,7 @@ pollutionAndEvo = {
 		pollution_per_tree_damage = 4000, --default is 2000
 		pollution_restored_per_tree_damage = 1000, --default is 500
 		max_pollution_to_restore_trees = 30000,--20000, --default is 1000
+		enemy_attack_pollution_consumption_modifier = 1.25 --new to 0.18 (or 0.17), default is 1
 	},
 	["enemy_evolution"] = {
 		time_factor = {-0.000025, -0.00004},-- -0.000025,-- -0.00003,--0 --default is 0.000004
@@ -99,22 +100,22 @@ waterConversionPatterns = { --weighted random
 
 extraPollution = { --Further multipliers on a few entities or categories/group
 	["furnace"] = {
-		["steel-furnace"] = 2, --stacks with the previous 16x
+		["steel-furnace"] = 2.5, --stacks with the previous 16x
 		["angels-flare-stack_*"] = 100,
 		["clarifier_*"] = 3,
 	},
 	["assembling-machine"] = {
 		["assembling-machine-1"] = 4,
-		["oil-refinery_*"] = 60, --was 3, then 12, then 40; needs to be a LOT
+		["oil-refinery_*"] = 90, --was 3, then 12, then 40; needs to be a LOT
 		["chemical-plant_*"] = 2,
 		["ore-washer"] = 12,
 		["ore-washing-plant"] = 12,
-		["mixing-steel-furnace"] = 2,
-		["chemical-steel-furnace"] = 2,
+		["mixing-steel-furnace"] = 4,
+		["chemical-steel-furnace"] = 4,
 		["uranium-centrifuge_*"] = 4,
 	},
 	["boiler"] = {
-		["*"] = 1.2, --do across category
+		["*"] = 1.6, --do across category
 	},
 	["mining-drill"] = {
 		["pumpjack_*"] = 4, --anything with "pumpjack" in the name

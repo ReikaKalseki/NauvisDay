@@ -97,4 +97,11 @@ data:extend({
             default_value = 0.8,
             order = "r",
         },
+        {
+            type = "double-setting",
+            name = "attack-size",
+            setting_type = "startup",
+            default_value = 1.0,
+            order = "r",
+        },
 })
