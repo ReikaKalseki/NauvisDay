@@ -3,11 +3,11 @@ require "config"
 require "__DragonIndustries__.interpolation"
 
 local f = math.max(1, Config.basePollutionFactor)
-pollutionScale = 4*f
+pollutionScale = 12*f --was 4*f before 0.18, but values needed rebalancing
 firePollutionScale = 2*(1+(f-1)/2)
-coalPollutionScale = 4*f
-miningPollutionScale = 2*f
-pollutionSpawnIncrease = 1.75/5 --/60, then /15, then /5 from 0.17's pollution redesign
+coalPollutionScale = 6*f --was 4*f before 0.18
+miningPollutionScale = 3*f --was 2*f before 0.18
+pollutionSpawnIncrease = 1.75/25 --/60, then /15, then /5 from 0.17's pollution redesign, then /5 again in 0.18
 
 maxBoreholeSize = 500 --this is number of cycles, not fluid capacity
 
@@ -45,9 +45,9 @@ pollutionAndEvo = {
 	["pollution"] = {
 		diffusion_ratio = 0.05,--0.25--0.1 --default is 0.02
 		min_to_diffuse = 5, --default is 15
-		ageing = 2,--want to increase this actually, to discourage paving--0.05--0.25 --default is 1
+		ageing = 4,--want to increase this actually, to discourage clearing and paving--0.05--0.25 --default is 1
 		min_to_show_per_chunk = 200, --default is 700
-		expected_max_per_chunk = 40000, --default is 7000
+		expected_max_per_chunk = 50000, --default is 7000
 		min_pollution_to_damage_trees = 36000,--20000, --default is 3500
 		pollution_with_max_forest_damage = 120000,--100000, --default is 10000
 		pollution_per_tree_damage = 4000, --default is 2000
