@@ -52,7 +52,7 @@ function increaseEmissionValues()
 	end
 	pollutionIncreaseExclusion = repl --turn into table for fast lookup
 
-	local coalBurners = {"boiler", "furnace", "mining-drill", "assembling-machine"}--, "inserter", "car", "locomotive"} these do not have emissions params; do they even pollute? (reddit says no)
+	local coalBurners = {"boiler", "furnace", "mining-drill", "assembling-machine", "lab"}--, "inserter", "car", "locomotive"} these do not have emissions params; do they even pollute? (reddit says no)
 	for idx,label in pairs(coalBurners) do
 		for k,obj in pairs(data.raw[label]) do
 			if pollutionIncreaseExclusion[k] ~= 1 then

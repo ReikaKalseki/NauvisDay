@@ -41,6 +41,7 @@ if Config.enableSteamFurnace then
 
 	for _,tech in pairs(data.raw.technology) do
 		if tech.effects and not isCampaignOnlyTech(tech) then
+			--log("Parsing tech for steam copies")
 			for _,ir in pairs(recipes) do
 				for _,effect in pairs(tech.effects) do
 					if effect.type == "unlock-recipe" then

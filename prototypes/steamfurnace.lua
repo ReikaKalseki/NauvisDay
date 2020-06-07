@@ -219,7 +219,6 @@ local function createSteamPoweredFurnace(base)
 	local item = table.deepcopy(data.raw.item[base])
 	item.name = furnace.name
 	item.place_result = item.name
-	item.localised_name = furnace.localised_name
 	createIcons(item)
   
 	local recipe = {
@@ -235,6 +234,17 @@ local function createSteamPoweredFurnace(base)
 	result = furnace.name,
   }
 	createIcons(recipe)
+	
+	if mods["EarlyExtensions"] then
+		recipe.ingredients = {
+			{"stone-furnace", 1},
+			{"pipe", 15},
+			{"stone-brick", 5},
+		}
+		furnace.localised_name = {"steam-furnace.name", {"entity-name.stone-furnace"}}
+	end
+	
+	item.localised_name = furnace.localised_name
 	
 	log("Creating a steam-powered version of " .. base)
 	data:extend({furnace, item, recipe})

@@ -1,4 +1,5 @@
 require("__DragonIndustries__.cloning")
+require("__DragonIndustries__.registration")
 
 local detector = createSignalOutput("NauvisDay", "pollution-detector", "pollution")
 

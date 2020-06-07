@@ -43,7 +43,8 @@ if Config.enableGasBoiler then
 	table.insert(data.raw.technology["advanced-electronics"].effects, {type="unlock-recipe", recipe="gas-boiler"})
 end
 if Config.enableSteamFurnace then
-	table.insert(data.raw.technology["advanced-material-processing"].effects, {type="unlock-recipe", recipe="steam-furnace"})
+	local tech = mods["EarlyExtensions"] and "steam-power" or "advanced-material-processing"
+	table.insert(data.raw.technology[tech].effects, {type="unlock-recipe", recipe="steam-furnace"})
 	if data.raw.technology["chemical-processing-2"] then
 		table.insert(data.raw.technology["chemical-processing-2"].effects, {type="unlock-recipe", recipe="chemical-steam-furnace"})
 	end

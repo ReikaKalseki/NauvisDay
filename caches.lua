@@ -87,37 +87,41 @@ end
 
 function tickSteamFurnaces(nvday, tick)
 	if tick%60 == 0 then
-		for _,furnace in pairs(nvday.steam_furnaces) do
-			if furnace.get_recipe() and hasIngredients(furnace) then
-				furnace.crafting_progress = math.max(furnace.crafting_progress, 0.005)
-			end
-			local fluid = furnace.fluidbox[#furnace.fluidbox]
-			if fluid and fluid.name == "steam" and fluid.amount >= 5 then
-				furnace.burner.currently_burning = game.item_prototypes["coal"]
-				furnace.burner.remaining_burning_fuel = 50000000
-			else
-				furnace.burner.remaining_burning_fuel = 0
-			end
-		
-			--entry.furnace.energy = 300
+		for i,furnace in ipairs(nvday.steam_furnaces) do
+			if furnace.valid then
+				if furnace.get_recipe() and hasIngredients(furnace) then
+					furnace.crafting_progress = math.max(furnace.crafting_progress, 0.005)
+				end
+				local fluid = furnace.fluidbox[#furnace.fluidbox]
+				if fluid and fluid.name == "steam" and fluid.amount >= 5 then
+					furnace.burner.currently_burning = game.item_prototypes["coal"]
+					furnace.burner.remaining_burning_fuel = 50000000
+				else
+					furnace.burner.remaining_burning_fuel = 0
+				end
 			
-			--[[
-			local furnaces = furnace.surface.find_entities_filtered({name = furnace.name, area = {{furnace.position.x-8, furnace.position.y-8}, {furnace.position.x+8, furnace.position.y+8}}})
-			if #furnaces > 1 then
-				local totalsteam = 0
-				for _,furnace2 in pairs(furnaces) do
-					if furnace2.fluidbox[1] then
-						--game.print("Adding " .. furnace2.fluidbox[1].amount .. "steam")
-						totalsteam = totalsteam+furnace2.fluidbox[1].amount
+				--entry.furnace.energy = 300
+				
+				--[[
+				local furnaces = furnace.surface.find_entities_filtered({name = furnace.name, area = {{furnace.position.x-8, furnace.position.y-8}, {furnace.position.x+8, furnace.position.y+8}}})
+				if #furnaces > 1 then
+					local totalsteam = 0
+					for _,furnace2 in pairs(furnaces) do
+						if furnace2.fluidbox[1] then
+							--game.print("Adding " .. furnace2.fluidbox[1].amount .. "steam")
+							totalsteam = totalsteam+furnace2.fluidbox[1].amount
+						end
+					end
+					local avgsteam = math.floor(totalsteam/#furnaces)
+					--game.print(#furnaces .. " > " .. totalsteam .. " > " .. avgsteam)
+					for _,furnace2 in pairs(furnaces) do
+						furnace2.fluidbox[1] = {type="steam", amount=avgsteam}
 					end
 				end
-				local avgsteam = math.floor(totalsteam/#furnaces)
-				--game.print(#furnaces .. " > " .. totalsteam .. " > " .. avgsteam)
-				for _,furnace2 in pairs(furnaces) do
-					furnace2.fluidbox[1] = {type="steam", amount=avgsteam}
-				end
+				--]]
+			else
+				table.remove(nvday.steam_furnaces, i)
 			end
-			--]]
 		end
 	end
 end
