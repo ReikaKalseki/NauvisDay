@@ -45,7 +45,7 @@ pollutionAndEvo = {
 	["pollution"] = {
 		diffusion_ratio = 0.04,--0.25--0.1 --default is 0.02
 		min_to_diffuse = 5, --default is 15
-		ageing = 4,--want to increase this actually, to discourage clearing and paving--0.05--0.25 --default is 1
+		ageing = 5,--want to increase this actually, to discourage clearing and paving--0.05--0.25 --default is 1
 		min_to_show_per_chunk = 200, --default is 700
 		expected_max_per_chunk = 50000, --default is 7000
 		min_pollution_to_damage_trees = 36000,--20000, --default is 3500
@@ -53,7 +53,7 @@ pollutionAndEvo = {
 		pollution_per_tree_damage = 4000, --default is 2000
 		pollution_restored_per_tree_damage = 1000, --default is 500
 		max_pollution_to_restore_trees = 30000,--20000, --default is 1000
-		enemy_attack_pollution_consumption_modifier = 1.25 --new to 0.18 (or 0.17), default is 1
+		enemy_attack_pollution_consumption_modifier = 1.5 --new to 0.18 (or 0.17), default is 1
 	},
 	["enemy_evolution"] = {
 		time_factor = {-0.000025, -0.00004},-- -0.000025,-- -0.00003,--0 --default is 0.000004
@@ -78,7 +78,7 @@ local deaeroEfficiencyCurve = {
 deaeroEfficiencyCurveLookup = buildLinearInterpolation(deaeroEfficiencyCurve, 500)
 
 fanTickRate = 15
-fanPollutionMoveFactor = 0.025
+fanPollutionMoveFactor = 0.035
 fanPollutionSpread =		{1,		0.975,	0.95,	0.85,	0.7,	0.5,	0.25,	0.15,	0.1,	0.05}
 fanPollutionLateralSpread =	{0.9,	0.85,	0.8,	0.7,	0.6,	0.5,	0.375,	0.25,	0.1,	0.05} --Combined with the above
 
