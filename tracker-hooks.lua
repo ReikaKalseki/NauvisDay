@@ -13,7 +13,7 @@ end
 --remote.call("human interactor", "bye", "dear reader")
 
 --not necessary anymore, with fluid power source addTracker("steam-furnace",					addSteamFurnace,		removeSteamFurnace,			tickSteamFurnaces,						"nvday",	getGlobal())
-addTracker("gas-boiler",					addGasBoiler,			removeGasBoiler,			tickGasBoilers,							"nvday",	getGlobal())
+--addTracker("gas-boiler",					addGasBoiler,			removeGasBoiler,			tickGasBoilers,							"nvday",	getGlobal())
 addTracker("pollution-detector",			addPollutionDetector,	removePollutionDetector,	tickDetectors,							"nvday",	getGlobal())
 addTracker("borer",							addBoreholeMaker,		removeBoreholeMaker,		tickBoreholeMakers,						"nvday",	getGlobal())
 addTracker("storage-machine",				addBorehole,			removeBorehole,				tickBoreholes,							"nvday",	getGlobal())

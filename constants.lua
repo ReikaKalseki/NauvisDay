@@ -139,7 +139,7 @@ recipePollutionIncreases = {
 
 pollutionIncreaseExclusion = { --some machines to skip pollution modification for; either technical entities, native already-chosen ones, or ones that do not ACTUALLY do what the pollution boost is designed to "punish"
 	"greenhouse", "air-filter-machine-1", "air-filter-machine-2", "air-filter-machine-3", "air-filter-machine-4", "venting-machine", "storage-machine",
-	"gas-boiler", "gas-boiler-input", --[["steam-furnace",--]] "clean-oil-refinery", "clean-oil-refinery-2", "clean-oil-refinery-3", "clean-oil-refinery-4", --steam furnace removed because now computes based on steel-furnace
+	"gas-boiler", --[["steam-furnace",--]] "clean-oil-refinery", "clean-oil-refinery-2", "clean-oil-refinery-3", "clean-oil-refinery-4", --steam furnace removed because now computes based on steel-furnace
 	"geothermal-well", "geothermal-heat-exchanger",
 	"tf-field", "dead-bio-farm", "dead-greenhouse",
 	"algae-farm", "algae-farm-2", "crop-farm", "temperate-farm", "desert-farm", "swamp-farm", "dpa"

@@ -26,12 +26,6 @@ function initGlobal(markDirty)
 	if nvday.pollution_fans == nil then
 		nvday.pollution_fans = {}
 	end
-	if nvday.gas_boilers == nil then
-		nvday.gas_boilers = {}
-	end
-	if nvday.steam_furnaces == nil then
-		nvday.steam_furnaces = {}
-	end
 	if nvday.boreholes == nil then
 		nvday.boreholes = {}
 	end
@@ -89,7 +83,6 @@ end)
 local function onEntityRotated(event)
 	local nvday = global.nvday
 	
-	rotateGasBoiler(nvday, event.entity)
 	rotatePollutionFan(nvday, event.entity)
 end
 
@@ -200,19 +193,6 @@ local function onGameTick(event)
 		game.forces.enemy.evolution_factor = 0
 	end
 end
-
---[[
-local function onEntityMarkedDeconstruct(event)	
-	local entity = event.entity
-	local player = event.player_index and game.players[event.player_index] or nil
-	
-	if entity.name == "gas-boiler-input" then
-		entity.cancel_deconstruction(player and player.force or entity.force)
-	end
-end
-
-script.on_event(defines.events.on_marked_for_deconstruction, onEntityMarkedDeconstruct)
---]]
 
 script.on_event(defines.events.on_selected_entity_changed, handleFluidSpillTooltip)
 

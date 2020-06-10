@@ -3,8 +3,6 @@ require "config"
 
 if not Config.enableSteamFurnace then return end
 
-local categoriesToAdd = {}
-
 local power = 1--15
 
 local function createAnimations(furnace)
@@ -561,12 +559,3 @@ data:extend({
   },
 })
 --]]
-
-for cat,_ in pairs(categoriesToAdd) do
-	data:extend({
-		{
-			type = "recipe-category",
-			name = cat,
-		}
-	})
-end

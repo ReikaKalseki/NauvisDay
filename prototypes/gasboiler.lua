@@ -3,47 +3,6 @@ require "config"
 
 if not Config.enableGasBoiler then return end
 
---local blurFactor = 5
-
-data:extend({
-	{
-		type = "recipe-category",
-		name = "gas-boiler",
-	},
-	{
-		type = "recipe-category",
-		name = "gas-boiler-input",
-	},--[[
-	{
-		type = "recipe",
-		name = "gas-powered-boiler",
-		category = "gas-boiler",
-		enabled = "true",
-		energy_required = 1.5/blurFactor,
-		ingredients = { --default boiler takes about 400 water for 135 steam per coal, slightly faster than 1/s
-			{type = "fluid", name = "water", amount = 400/blurFactor},
-			{type = "fluid", name = "petroleum-gas", amount = 5/blurFactor},
-		},
-		results = {
-			{type = "fluid", name = "steam", amount = 135/blurFactor},
-		},
-	},--]]
-	{
-		type = "recipe",
-		name = "gas-boiler-input",
-		category = "gas-boiler-input",
-		enabled = "true",
-		hidden = true,
-		energy_required = 1000000,
-		ingredients = {
-			{type = "fluid", name = "petroleum-gas", amount = 5},
-		},
-		results = {
-			{type = "fluid", name = "steam", amount = 0},
-		},
-	}
-})
-
 data:extend({
   {
 	type = "item",
@@ -71,6 +30,31 @@ data:extend({
 	result = "gas-boiler",
   }
 })
+
+local function createGasPowerSource()
+	local ret = {
+		type = "fluid",
+		fluid_box = {
+			filter = "petroleum-gas",
+			production_type = "input",
+			pipe_picture = assembler3pipepictures(),
+			pipe_covers = pipecoverspictures(),
+			base_area = 1,
+			base_level = -1,
+			pipe_connections = {
+				{type = "input", position = {0, 1.5}},
+			},
+			secondary_draw_orders = { north = -1 }
+		  },
+		  emissions_per_minute = 44.30772, --the actual emissions of the entire gas boiler; 1/1.5*2*1.2 becomes 1/12th because of coal-burning x4, then overall x4, then boiler-specific x1.2 - these numbers changed in 0.18
+		  effectivity = 1,
+		  scale_fluid_usage = true,
+		  burns_fluid = true,
+		  fluid_usage_per_tick = 5/60,
+		  smoke = data.raw.boiler.boiler.energy_source.smoke
+	}
+	return ret
+end
 
 data:extend({
   {
@@ -130,27 +114,7 @@ data:extend({
 	  filter = "steam",
     },
     energy_consumption = "1.8MW",
-    energy_source =
-    {
-      type = "burner",
-      fuel_category = "chemical",
-      effectivity = 0.5,
-      fuel_inventory_size = 0,
-      emissions_per_minute = 44.30772, --the actual emissions of the entire gas boiler; 1/1.5*2*1.2 becomes 1/12th because of coal-burning x4, then overall x4, then boiler-specific x1.2
-      smoke =
-      {
-        {
-          name = "smoke",
-          north_position = util.by_pixel(-38, -47.5),
-          south_position = util.by_pixel(38.5, -32),
-          east_position = util.by_pixel(20, -70),
-          west_position = util.by_pixel(-19, -8.5),
-          frequency = 15,
-          starting_vertical_speed = 0.0,
-          starting_frame_deviation = 60
-        }
-      }
-    },
+    energy_source = createGasPowerSource(),
     working_sound =
     {
       sound =
@@ -515,63 +479,5 @@ data:extend({
       }
     },
     burning_cooldown = 20
-  },
-{
-    type = "assembling-machine",
-    name = "gas-boiler-input",
-    --icon = "__base__/graphics/icons/rail-signal.png",
-    flags = {"placeable-off-grid", "not-on-map", "not-blueprintable", "not-deconstructable"},
-    --fast_replaceable_group = "rail-signal",
-    --minable = {mining_time = 0.5, result = "rail-signal"},
-    max_health = 100,
-	destructible = false,
-	selectable_in_game = false,
-    corpse = "small-remnants",
-    --selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
-	collision_mask = {},
-    collision_box = {{-0.5, -0.5}, {0.5, 0.5}},
-	ingredient_count = 1,
-	crafting_categories = {"gas-boiler-input"},
-    crafting_speed = 0.001,
-    energy_source =
-    {
-      type = "electric",
-      usage_priority = "secondary-input",
-      emissions_per_minute = 0, --leave that to the gas burner
-    },
-    energy_usage = "4kW",
-    ingredient_count = 1,
-    allowed_effects = nil, --no modules
-    fluid_boxes =
-    {
-      {
-        production_type = "input",
-        pipe_picture = assembler3pipepictures(),
-        pipe_covers = pipecoverspictures(),
-        base_area = 10,
-        base_level = -1,
-        pipe_connections = {{ type="input", position = {0, -0.51} }},
-        secondary_draw_orders = { north = -1 }
-      },
-      {
-        production_type = "output",
-        pipe_picture = nil,
-        pipe_covers = nil,
-        base_area = 1,
-        base_level = 1,
-        pipe_connections = {},
-        secondary_draw_orders = { north = -1 }
-      },
-      off_when_no_fluid_recipe = false
-    },
-    animation =
-    {
-      filename = "__NauvisDay__/graphics/entity/boiler/trans.png",
-      priority = "high",
-      width = 96,
-      height = 96,
-      frame_count = 1,
-      direction_count = 1,
-    },
-   }
+  }
 })
