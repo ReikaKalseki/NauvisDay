@@ -56,7 +56,7 @@ function increaseEmissionValues()
 	for idx,label in pairs(coalBurners) do
 		for k,obj in pairs(data.raw[label]) do
 			if pollutionIncreaseExclusion[k] ~= 1 then
-				--log(serpent.block("Checking candidate coal burner '" .. k .. "'"))
+				log(serpent.block("Checking candidate coal burner '" .. k .. "'"))
 				if obj.energy_source.type == "burner" and obj.energy_source.fuel_category == "chemical" then
 					--log(serpent.block("ID'ed coal burner '" .. k .. "', increasing emissions " .. coalPollutionScale .. "x"))
 					increasePollution(obj, coalPollutionScale)

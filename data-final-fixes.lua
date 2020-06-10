@@ -5,65 +5,6 @@ require "__DragonIndustries__.tech"
 
 local recipes = {}
 
-local function createSteamRecipe(recipe)
-	local copy = nil
-	if recipe.category == "smelting" or recipe.category == "chemical-furnace" or recipe.category == "mixing-furnace" then
-		copy = table.deepcopy(recipe)
-		copy.name = copy.name .. "-steam"
-		copy.category = "steam-" .. copy.category
-		copy.enabled = true
-		if copy.ingredients then
-			table.insert(copy.ingredients, {type="fluid", name="steam", amount=5})
-		end
-		if copy.normal and copy.normal.ingredients then
-			table.insert(copy.normal.ingredients, {type="fluid", name="steam", amount=5})
-		end
-		if copy.expensive and copy.expensive.ingredients then
-			table.insert(copy.expensive.ingredients, {type="fluid", name="steam", amount=10})
-		end
-		copy.allow_decomposition = false
-		log("Created a steam version of smelting recipe '" .. recipe.name .. "'")
-	end
-	return copy
-end
-
-if Config.enableSteamFurnace then
-	for name,recipe in pairs(data.raw.recipe) do
-		local copy = createSteamRecipe(recipe)
-		if copy then
-			table.insert(recipes, copy)
-		end
-	end
-
-	for _,recipe in pairs(recipes) do
-		data:extend({recipe})
-	end
-
-	for _,tech in pairs(data.raw.technology) do
-		if tech.effects and not isCampaignOnlyTech(tech) then
-			--log("Parsing tech for steam copies")
-			for _,ir in pairs(recipes) do
-				for _,effect in pairs(tech.effects) do
-					if effect.type == "unlock-recipe" then
-						local recipe = data.raw.recipe[effect.recipe]
-						if not recipe then log("Tech set to unlock recipe '" .. effect.recipe .. "', which does not exist?!") end
-						if recipe then
-							if ir.name == recipe.name .. "-steam" then
-								table.insert(tech.effects, {type="unlock-recipe", recipe=ir.name})
-								ir.enabled = "false"
-								log("Adding " .. ir.name .. " to unlock list for " .. tech.name)
-								break
-							end
-						end
-					end
-				end
-			end
-		end
-	end
-end
-
-recipes = {}
-
 if Config.enableRefinery then
 	for name,recipe in pairs(data.raw.recipe) do --do later to handle the water->steam conversion some mods do
 		if recipe.category == "oil-processing" then

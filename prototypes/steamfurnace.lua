@@ -148,6 +148,33 @@ local function createIcons(obj)
 	--log(obj.icon)
 end
 
+local function createSteamPowerSource(original)
+	local ret = {
+		type = "fluid",
+		fluid_box = {
+			filter = "steam",
+			production_type = "input",
+			pipe_picture = assembler3pipepictures(),
+			pipe_covers = pipecoverspictures(),
+			base_area = 1,
+			base_level = -1,
+			pipe_connections = {
+				{type = "input", positions = {{0.5, -1.5}, {1.5, -0.5}, {0.5, 1.5}, {-1.5, -0.5}}},
+			},
+			secondary_draw_orders = { north = -1 }
+		  },
+		  emissions_per_minute = original.emissions_per_minute/4,
+		  effectivity = 1,
+		  minimum_temperature = 100.0,
+		  maximum_temperature = 1000.0,
+		  scale_fluid_usage = true,
+		  burns_fluid = false,
+		  fluid_usage_per_tick = nil,
+		  smoke = original.smoke
+	}
+	return ret
+end
+
 local function createSteamPoweredFurnace(base)
 	local obj = data.raw["furnace"][base]
 	if not obj then obj = data.raw["assembling-machine"][base] end
@@ -155,62 +182,14 @@ local function createSteamPoweredFurnace(base)
 
 	local furnace = table.deepcopy(obj)
 	local anim = createAnimations(furnace)
-	furnace.type = "assembling-machine"
 	if string.find(furnace.name, "steel") then
 		furnace.name = string.gsub(furnace.name, "steel", "steam")
 	else
 		furnace.name = "steam-" .. furnace.name
 	end
 	furnace.localised_name = {"steam-furnace.name", {"entity-name." .. base}}
-	furnace.energy_source.emissions_per_minute = furnace.energy_source.emissions_per_minute/4
-	furnace.energy_source.effectivity = 1
-	furnace.energy_source.fuel_inventory_size = 0
+	furnace.energy_source = createSteamPowerSource(furnace.energy_source)
 	furnace.crafting_speed = furnace.crafting_speed*Config.steamFurnaceSpeed
-	furnace.source_inventory_size = furnace.source_inventory_size and furnace.source_inventory_size+1 or 2
-	--furnace.ingredient_count = furnace.ingredient_count and furnace.ingredient_count+1 or 2
-	if furnace.fluid_boxes and #furnace.fluid_boxes > 0 then
-	furnace.fluid_boxes =
-		{
-		  {
-			production_type = "input",
-			pipe_covers = pipecoverspictures(),
-			base_area = 10,
-			base_level = -1,
-			pipe_connections = {{ type="input", position = {-0.5, -1.5} }}
-		  },
-		  {
-			production_type = "input",
-			pipe_covers = pipecoverspictures(),
-			base_area = 10,
-			base_level = -1,
-			pipe_connections = {{ type="input", position = {0.5, 1.5} }}
-		  },
-		}
-		--log("Adding a second fluidbox to " .. furnace.name)
-	else
-		furnace.fluid_boxes =
-		{
-		  {
-			production_type = "input",
-			pipe_picture = assembler3pipepictures(),
-			pipe_covers = pipecoverspictures(),
-			base_area = 10,
-			base_level = -1,
-			pipe_connections = {
-				{type = "input", positions = {{0.5, -1.5}, {1.5, -0.5}, {0.5, 1.5}, {-1.5, -0.5}}},
-			},
-			secondary_draw_orders = { north = -1 }
-		  },
-		}
-		--log("Adding a first fluidbox to " .. furnace.name)
-	end
-	local categories = {}
-	for _,cat in pairs(furnace.crafting_categories) do
-		local new = "steam-" .. cat
-		table.insert(categories, new)
-		categoriesToAdd[new] = true
-	end
-    furnace.crafting_categories = categories
 	furnace.minable.result = furnace.name
 	furnace.animation = anim.animation
 	furnace.working_visualisations = anim.working_visualisations
