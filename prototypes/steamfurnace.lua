@@ -234,7 +234,7 @@ local function createSteamPoweredFurnace(base)
 	result = furnace.name,
   }
 	createIcons(recipe)
-	
+	--[[
 	if mods["EarlyExtensions"] then
 		recipe.ingredients = {
 			{"stone-furnace", 1},
@@ -243,6 +243,7 @@ local function createSteamPoweredFurnace(base)
 		}
 		furnace.localised_name = {"steam-furnace.name", {"entity-name.stone-furnace"}}
 	end
+	--]]
 	
 	item.localised_name = furnace.localised_name
 	

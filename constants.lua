@@ -7,7 +7,8 @@ pollutionScale = 40*f --was 4*f before 0.18, but values needed massive rebalanci
 firePollutionScale = 2*(1+(f-1)/2)
 coalPollutionScale = 6*f --was 4*f before 0.18
 miningPollutionScale = 3*f --was 2*f before 0.18
-pollutionSpawnIncrease = 1.75/25 --/60, then /15, then /5 from 0.17's pollution redesign, then /5 again in 0.18
+pollutionSpawnIncrease = 1.75/20 --/60, then /15, then /5 from 0.17's pollution redesign, then /4 again in 0.18
+treePollutionAbsorptionScale = 10*f --was 10 in 0.16, the change in 0.17 broke it (tick -> second name change), and the new values did not yet take it into account
 
 maxBoreholeSize = 500 --this is number of cycles, not fluid capacity
 

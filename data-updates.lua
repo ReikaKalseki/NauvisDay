@@ -21,8 +21,8 @@ data.raw.recipe["firearm-magazine"].ingredients = {{"iron-plate", 3}} -- go from
 data.raw.recipe["firearm-magazine"].result_count = 2 --since attacks are going to be VERY frequent and early game resources are at a premium; since this ammo is obsoleted rapidly, does not affect mid to late game
 
 data.raw.unit["small-biter"].pollution_to_join_attack = 660 --was 200, then 400, then 500
-data.raw.unit["small-biter"].max_health = 10 --was 15
-data.raw.unit["small-biter"].attack_parameters.ammo_type = make_unit_melee_ammo_type(5) --was 7
+data.raw.unit["small-biter"].max_health = 12 --was 15
+data.raw.unit["small-biter"].attack_parameters.ammo_type = make_unit_melee_ammo_type(6) --was 7
 
 --make it competitive with the gas boiler, which burns 2 units of fuel per second, for vanilla steam amounts (2x fluid_usage_per_tick of 0.5, gen of 900kW each) -> 60steam/sec for 1.8MW
 --or 900kW per gas per second
@@ -41,7 +41,7 @@ if Config.enableGasBoiler then
 	table.insert(data.raw.technology["advanced-electronics"].effects, {type="unlock-recipe", recipe="gas-boiler"})
 end
 if Config.enableSteamFurnace then
-	local tech = mods["EarlyExtensions"] and "steam-power" or "advanced-material-processing"
+	local tech = "advanced-material-processing"--mods["EarlyExtensions"] and "steam-power" or "advanced-material-processing"
 	table.insert(data.raw.technology[tech].effects, {type="unlock-recipe", recipe="steam-furnace"})
 	if data.raw.technology["chemical-processing-2"] then
 		table.insert(data.raw.technology["chemical-processing-2"].effects, {type="unlock-recipe", recipe="chemical-steam-furnace"})
