@@ -66,10 +66,10 @@ function increaseEmissionValues()
 	end
 
 	for name,tree in pairs(data.raw["tree"]) do
-		if tree.emissions_per_tick and not string.find(name, "dead") then
+		if tree.emissions_per_second and not string.find(name, "dead") then
 			--log(serpent.block("Checking candidate coal burner '" .. k .. "'"))
 			--log(serpent.block("ID'ed coal burner '" .. k .. "', increasing emissions " .. pollutionScale*coalPollutionScale .. "x"))
-			tree.emissions_per_tick = tree.emissions_per_tick*10
+			tree.emissions_per_second = tree.emissions_per_second*treePollutionAbsorptionScale
 		end
 	end
 

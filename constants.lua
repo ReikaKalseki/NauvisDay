@@ -3,12 +3,12 @@ require "config"
 require "__DragonIndustries__.interpolation"
 
 local f = math.max(1, Config.basePollutionFactor)
-pollutionScale = 40*f --was 4*f before 0.18, but values needed massive rebalancing
+pollutionScale = 60*f --was 4*f before 0.18, but values needed massive rebalancing
 firePollutionScale = 2*(1+(f-1)/2)
 coalPollutionScale = 6*f --was 4*f before 0.18
-miningPollutionScale = 3*f --was 2*f before 0.18
+miningPollutionScale = 5*f --was 2*f before 0.18
 pollutionSpawnIncrease = 1.75/20 --/60, then /15, then /5 from 0.17's pollution redesign, then /4 again in 0.18
-treePollutionAbsorptionScale = 10*f --was 10 in 0.16, the change in 0.17 broke it (tick -> second name change), and the new values did not yet take it into account
+treePollutionAbsorptionScale = 12*f --was 10 in 0.16, the change in 0.17 broke it (tick -> second name change), and the new values did not yet take it into account
 
 maxBoreholeSize = 500 --this is number of cycles, not fluid capacity
 
@@ -99,9 +99,9 @@ waterConversionPatterns = { --weighted random
 	{5, {{0, 0, 1, 0, 0}, {0, 1, 1, 1, 0}, {1, 1, 1, 1, 1}, {0, 1, 1, 1, 0}, {0, 0, 1, 0, 0}}},
 }
 
-extraPollution = { --Further multipliers on a few entities or categories/group
+extraPollution = { --Further multipliers on a few entities or categories/group; stacks with the base
 	["furnace"] = {
-		["steel-furnace"] = 2.5, --stacks with the previous 16x
+		["steel-furnace"] = 3,
 		["angels-flare-stack_*"] = 100,
 		["clarifier_*"] = 3,
 	},
@@ -111,12 +111,12 @@ extraPollution = { --Further multipliers on a few entities or categories/group
 		["chemical-plant_*"] = 2,
 		["ore-washer"] = 12,
 		["ore-washing-plant"] = 12,
-		["mixing-steel-furnace"] = 4,
-		["chemical-steel-furnace"] = 4,
+		["mixing-steel-furnace"] = 6,
+		["chemical-steel-furnace"] = 6,
 		["uranium-centrifuge_*"] = 4,
 	},
 	["boiler"] = {
-		["*"] = 1.6, --do across category
+		["*"] = 2, --do across category
 	},
 	["mining-drill"] = {
 		["pumpjack_*"] = 4, --anything with "pumpjack" in the name
@@ -142,7 +142,7 @@ pollutionIncreaseExclusion = { --some machines to skip pollution modification fo
 	"gas-boiler", "gas-boiler-input", --[["steam-furnace",--]] "clean-oil-refinery", "clean-oil-refinery-2", "clean-oil-refinery-3", "clean-oil-refinery-4", --steam furnace removed because now computes based on steel-furnace
 	"geothermal-well", "geothermal-heat-exchanger",
 	"tf-field", "dead-bio-farm", "dead-greenhouse",
-	"algae-farm", "algae-farm-2", "crop-farm", "temperate-farm", "desert-farm", "swamp-farm"
+	"algae-farm", "algae-farm-2", "crop-farm", "temperate-farm", "desert-farm", "swamp-farm", "dpa"
 }
 
 for cat,entry in pairs(extraPollution) do
