@@ -1,8 +1,6 @@
 require "config"
 require "constants"
 
-require "__DragonIndustries__.tech"
-
 local recipes = {}
 
 if Config.enableRefinery then

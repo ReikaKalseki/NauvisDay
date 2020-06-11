@@ -4,6 +4,7 @@ data:extend({
             name = "base-pollution-factor",
             setting_type = "startup",
             default_value = 1,
+			minimum_value = 1.0,
             order = "r",
 			--localised_name = "Base pollution factor",
 			--localised_description = "A (decimal) multiplier for the pollution production. Multiplied against internal values. Increase this to make even MORE pollution. Lower bound clamped at 1.0.",
@@ -81,6 +82,7 @@ data:extend({
             name = "wall-nuker-pollution",
             setting_type = "startup",
             default_value = 10000,
+			minimum_value = 0,
             order = "r",
 		},
         {
@@ -95,6 +97,8 @@ data:extend({
             name = "steam-furnace-speed",
             setting_type = "startup",
             default_value = 0.8,
+			minimum_value = 0.5,
+			maximum_value = 1.0,
             order = "r",
         },
         {
@@ -104,4 +108,22 @@ data:extend({
             default_value = 1.0,
             order = "r",
         },
+        {
+            type = "double-setting",
+            name = "pollution-chem",
+            setting_type = "startup",
+            default_value = 1.0,
+			minimum_value = 0,
+			maximum_value = 2.0,
+            order = "r",
+		},
+        {
+            type = "double-setting",
+            name = "pollution-chem-out",
+            setting_type = "startup",
+            default_value = 1.0,
+			minimum_value = 0.1,
+			maximum_value = 2.0,
+            order = "r",
+		},
 })
