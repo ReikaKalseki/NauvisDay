@@ -5,14 +5,37 @@ require "__DragonIndustries__.mathhelper"
 require "__DragonIndustries__.arrays"
 require "__DragonIndustries__.interpolation"
 require "__DragonIndustries__.biters"
+require "__DragonIndustries__.ores"
+require "__DragonIndustries__.items"
 
 function getDeaeroRecipeName(efficiency)
+	--game.print("Efficiency is " .. efficiency)
 	return efficiency ~= 1 and ("air-cleaning-action-F" .. math.floor(efficiency*1000+0.5)) or "air-cleaning-action" --for backwards compat
+end
+
+local function getAmountProduced(force, item)
+	local form = getItemType(item)
+	local stats = form == "fluid" and force.fluid_production_statistics or force.item_production_statistics
+	return stats.get_flow_count{name = item, input=true, precision_index=defines.flow_precision_index.ten_minutes}
+end
+
+local function hasNoMining()
+	local names = getAllOreDrops()
+	local force = game.forces.player
+	for _,item in pairs(names) do
+		local prod = getAmountProduced(force, item)
+		--game.print(item .. " > " .. prod)
+		--if prod > 0 then return false end
+	end
+	return true
 end
 
 function setPollutionAndEvoSettings(nvday)
 	if not nvday.lastEvoValue then
 		nvday.lastEvoValue = 0
+	end
+	if not nvday.evoTimePenalty then
+		nvday.evoTimePenalty = 1
 	end
 	if not nvday.evotimebonus then
 		nvday.evotimebonus = 1
@@ -39,7 +62,21 @@ function setPollutionAndEvoSettings(nvday)
 	end
 	if nvday.evotimebonus > 1 then
 		timefac = timefac*nvday.evotimebonus
-	end	
+	end
+	if nvday.evoTimePenalty < 1 then
+		nvday.evoTimePenalty = math.min(1, nvday.evoTimePenalty*1.3) --approx 9 minutes for evo time factor to recover from its 0.1x
+	end
+	timefac = timefac*nvday.evoTimePenalty
+	
+	if hasNoMining() then
+		--game.print("Mining is disabled. Evo time fac goes from " .. timefac .. " to " .. (timefac*noMiningCalmingFactor))
+		timefac = timefac*noMiningCalmingFactor
+	end
+	for name,val in pairs(decorativeModPollutionScales) do
+		if game.active_mods[name] then
+			timefac = timefac/val
+		end
+	end
 	
 	for category, params in pairs(pollutionAndEvo) do
 		for entry, val in pairs(params) do
@@ -77,7 +114,7 @@ function doTreeFarmTreeDeath(entity)
 end
 
 function doSpawnerDestructionSpawns(spawner)
-	if spawner.type == "unit-spawner" then
+	if spawner.type == "unit-spawner" and spawner.force == game.forces.enemy then
 		local num = math.random(2, 20)
 		for i = 1,num do
 			local pos = {spawner.position.x, spawner.position.y}
@@ -90,6 +127,10 @@ function doSpawnerDestructionSpawns(spawner)
 				spawner.surface.create_entity{name=biter, position=pos, force = spawner.force}
 			end
 		end
+		local nvday = global.nvday
+		nvday.lastSpawnerKill = game.tick
+		nvday.evoTimePenalty = 0.1
+		nvday.evotimebonus = 1 --reset
 	end
 end
 

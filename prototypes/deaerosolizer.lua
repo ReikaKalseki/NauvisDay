@@ -59,12 +59,12 @@ local function createFilter(tier, speedFactor, efficiency) --efficiency can be >
     crafting_categories = {"air-cleaning"},
     source_inventory_size = 1,
     result_inventory_size = 1,
-    crafting_speed = 1*speedFactor/efficiency,
+    crafting_speed = 1*speedFactor,
     energy_source =
     {
       type = "electric",
       usage_priority = "secondary-input",
-      emissions_per_minute = -deaeroCoefficient*(speedFactor^deaeroExponent)
+      emissions_per_minute = -deaeroCoefficient*(speedFactor^deaeroExponent)*efficiency
     },
 	--fixed_recipe = "air-cleaning-action",
     energy_usage = (600*speedFactor) .. "kW",
@@ -134,7 +134,7 @@ end
 for poll,eff in pairs(deaeroEfficiencyCurveLookup.values) do
 	if eff > 0 then
 		local rec = createCleaningRecipe(eff)
-		--log("Created recipe " .. rec.name .. " with time " .. rec.energy_required .. " for efficiency " .. eff)
+		log("Created recipe " .. rec.name .. " with time " .. rec.energy_required .. " for efficiency " .. eff)
 		data:extend({rec})
 	end
 end

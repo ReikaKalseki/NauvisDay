@@ -15,6 +15,8 @@ maxBoreholeSize = 500 --this is number of cycles, not fluid capacity
 deaeroCoefficient = 1600 --was 900 pre 0.18, but the changes (presumably in 0.17) necessitated a buff
 deaeroExponent = 1.4 -- was 1.25 until the same
 
+noMiningCalmingFactor = 3.5 --how much more time evo (which is negative) increases if you have no mining of any kind ongoing
+
 local maxAttackSizeCurve = {
 	{0, 10},
 	{0.05, 25},--{0.05, 10},
@@ -72,8 +74,11 @@ local deaeroEfficiencyCurve = {
 	{2500, 0.2},
 	{4000, 0.5},
 	{10000, 0.8},
+	{15000, 0.9},
 	{25000, 1},
+	{30000, 1.15},
 	{40000, 1.5},
+	{60000, 2},
 	{100000, 2.5}
 }
 deaeroEfficiencyCurveLookup = buildLinearInterpolation(deaeroEfficiencyCurve, 500)
@@ -153,6 +158,19 @@ for cat,entry in pairs(extraPollution) do
 		end
 	end
 end
+
+decorativeModPollutionScales = {
+	["CleanedConcrete"] = 1.03,
+	["CleanFloor"] = 1.05,
+	["CleanTiles"] = 1.05,
+	["RealisticDecorationCleanup"] = 1.1,
+	["No-Decoratives"] = 1.25,
+	["Undecorate"] = 1.25,
+	
+	--["Naturalist"] = 0.95,
+	--["Redecorate"] = 0.95,
+	["TreePlant"] = 0.94,
+}
 
  --entity types, that if placed in sufficient number, give a 'green light' to biter attacks, signifying sufficient progression to make them reasonably survivable. As long as ANY have been met the attacks are permitted.
 attackGreenlightingTypes = {

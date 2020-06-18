@@ -29,7 +29,7 @@ function tickFans(nvday, tick)
 					fan.active = true
 					local control = fan.get_control_behavior()
 					if not (control and control.disabled) then
-						entry.input.fluidbox[1] = {name=(game.fluid_prototypes["air"] and "air" or (game.fluid_prototypes["compressed-air"] and "compressed-air" or (game.fluid_prototypes["liquid-air"] and "liquid-air" or "steam"))), amount = 1000}
+						entry.input.fluidbox[1] = {name="polluted-air", amount = 1000}
 						entry.output.fluidbox[1] = nil
 						local pos = fan.position
 						local surface = fan.surface

@@ -34,6 +34,8 @@ if data.raw.generator["petroleum-generator"] then
 	data.raw.generator["petroleum-generator"].effectivity = data.raw.generator["petroleum-generator"].effectivity*2.16
 end
 
+data.raw.fluid["petroleum-gas"].fuel_value = "1.5MJ"
+
 increaseEmissionValues()
 
 table.insert(data.raw.technology["circuit-network"].effects, {type="unlock-recipe", recipe="pollution-detector"})

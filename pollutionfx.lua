@@ -205,10 +205,6 @@ function doWaterPollution(surface, chunk, tick)
 	return true
 end
 
-local function spawnAcidRain()
-
-end
-
 function doAmbientPollutionEffects(nvday, tick)
 	local fog = math.random() < 0.01
 	if #game.players > 0 and fog then
@@ -228,11 +224,18 @@ function doAmbientPollutionEffects(nvday, tick)
 			local dy = math.random(0, 32-s)
 			local x = chunk.x*32+dx
 			local y = chunk.y*32+dy
+			local chunkarea = {{chunk.x*32, chunk.y*32}, {chunk.x*32+32, chunk.y*32+32}}
 			local area = {{x, y}, {x+s, y+s}}
 			if destroyTreeFarms(surface, area, tick) then
 				return
 			end
 			trySpawnNuker(surface, x, y, s)
+			local pos = {dx, dy}
+			local decos = surface.find_decoratives_filtered{area = chunkarea}
+			local df = -0.04
+			local dp = math.min(#decos*df, math.floor(surface.get_pollution(pos)*0.04))
+			--game.print(#decos .. " causes " .. dp .. " pollution")
+			surface.pollute(pos, dp)
 		end
 		if k >= tries or doWaterPollution(surface, chunk, tick) then
 			return

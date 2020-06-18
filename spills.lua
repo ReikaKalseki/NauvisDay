@@ -91,6 +91,7 @@ function setSpillStage(entry)
 		entry.entity.destroy()
 		local name = "spilled-" .. entry.fluid .. "-" .. stage
 		entry.entity = surf.create_entity{name = name, position = pos, force = game.forces.neutral}
+		entry.entity.destructible = false
 	end
 end
 

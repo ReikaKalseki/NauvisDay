@@ -18,6 +18,20 @@ data:extend(
     order = "a[fluid]-a[waste]",
     pressure_to_speed_ratio = 0.2,
     flow_to_energy_ratio = 0.2,
+  },
+  {
+    type = "fluid",
+    name = "polluted-air",
+    default_temperature = 20,
+    max_temperature = 30,
+    heat_capacity = "0J",
+    base_color = {r=0.7, g=0.75, b=0.7},
+    flow_color = {r=1, g=1, b=1},
+    icon = "__NauvisDay__/graphics/icons/air.png",
+	icon_size = 32,
+    order = "a[fluid]-a[air]",
+    pressure_to_speed_ratio = 20,
+    flow_to_energy_ratio = 20,
   }
 })
 
