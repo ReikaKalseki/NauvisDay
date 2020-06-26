@@ -14,6 +14,7 @@ function getDeaeroRecipeName(efficiency)
 end
 
 local function getAmountProduced(force, item)
+	if game.item_prototypes[item] == nil then return 0 end
 	local form = getItemType(item)
 	local stats = form == "fluid" and force.fluid_production_statistics or force.item_production_statistics
 	return stats.get_flow_count{name = item, input=true, precision_index=defines.flow_precision_index.ten_minutes}
@@ -63,8 +64,11 @@ function setPollutionAndEvoSettings(nvday)
 	if nvday.evotimebonus > 1 then
 		timefac = timefac*nvday.evotimebonus
 	end
-	if nvday.evoTimePenalty < 1 then
-		nvday.evoTimePenalty = math.min(1, nvday.evoTimePenalty*1.3) --approx 9 minutes for evo time factor to recover from its 0.1x
+	if nvday.evoTimePenalty < 1 and game.tick-nvday.lastSpawnerKill > 60 then --spawner-kill penalty active and >= 1s since last spawner death
+		nvday.evoTimePenalty = math.min(1, nvday.evoTimePenalty*1.35) --approx 10 minutes for evo time factor to recover from its 0.04x
+		--game.print("Evo time penalty increased to: " .. nvday.evoTimePenalty)
+	else
+		--game.print("Evo time penalty static at: " .. nvday.evoTimePenalty)
 	end
 	timefac = timefac*nvday.evoTimePenalty
 	
@@ -129,14 +133,17 @@ function doSpawnerDestructionSpawns(spawner)
 		end
 		local nvday = global.nvday
 		nvday.lastSpawnerKill = game.tick
-		nvday.evoTimePenalty = 0.1
+		nvday.evoTimePenalty = 0.04
+		--game.print("Setting evo time penalty static at: " .. nvday.evoTimePenalty)
+		setPollutionAndEvoSettings(nvday)
 		nvday.evotimebonus = 1 --reset
 	end
 end
 
 function noSignificantBuilding()
 	for struct,num in pairs(attackGreenlightingTypes) do
-		if game.entity_prototypes[struct] and game.forces.player.get_entity_count(struct) >= num then
+		local num2 = game.active_mods["EarlyExtensions"] and math.floor(num*1.5) or num
+		if game.entity_prototypes[struct] and game.forces.player.get_entity_count(struct) >= num2 then
 			return false
 		end
 	end
@@ -171,6 +178,6 @@ end
 
 function checkPollutionBlock(entity)
 	if entity.name == "pollution-block" then
-		entity.surface.pollute(entity.position, --[[settings.global['pollution_intensity'].value * --]]200)
+		entity.surface.pollute(entity.position, --[[settings.global['pollution_intensity'].value * --]]500)
 	end
 end

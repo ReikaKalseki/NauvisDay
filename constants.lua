@@ -8,7 +8,7 @@ firePollutionScale = 2*(1+(f-1)/2)
 coalPollutionScale = 6*f --was 4*f before 0.18
 miningPollutionScale = 5*f --was 2*f before 0.18
 pollutionSpawnIncrease = 1.75/20 --/60, then /15, then /5 from 0.17's pollution redesign, then /4 again in 0.18
-treePollutionAbsorptionScale = 12*f --was 10 in 0.16, the change in 0.17 broke it (tick -> second name change), and the new values did not yet take it into account
+treePollutionAbsorptionScale = 15*f --was 10 in 0.16, the change in 0.17 broke it (tick -> second name change), and the new values did not yet take it into account
 
 maxBoreholeSize = 500 --this is number of cycles, not fluid capacity
 
@@ -125,6 +125,7 @@ extraPollution = { --Further multipliers on a few entities or categories/group; 
 	},
 	["mining-drill"] = {
 		["pumpjack_*"] = 4, --anything with "pumpjack" in the name
+		["burner-mining-drill"] = 0.8, --reduce earlygame pollution a little
 	},
 }
 
@@ -183,7 +184,8 @@ attackGreenlightingTypes = {
 	["transport-belt"] = 100,
 	["gun-turret"] = 1,
 	["lab"] = 2,
-	["stone-wall"] = 5,
+	["burner-lab"] = 5,
+	["stone-wall"] = 10,
 }
 
 pollutionLiquidProductionFactor = 1 --to make it more difficult, or even infeasible, to just store pollution in more and more tanks; not really necessary given the 10x

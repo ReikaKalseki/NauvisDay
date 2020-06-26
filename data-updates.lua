@@ -45,11 +45,17 @@ end
 if Config.enableSteamFurnace then
 	local tech = "advanced-material-processing"--mods["EarlyExtensions"] and "steam-power" or "advanced-material-processing"
 	table.insert(data.raw.technology[tech].effects, {type="unlock-recipe", recipe="steam-furnace"})
-	if data.raw.technology["chemical-processing-2"] then
-		table.insert(data.raw.technology["chemical-processing-2"].effects, {type="unlock-recipe", recipe="chemical-steam-furnace"})
+	table.insert(data.raw.technology[tech].effects, {type="unlock-recipe", recipe="steam-furnace-uncraft"})
+	table.insert(data.raw.technology["advanced-material-processing-2"].effects, {type="unlock-recipe", recipe="steam-furnace-upcraft"})
+	if data.raw.technology["chemical-steel-furnace"] then
+		table.insert(data.raw.technology["chemical-steel-furnace"].effects, {type="unlock-recipe", recipe="chemical-steam-furnace"})
+		table.insert(data.raw.technology["chemical-steel-furnace"].effects, {type="unlock-recipe", recipe="chemical-steam-furnace-uncraft"})
+		table.insert(data.raw.technology["electric-chemical-furnace"].effects, {type="unlock-recipe", recipe="chemical-steam-furnace-upcraft"})
 	end
 	if data.raw.technology["mixing-steel-furnace"] then
 		table.insert(data.raw.technology["mixing-steel-furnace"].effects, {type="unlock-recipe", recipe="mixing-steam-furnace"})
+		table.insert(data.raw.technology["mixing-steel-furnace"].effects, {type="unlock-recipe", recipe="mixing-steam-furnace-uncraft"})
+		table.insert(data.raw.technology["electric-mixing-furnace"].effects, {type="unlock-recipe", recipe="mixing-steam-furnace-upcraft"})
 	end
 end
 
