@@ -208,6 +208,12 @@ script.on_event(defines.events.on_player_rotated_entity, onEntityRotated)
 
 script.on_event(defines.events.on_entity_damaged, onEntityDamaged)
 
+script.on_event(defines.events.on_player_flushed_fluid, function(event)
+	--if event.fluid == "waste" then
+		spillFluidsAt(event.fluid, event.amount, event.entity)
+	--end
+end)
+
 script.on_event(defines.events.on_resource_depleted, function(event)
 	if Config.depleteWells and event.entity.prototype.resource_category == "basic-fluid" then
 		if not (event.entity.prototype == "crude-oil" and game.active_mods["Fracking"]) then

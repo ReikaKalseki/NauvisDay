@@ -115,6 +115,10 @@ local function createSpill(fluid, source)
 	end
 end
 
+function spillFluidsAt(fluid, amount, entity)
+	createSpill({name = fluid, amount = amount}, entity)
+end
+
 function fluidSpill(e)
 	if #e.fluidbox > 0 then
 		for i = 1, #e.fluidbox do

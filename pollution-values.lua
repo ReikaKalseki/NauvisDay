@@ -21,6 +21,14 @@ local function increaseFuelEmissions(fuel, factor)
 	obj.fuel_emissions_multiplier = obj.fuel_emissions_multiplier*factor
 end
 
+local function increaseRecipeEmissions(recipe, factor)
+	local obj = data.raw.recipe[recipe]
+	if not obj.emissions_multiplier then
+		obj.emissions_multiplier = 1
+	end
+	obj.emissions_multiplier = obj.emissions_multiplier*factor
+end
+
 local function getExtraPollution(label, name)
 	if extraPollution[label] then
 		if extraPollution[label][name] then
@@ -114,4 +122,10 @@ function increaseEmissionValues()
 	increaseFuelEmissions("solid-fuel", 0.8)
 	increaseFuelEmissions("wood", 0.7)
 	increaseFuelEmissions("nuclear-fuel", 3)
+	
+	increaseRecipeEmissions("concrete", 5)
+	increaseRecipeEmissions("steel-plate", 6)
+	increaseRecipeEmissions("basic-oil-processing", 2)
+	increaseRecipeEmissions("coal-liquefaction", 3)
+	increaseRecipeEmissions("lubricant", 2)
 end

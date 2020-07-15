@@ -69,6 +69,9 @@ function onWallNukerDeath(event)
 			entity.damage(damage, nuker.force, "acid")
 		end
 	end
+	for _,player in pairs(game.forces.player.players) do
+		player.add_custom_alert(nuker, {type = "virtual", name = "nuker-alert"}, {"virtual-signal-name.nuker-alert", serpent.block(pos)}, true)
+	end
 	
 	if killed or math.random() < 0.25 then
 		createNukerCrater(nuker, killed and math.random(2, 5) or math.random(1, 3))

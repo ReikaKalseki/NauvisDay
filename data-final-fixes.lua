@@ -50,13 +50,13 @@ if Config.enableRefinery then
 			end
 			
 			if data.raw.item["air-filter-case"] then
-				table.insert(recipe.ingredients, {"air-filter", 1})
+				table.insert(recipe.ingredients, {type = "item", name = "air-filter", amount = 1, catalyst_amount = 1})
 			end
 			
 			table.insert(recipe.results, {type="fluid", name="waste", amount=amt*refineryWasteProductionRatio/refineryItemConsumption})
 						
 			if data.raw.item["air-filter-case"] then
-				table.insert(recipe.results, {"air-filter-case", 1})
+				table.insert(recipe.results, {type = "item", name = "air-filter-case", amount = 1, catalyst_amount = 1})
 			end
 			
 			for _,result in pairs(recipe.results) do

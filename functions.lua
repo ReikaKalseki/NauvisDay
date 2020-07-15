@@ -25,6 +25,9 @@ local function hasNoMining()
 	local force = game.forces.player
 	for _,item in pairs(names) do
 		local prod = getAmountProduced(force, item)
+		if item == stone then --too many things produce it as a byproduct
+			prod = 0
+		end
 		--game.print(item .. " > " .. prod)
 		--if prod > 0 then return false end
 	end

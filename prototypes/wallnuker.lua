@@ -59,13 +59,22 @@ end
 local sounds = require ("__base__.prototypes.entity.demo-sounds")
 
 data:extend({
+{
+	type = "virtual-signal",
+	name = "nuker-alert",
+	icon = "__NauvisDay__/graphics/icons/nuker-alert.png",
+	icon_size = 64,
+	subgroup = "virtual-signal-special",
+	order = name,
+	hidden = true,
+},
   {
     type = "unit",
     name = "wall-nuker",
     icon = "__base__/graphics/icons/small-biter.png",
     icon_size = 32,
     flags = {"placeable-player", "placeable-enemy", "placeable-off-grid", "not-repairable", "breaths-air"},
-    max_health = 180,
+    max_health = 1800,
     order = "b-b-a",
     subgroup="enemies",
     healing_per_tick = 0.05,
