@@ -11,13 +11,15 @@ if Config.enableRefinery then
 			recipe.name = "clean-" .. name
 			recipe.localised_name = {"clean-refining.name", {"recipe-name." .. name}}
 			local amt = 0
-			if recipe.results then
-				for _,result in pairs(recipe.results) do
+			local results = recipe.results
+			if not results then
+				results = recipe.normal.results
+			end
+			if results then
+				for _,result in pairs(results) do
 					amt = amt+result.amount
 					result.amount = result.amount/refineryItemConsumption
 				end
-			else
-				amt = amt+recipe.result.amount
 			end
 			amt = 5*math.floor((amt/4)/5+0.5)
 			

@@ -170,14 +170,7 @@ local function createNukedArea()
 	--log("Inserting " .. name .. " into " .. (tile.allowed_neighbors and (#tile.allowed_neighbors .. " @ " .. name) or "nil") .. " for " .. tile.name)
 	tile.pollution_absorption_per_second = 0
 	tile.map_color={r=83, g=28, b=105} --out of 255
-	tile.collision_mask =
-    {
-      --"water-tile", --removing this prevents offshore pumps from being placed on it (at least, it used to....)
-      "item-layer",
-      "resource-layer",
-      --"player-layer", --want the player to be able to walk through it
-      "doodad-layer"
-    }
+	tile.collision_mask = data.raw.tile["water-mud"].collision_mask
 	
     tile.variants = tile_variations_template(
       "__NauvisDay__/graphics/terrain/nukergoo/base.png", "__base__/graphics/terrain/masks/transition-1.png",

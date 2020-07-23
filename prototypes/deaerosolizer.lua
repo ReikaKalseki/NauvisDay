@@ -83,20 +83,24 @@ data:extend({
 })
 
 for tier = 1,4 do
+	local n = "air-filter-machine-" .. tier
 	data:extend({
 	  {
 		type = "item",
-		name = "air-filter-machine-" .. tier,
-		icon = "__NauvisDay__/graphics/icons/air-filter-machine-" .. tier .. ".png",
+		name = n,
+		icon = "__NauvisDay__/graphics/icons/" .. n .. ".png",
 		icon_size = 32,
 		flags = {  },
 		subgroup = "production-machine",
 		order = "f[air-filter-machine]",
-		place_result = "air-filter-machine-" .. tier,
+		place_result = n,
 		stack_size = 10,
 		icon_size = 32
 	  }
 	})
+	if tier < 4 then
+		data.raw["assembling-machine"][n].next_upgrade = "air-filter-machine-" .. (tier+1)
+	end
 end
 
 data:extend({

@@ -658,7 +658,7 @@ data:extend(
       },
     },
     
-    mining_speed = 6, --was 4
+    mining_speed = 6*pollutionStorageSpeedCoefficient, --was 4
     energy_source =
     {
       type = "electric",
