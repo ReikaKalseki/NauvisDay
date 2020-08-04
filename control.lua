@@ -91,6 +91,10 @@ local function onEntityAdded(event)
 	
 	local entity = event.created_entity
 	
+	if entity.name == "storage-machine" and entity.force.technologies["pollution-storage-2"].researched then
+		entity = upgradeStorageMachine(entity)
+	end
+	
 	trackEntityAddition(entity, nvday)
 	
 	if string.find(entity.name, "air-filter-machine-", 1, 1) then
@@ -252,4 +256,17 @@ script.on_event(defines.events.on_chunk_generated, function(event)
 	end
 end)
 
+local function onFinishedResearch(event)
+	local tech = event.research
+	local force = event.research.force
+	local nvday = global.nvday
+	if tech.name == "pollution-storage-2" then
+		for _,e in pairs(game.surfaces.nauvis.find_entities_filtered{name = "storage-machine", force = force}) do
+			local repl = upgradeStorageMachine(e)
+		end
+	end
+end
+
 script.on_event(defines.events.on_tick, onGameTick)
+
+script.on_event(defines.events.on_research_finished, onFinishedResearch)

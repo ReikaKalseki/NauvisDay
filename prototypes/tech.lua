@@ -207,8 +207,8 @@ data:extend(
         recipe = "boring-action"
       },
       {
-        type = "unlock-recipe",
-        recipe = "storage-machine-2"
+        type = "nothing",
+		effect_description = {"modifier-description.storage-effects"}
       },
     },
     unit =

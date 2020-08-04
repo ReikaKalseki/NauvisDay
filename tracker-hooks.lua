@@ -17,6 +17,7 @@ end
 addTracker("pollution-detector",			addPollutionDetector,	removePollutionDetector,	tickDetectors,							"nvday",	getGlobal())
 addTracker("borer",							addBoreholeMaker,		removeBoreholeMaker,		tickBoreholeMakers,						"nvday",	getGlobal())
 addTracker("storage-machine",				addBorehole,			removeBorehole,				tickBoreholes,							"nvday",	getGlobal())
+addTracker("storage-machine-2",				addBorehole,			removeBorehole,				tickBoreholes,							"nvday",	getGlobal())
 addTracker("greenhouse",					addGreenhouse,			nil,						nil,									"nvday",	getGlobal())
 addTracker("pollution-fan",					addFan,					removeFan,					tickFans,								"nvday",	getGlobal())
 addTracker("pollution-fan-placer",			addFan,					removeFan,					nil,									"nvday",	getGlobal())

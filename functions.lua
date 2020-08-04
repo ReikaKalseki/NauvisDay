@@ -184,3 +184,12 @@ function checkPollutionBlock(entity)
 		entity.surface.pollute(entity.position, --[[settings.global['pollution_intensity'].value * --]]500)
 	end
 end
+
+function upgradeStorageMachine(entity)
+	local pos = entity.position
+	local force = entity.force
+	local dir = entity.direction
+	local surf = entity.surface
+	entity.destroy()
+	return surf.create_entity{name = "storage-machine-2", force = force, direction = dir, position = pos}
+end
