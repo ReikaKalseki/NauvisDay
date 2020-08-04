@@ -193,6 +193,7 @@ data:extend(
     prerequisites =
     {
 		"pollution-storage",
+		"production-science-pack"
     },
     icon = "__NauvisDay__/graphics/technology/pollution.png",
     effects =
@@ -205,6 +206,10 @@ data:extend(
         type = "unlock-recipe",
         recipe = "boring-action"
       },
+      {
+        type = "unlock-recipe",
+        recipe = "storage-machine-2"
+      },
     },
     unit =
     {
@@ -213,7 +218,8 @@ data:extend(
       {
         {"automation-science-pack", 1},
         {"logistic-science-pack", 1},
-        {"chemical-science-pack", 1}
+        {"chemical-science-pack", 1},
+        {"production-science-pack", 1},
       },
       time = 60
     },

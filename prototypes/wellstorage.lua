@@ -1,5 +1,7 @@
 require "constants"
 
+require "__DragonIndustries__.cloning"
+
 function createSprite()
 	local ret =
 	{
@@ -684,7 +686,7 @@ data:extend(
     circuit_wire_connection_points = circuit_connector_definitions["electric-mining-drill"].points,
     circuit_connector_sprites = circuit_connector_definitions["electric-mining-drill"].sprites,
     circuit_wire_max_distance = 9,
-	allowed_effects = nil,
+	allowed_effects = {"speed"},
   }
 }
 )
@@ -704,6 +706,14 @@ data:extend({
     stack_size = 10
   }
 })
+
+local well2 = copyObject("mining-drill", "storage-machine", "storage-machine-2")
+well2.input_fluid_box.base_area = 50
+well2.mining_speed = well2.mining_speed*1.5
+well2.energy_usage = "720kW"
+well2.allowed_effects = {"speed"}
+local item2 = copyObject("item", "storage-machine", "storage-machine-2")
+data:extend({well2, item2})
 
 data:extend({
   {
@@ -729,6 +739,22 @@ data:extend({
       {"pump", 2}
     },
     result = "storage-machine"
-  }
+  },
+  {
+    type = "recipe",
+    name = "storage-machine-2",
+    icon = "__NauvisDay__/graphics/icons/pollution-storage-machine-2.png",
+	icon_size = 32,
+    energy_required = 60,
+    enabled = "false",
+    ingredients =
+    {
+      {"storage-machine", 2},
+      {"refined-concrete", 40},
+      {"pipe-to-ground", 10},
+      {"advanced-circuit", 2}
+    },
+    result = "storage-machine-2"
+  },
 })
 
