@@ -715,7 +715,7 @@ well2.energy_usage = "320kW"
 --well2.input_fluid_box.base_area = 50
 --well2.mining_speed = well2.mining_speed*1.5
 --well2.energy_usage = "720kW"
-well2.allowed_effects = {"speed"}
+well2.allowed_effects = {"speed", "consumption"}
 --local item2 = copyObject("item", "storage-machine", "storage-machine-2")
 data:extend({well2})
 
