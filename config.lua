@@ -18,6 +18,7 @@ Config.enableRefinery = settings.startup["clean-refinery"].value--true
 Config.wallNukerThresh = settings.startup["wall-nuker-pollution"].value--true
 
 Config.steamFurnaceSpeed = settings.startup["steam-furnace-speed"].value--true
+Config.cleanRefinerySpeed = settings.startup["clean-refinery-speed"].value--true
 
 Config.attackSize = settings.startup["attack-size"].value--true
 

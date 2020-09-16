@@ -3,6 +3,44 @@ require "constants"
 
 local recipes = {}
 
+local function modifyIngredients(recipe, wateramt, expensive)
+	if recipe == nil or recipe.ingredients == nil then return end		
+	if recipe.energy_required then
+		recipe.energy_required = recipe.energy_required/refineryItemConsumption
+	end
+	local added = false
+	for _,ingredient in pairs(recipe.ingredients) do
+		ingredient.fluidbox_index = nil
+		if ingredient.name == "water" then
+			ingredient.amount = ingredient.amount+wateramt
+			added = true
+		else
+			ingredient.amount = ingredient.amount/refineryItemConsumption
+		end
+	end
+	if not added then
+		table.insert(recipe.ingredients, 1, {type="fluid", name="water", amount=wateramt*refineryWasteProductionRatio/refineryItemConsumption})
+	end
+	
+	if data.raw.item["carbon"] then
+		table.insert(recipe.ingredients, {"carbon", expensive and 2 or 1})
+	else
+		--table.insert(recipe.ingredients, {"coal", 2})
+	end
+	
+	if data.raw.item["calcium-chloride"] then
+		table.insert(recipe.ingredients, {"calcium-chloride", expensive and 2 or 1})
+	end
+	
+	if data.raw.item["sodium-hydroxide"] then
+		table.insert(recipe.ingredients, {"sodium-hydroxide", expensive and 3 or 2})
+	end
+	
+	if data.raw.item["air-filter-case"] then
+		table.insert(recipe.ingredients, {type = "item", name = "air-filter", amount = 1, catalyst_amount = 1})
+	end
+end
+
 if Config.enableRefinery then
 	for name,recipe in pairs(data.raw.recipe) do --do later to handle the water->steam conversion some mods do
 		if recipe.category == "oil-processing" then
@@ -23,45 +61,17 @@ if Config.enableRefinery then
 			end
 			amt = 5*math.floor((amt/4)/5+0.5)
 			
-			local added = false
-			for _,ingredient in pairs(recipe.ingredients) do
-				ingredient.fluidbox_index = nil
-				if ingredient.name == "water" then
-					ingredient.amount = ingredient.amount+amt
-					added = true
-				else
-					ingredient.amount = ingredient.amount/refineryItemConsumption
-				end
-			end
-			if not added then
-				table.insert(recipe.ingredients, 1, {type="fluid", name="water", amount=amt*refineryWasteProductionRatio/refineryItemConsumption})
-			end
-
-			if data.raw.item["carbon"] then
-				table.insert(recipe.ingredients, {"carbon", 1})
-			else
-				--table.insert(recipe.ingredients, {"coal", 2})
-			end
-
-			if data.raw.item["calcium-chloride"] then
-				table.insert(recipe.ingredients, {"calcium-chloride", 1})
-			end
-
-			if data.raw.item["sodium-hydroxide"] then
-				table.insert(recipe.ingredients, {"sodium-hydroxide", 2})
-			end
+			modifyIngredients(recipe, amt)
+			modifyIngredients(recipe.normal, amt, false)
+			modifyIngredients(recipe.expensive, amt, true)
 			
-			if data.raw.item["air-filter-case"] then
-				table.insert(recipe.ingredients, {type = "item", name = "air-filter", amount = 1, catalyst_amount = 1})
-			end
-			
-			table.insert(recipe.results, {type="fluid", name="waste", amount=amt*refineryWasteProductionRatio/refineryItemConsumption})
+			table.insert(results, {type="fluid", name="waste", amount=amt*refineryWasteProductionRatio/refineryItemConsumption})
 						
 			if data.raw.item["air-filter-case"] then
-				table.insert(recipe.results, {type = "item", name = "air-filter-case", amount = 1, catalyst_amount = 1})
+				table.insert(results, {type = "item", name = "air-filter-case", amount = 1, catalyst_amount = 1})
 			end
 			
-			for _,result in pairs(recipe.results) do
+			for _,result in pairs(results) do
 				result.fluidbox_index = nil
 			end
 			

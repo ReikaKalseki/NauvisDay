@@ -103,6 +103,15 @@ data:extend({
         },
         {
             type = "double-setting",
+            name = "clean-refinery-speed",
+            setting_type = "startup",
+            default_value = 1.0,
+			minimum_value = 0.5,
+			maximum_value = 1.0,
+            order = "r",
+        },
+        {
+            type = "double-setting",
             name = "attack-size",
             setting_type = "startup",
             default_value = 1.0,

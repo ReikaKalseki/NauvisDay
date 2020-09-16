@@ -24,7 +24,7 @@ local function createRefinery(base)
 	refinery.energy_usage = (pow*1.25) .. (string.find(base.energy_usage, "MW") and "MW" or "kW")
 	--refinery.ingredient_count = refinery.ingredient_count+1
 	refinery.energy_source.emissions_per_minute = refinery.energy_source.emissions_per_minute*20 --still 10x less than a refinery
-	refinery.crafting_speed = refinery.crafting_speed*refineryItemConsumption
+	refinery.crafting_speed = refinery.crafting_speed*Config.cleanRefinerySpeed
 	refinery.fluid_boxes =
 		{	  
 		  {
