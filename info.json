@@ -4,7 +4,7 @@
   "title": "Nauvis Day",
   "author": "Reika",
   "homepage": "",
-  "factorio_version" : "0.18",
+  "factorio_version" : "1.1",
   "dependencies": ["base", "DragonIndustries", "? bobplates", "? bobassembly"],
   "description": "Pollution is much more of a problem than before, but you do have increased flexibility with it."
 }

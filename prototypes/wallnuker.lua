@@ -56,7 +56,7 @@ local scale = 0.5
   }
 end
 
-local sounds = require ("__base__.prototypes.entity.demo-sounds")
+local sounds = require ("__base__.prototypes.entity.sounds")
 
 data:extend({
 {
@@ -84,18 +84,18 @@ data:extend({
 	collision_mask = {}, --flying
     attack_parameters =
     {
-      type = "projectile",
-      range = 0.25,
-      cooldown = 12,--0,--35,
-      ammo_category = "melee",
-      ammo_type = make_unit_melee_ammo_type(0.1),
-      sound = {
-		{
-		  filename = "__NauvisDay__/sound/wallnuker-detonate.ogg",
-		  volume = volume
+		type = "projectile",
+		range = 0.25,
+		cooldown = 12,--0,--35,
+		ammo_category = "melee",
+		ammo_type = make_unit_melee_ammo_type(0.1),
+		sound = {
+			{
+			  filename = "__NauvisDay__/sound/wallnuker-detonate.ogg",
+			  volume = volume
+			},
 		},
-	  },
-    animation = create_attack_animation()
+		animation = create_attack_animation()
     },
     vision_distance = 90,
     movement_speed = 0.05,

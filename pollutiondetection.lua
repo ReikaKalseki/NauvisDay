@@ -47,13 +47,13 @@ function setPollutionValue(entity)
   if pollution_count < 0 or pollution_count > 2^32-1 then
 	pollution_count = 0
   end
-  params = {parameters = {
+  params = {
     {
 		index = 1,
 		signal = {type = "virtual", name = "pollution"},
 		count = pollution_count
 	}
-  }}
+  }
 
   entity.get_control_behavior().parameters = params
 end
