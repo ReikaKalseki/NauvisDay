@@ -70,3 +70,116 @@ Date: Aug 21 2018
 Version: 1.0.115
 Date: Aug 16 2018
 	- Charcoal is no longer made from coal
+	- Polluted water pump now has a distinct name
+	- Prevented offshore pump placement on polluted water
+---------------------------------------------------------------------------------------------------
+Version: 1.0.112
+Date: Aug 13 2018
+	- Fixed handling of modded recipes and their interactions with steam furnace and clean refinery
+	- Fixed crash in water pollution script
+---------------------------------------------------------------------------------------------------
+Version: 1.0.105
+Date: Aug 6 2018
+	- Fixed dead greenhouse sprites
+---------------------------------------------------------------------------------------------------
+Version: 1.0.101
+Date: Aug 2 2018
+	- Added filtered refinery
+	- Added formaldehyde spill effects
+	- New tech icon for pollution processing
+	- Wall nuker now reacts to artillery turrets
+	- Fixed crashes with mods adding nonpolluting entities
+---------------------------------------------------------------------------------------------------
+Version: 1.0.98
+Date: Jul 30 2018
+	- Added (optional) wall nukers if severe pollution reaches nests
+	- Removed GUI for deaeros and venting machines, making them begin functioning automatically
+	- Added option for polluted water pollution release amount
+	- Spilled waste now evaporates very slowly, but is very dangerous and polluting
+	- Added new polluted water graphics
+	- Improved water pollution performance
+---------------------------------------------------------------------------------------------------
+Version: 1.0.80
+Date: Apr 20 2018
+	- Fixed some issues in MP
+	- Made high tier deaeros use refined concrete instead of basic
+	- Fixed crash with clogged offshore pump
+---------------------------------------------------------------------------------------------------
+Version: 1.0.74
+Date: Feb 3 2018
+	- Added spilled fluids when breaking filled entities, which may emit pollution or cause damage as they evaporate
+	- Added compatibility with Fracking mod
+---------------------------------------------------------------------------------------------------
+Version: 1.0.64
+Date: Jan 4 2018
+	- Fixed crash when disabling steam furnace causing its recipes to fail
+	- Improved mod compat
+	- More 0.18 fixes
+	- Increased greenhouse wood production 10x, and gated behind bob greenhouse tech if present
+---------------------------------------------------------------------------------------------------
+Version: 1.0.60
+Date: Dec 23 2017
+	- Update to 0.16
+---------------------------------------------------------------------------------------------------
+Version: 1.0.46
+Date: Sep 5 2017
+	- Disabled steam smelting recipes from being used as intermediates
+	- Fixed crashes with zero-speed dead greenhouses
+	- Fixed detection of biofarms
+	- Fans now have sound
+	- Removed debug prints
+	- NVDay now disables peaceful mode
+---------------------------------------------------------------------------------------------------
+Version: 1.0.5
+Date: Aug 18 2017
+	- Made DirtyMining ore washing emissions much higher
+	- Added pollution fan
+	- Changed pollution signal from item to virtual
+	- Added more mod entity exclusions
+	- Changed biter attack size curve, increasing caps
+	- Added pollution clouds and greenhouse killing
+	- Improved scripting performance
+---------------------------------------------------------------------------------------------------
+Version: 1.0.3
+Date: Aug 8 2017
+	- Made many modded machines immunte to pollution increases due to them not "meaning" to be that entity type
+	- Fixed some scripting issues in the gas boiler
+	- Hid boring action recipe (technical)
+	- Doubled deaero cleaning power
+	- Slightly increased gas boiler emissions
+	- Increased steam furnace speed 20%
+	- Added rubber flooring
+---------------------------------------------------------------------------------------------------
+Version: 1.0.2
+Date: Jul 22 2017
+	- Added more changes to pollution map settings to reduce extreme tree damage
+	- Slightly lessened time evolution factor
+	- Tweaked polluted water creation
+	- Fixed CRC issues and MP incompatibility
+	- Added pollution sensor
+	- Added much more locale
+---------------------------------------------------------------------------------------------------
+Version: 1.0.1
+Date: Jul 17 2017
+	- Added option to not make oil deplete to form empty wells but to generate tectonic fissures instead
+	- Added locale
+---------------------------------------------------------------------------------------------------
+Version: 1.0.0
+Date: Jul 14 2017
+	- Release
+	- Massively reduced deaero cleaning ability
+---------------------------------------------------------------------------------------------------
+Version: 0.0.1
+Date: Jul 12 2017
+	- Reduced waste production from deaerosolizers
+	- Deaeros now have tiered efficiency
+	- Added missing locale
+---------------------------------------------------------------------------------------------------
+Version: 0.0.1
+Date: Jul 2 2017
+	- Moved configs to game settings system
+---------------------------------------------------------------------------------------------------
+Version: 0.0.0
+Date: Jun 21 2017
+	- Creation
+---------------------------------------------------------------------------------------------------
