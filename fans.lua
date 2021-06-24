@@ -24,7 +24,7 @@ function tickFans(nvday, tick)
 	if tick%fanTickRate == 0 then
 		for i,entry in ipairs(nvday.pollution_fans) do
 			local fan = entry.fan
-			if fan.valid then
+			if fan.valid and entry.input.valid then
 				if fan.energy > 0 then
 					fan.active = true
 					local control = fan.get_control_behavior()
