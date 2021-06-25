@@ -1,4 +1,123 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.105.1
+Date: Apr 28 2021
+	- Update to 1.1
+---------------------------------------------------------------------------------------------------
+Version: 1.18.24
+Date: Nov 15 2020
+	- Added setting for clean refinery speed
+	- More mod compat fixes for clean refinery
+	- Clean refinery now better respects normal/expensive recipes
+---------------------------------------------------------------------------------------------------
+Version: 1.18.18
+Date: Aug 10 2020
+	- Added tech to enable speed and efficiency module beacon effects on storage wells, as well as a base speed increase
+---------------------------------------------------------------------------------------------------
+Version: 1.18.15
+Date: Jul 28 2020
+	- Increased pollution storage well speed 20%
+	- Fixed more mod compat issues with clean refinery
+	- Fixed missing locale for soft resin
+	- Deaeros now support the upgrade system
+	- Soft resin now disallows building and can be filled with landfill
+	- Soft resin placement now cannot delete entities
+---------------------------------------------------------------------------------------------------
+Version: 1.18.12
+Date: Jul 5 2020
+	- Added handling for fluid flushing to prevent free waste disposal
+	- Marked "air filter" item as catalyst in clean refinery
+	- Removed stone from the "resource production" watcher due to its being made as byproducts in other recipes
+	- Added alert for wall nuker spawn
+	- Markedly increased emissions for several recipes, including concrete, steel, basic oil, and coal liquefaction
+---------------------------------------------------------------------------------------------------
+Version: 1.18.10
+Date: Jun 29 2020
+	- Reduced early-game pollution slightly
+	- Increased tree pollution absorption
+	- Added EE compat for "Attack greenlighting"
+	- Added conversion recipes to convert to and from steam furnaces and their base counterparts
+	- Fixed crash with resource extraction detection
+	- Tweaked spawner-kill biter calming reset penalty
+	- Made mining pollution blocks emit 2.5x as much pollution as before
+---------------------------------------------------------------------------------------------------
+Version: 1.18.6
+Date: Jun 15 2020
+	- Increased resolution of deaero curve
+	- Added mechanic where ceasing all resource extraction for a time will dramatically increase effect of the existing biter calming mechanic
+	- Added pollution scale values for the presence of many decorative-affecting or environmentally-focused mods (eg decorative removers or TreePlant)
+	- Added 1.5MJ fuel value to petroleum gas to allow it to work in the gas boiler without KSPower (which added this value)
+	- Fans no longer can accidentally make steam
+	- Fixed some issues with spawner "enemy burst" mechanic
+	- Made killing spawners completely reset the biter calming value to zero
+	- Made decoratives remove trace pollution amounts
+	- Fixed spilled liquid being destroyable
+---------------------------------------------------------------------------------------------------
+Version: 1.18.5
+Date: Jun 11 2020
+	- Restored increases to tree pollution absorption broken in 0.17
+	- Reduced 0.15-era nerf to small biter attack power
+	- Moved steam furnace back to advanced material processing, removing its EE compat
+	- Refined pollution values again
+	- Added Dew Point Aggregator to pollution exclusion list
+	- Steam furnaces are now actually furnaces, not assembling machines, and as such no longer need recipe setting or active scripting
+	- Gas boiler similarly cleaned and no longer needs active scripting, also fixes many lingering issues
+	- Added settings to modify pollution processing waste consumption and product yields
+	- Added missing bounds on many settings' values
+---------------------------------------------------------------------------------------------------
+Version: 1.18.3
+Date: Jun 7 2020
+	- Rebalanced pollution values, especially tile absorption and some entities' base emissions
+	- Now increases enemy_attack_pollution_consumption_modifier map setting
+	- Massively increased oil refinery pollution
+	- Added "max attack size multiplier" setting
+	- Increased fan effectivity 20%
+	- Increased pollution cost for small biters
+---------------------------------------------------------------------------------------------------
+Version: 1.18.2
+Date: Jun 7 2020
+	- Added EarlyExtensions compat
+---------------------------------------------------------------------------------------------------
+Version: 1.18.1
+Date: May 29 2020
+	- Update to 0.18
+	- Redesigned clogged offshore pump handling
+	- Restored rubber floor step sounds to old belt sounds
+	- Increased deaero cleaning power, especially at higher tiers
+	- Updated GUI handling
+	- Added new polluted water graphics (again)
+	- Fixed some issues with polluted water
+---------------------------------------------------------------------------------------------------
+Version: 1.17.35
+Date: Dec 29 2019
+	- Added some sanity checks to gas boilers
+	- Massively rebalanced pollution levels again
+	- Fixed crash with Schall "machine scaling" refineries
+	- Added Dragon Industries fluids to the spill table
+	- Added emissions penalties for bob fluid venting
+	- Added chemplant colors for pollution processing recipes
+---------------------------------------------------------------------------------------------------
+Version: 1.17.24
+Date: Sep 30 2019
+	- Fixed crashes with clean refinery and some mods' recipes
+	- Pollution effects are no longer restricted to the default surface
+	- Fixed crash with wall nuker light
+---------------------------------------------------------------------------------------------------
+Version: 1.17.15
+Date: Jul 1 2019
+	- Massively reduced pollution values to better match 0.17 changes
+	- Added handling for campaign-only techs to prevent them being used for recipes
+---------------------------------------------------------------------------------------------------
+Version: 1.17.12
+Date: Jun 17 2019
+	- Moved entity tracking to Dragon Industries
+---------------------------------------------------------------------------------------------------
+Version: 1.17.6
+Date: Jun 6 2019
+	- Update to 0.17
+	- Added acid rain
+	- Moved shared code to Dragon Industries
+	- Added glow to wall nukers
+---------------------------------------------------------------------------------------------------
 Version: 1.0.180
 Date: Nov 28 2018
 	- Deaerosolizer efficiency and speed is now tied to pollution levels around them
@@ -60,6 +179,13 @@ Date: Sep 2 2018
 	- Fixed spilled-fluid tooltips sometimes lingering
 	- Removed pollution cloud sound due to unavoidable stacking
 	- Redesigned pollution-to-sulfur processing recipes for BobMods environments
+---------------------------------------------------------------------------------------------------
+Version: 1.0.128
+Date: Aug 24 2018
+	- Rebalanced pollution a bit
+	- Hid venting recipe (technical)
+	- Added 1x lower bound to pollution increase factor option
+	- New mod icon
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.120
 Date: Aug 21 2018
@@ -131,6 +257,7 @@ Date: Sep 5 2017
 	- NVDay now disables peaceful mode
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.5
+Game: 0.15
 Date: Aug 18 2017
 	- Made DirtyMining ore washing emissions much higher
 	- Added pollution fan
@@ -141,6 +268,7 @@ Date: Aug 18 2017
 	- Improved scripting performance
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.3
+Game: 0.15
 Date: Aug 8 2017
 	- Made many modded machines immunte to pollution increases due to them not "meaning" to be that entity type
 	- Fixed some scripting issues in the gas boiler
@@ -151,6 +279,7 @@ Date: Aug 8 2017
 	- Added rubber flooring
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.2
+Game: 0.15
 Date: Jul 22 2017
 	- Added more changes to pollution map settings to reduce extreme tree damage
 	- Slightly lessened time evolution factor
@@ -160,26 +289,31 @@ Date: Jul 22 2017
 	- Added much more locale
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.1
+Game: 0.15
 Date: Jul 17 2017
 	- Added option to not make oil deplete to form empty wells but to generate tectonic fissures instead
 	- Added locale
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.0
+Game: 0.15
 Date: Jul 14 2017
 	- Release
 	- Massively reduced deaero cleaning ability
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.1
+Game: 0.15
 Date: Jul 12 2017
 	- Reduced waste production from deaerosolizers
 	- Deaeros now have tiered efficiency
 	- Added missing locale
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.1
+Game: 0.15
 Date: Jul 2 2017
 	- Moved configs to game settings system
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.0
+Game: 0.15
 Date: Jun 21 2017
 	- Creation
 ---------------------------------------------------------------------------------------------------
