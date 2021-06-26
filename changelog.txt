@@ -188,13 +188,13 @@ Date: Aug 24 2018
 	- New mod icon
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.120
-Date: Aug 21 2018
+Date: Aug 20 2018
 	- Added steam-powered versions of Bob Chemical and Metal-Mix furnaces
 	- Doubled spilled steam evaporation rate
 	- Fixed Bob furnaces not having the proper pollution increase amount
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.115
-Date: Aug 16 2018
+Date: Aug 15 2018
 	- Charcoal is no longer made from coal
 	- Polluted water pump now has a distinct name
 	- Prevented offshore pump placement on polluted water
