@@ -20,7 +20,6 @@ end
 data.raw.recipe["firearm-magazine"].ingredients = {{"iron-plate", 3}} -- go from 4 plates to 1.5 plates each
 data.raw.recipe["firearm-magazine"].result_count = 2 --since attacks are going to be VERY frequent and early game resources are at a premium; since this ammo is obsoleted rapidly, does not affect mid to late game
 
-data.raw.unit["small-biter"].pollution_to_join_attack = 660 --was 200, then 400, then 500
 data.raw.unit["small-biter"].max_health = 12 --was 15
 data.raw.unit["small-biter"].attack_parameters.ammo_type = make_unit_melee_ammo_type(6) --was 7
 

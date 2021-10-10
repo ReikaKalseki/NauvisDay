@@ -207,3 +207,8 @@ for name,fluid in pairs(data.raw.fluid) do
 		)
 	end
 end
+
+-- Scale biter attack pollution
+for k,obj in pairs(data.raw["unit"]) do
+	obj.pollution_to_join_attack = obj.pollution_to_join_attack*pollutionToJoinAttackScale
+end

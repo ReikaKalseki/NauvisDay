@@ -8,6 +8,7 @@ firePollutionScale = 2*(1+(f-1)/2)
 coalPollutionScale = 6*f --was 4*f before 0.18
 miningPollutionScale = 5*f --was 2*f before 0.18
 pollutionSpawnIncrease = 1.75/20 --/60, then /15, then /5 from 0.17's pollution redesign, then /4 again in 0.18
+pollutionToJoinAttackScale = 660/4 -- Divided by vanilla small biter pollution requirement
 treePollutionAbsorptionScale = 15*f --was 10 in 0.16, the change in 0.17 broke it (tick -> second name change), and the new values did not yet take it into account
 
 maxBoreholeSize = 500 --this is number of cycles, not fluid capacity
