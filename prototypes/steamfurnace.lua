@@ -240,3 +240,9 @@ end
 createSteamPoweredFurnace("steel-furnace", "electric-furnace")
 createSteamPoweredFurnace("chemical-steel-furnace", "electric-chemical-furnace")
 createSteamPoweredFurnace("mixing-steel-furnace", "electric-mixing-furnace")
+
+local rec = createConversionRecipe("stone-furnace", "steam-furnace", false, nil, true)
+rec.enabled = false
+rec.name = "stone-to-steam-furnace"
+rec.energy_required = data.raw.recipe["steam-furnace"].energy_required
+data:extend({rec})

@@ -6,6 +6,7 @@ require "__DragonIndustries__.arrays"
 require "__DragonIndustries__.interpolation"
 require "__DragonIndustries__.biters"
 require "__DragonIndustries__.ores"
+require "__DragonIndustries__.strings"
 require "__DragonIndustries__.items"
 
 function getDeaeroRecipeName(efficiency)
@@ -146,6 +147,7 @@ end
 function noSignificantBuilding()
 	for struct,num in pairs(attackGreenlightingTypes) do
 		local num2 = game.active_mods["EarlyExtensions"] and math.floor(num*1.5) or num
+		--game.print(struct .. " > " .. game.forces.player.get_entity_count(struct) .. " / " .. num2);
 		if game.entity_prototypes[struct] and game.forces.player.get_entity_count(struct) >= num2 then
 			return false
 		end

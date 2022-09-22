@@ -37,6 +37,10 @@ data:extend(
         type = "unlock-recipe",
         recipe = "pollution-fan"
       },
+      {
+        type = "unlock-recipe",
+        recipe = "mined-sludge-liquefaction"
+      },
     },
     unit =
     {
@@ -208,6 +212,7 @@ data:extend(
       },
       {
         type = "nothing",
+		icons = {{icon = "__NauvisDay__/graphics/icons/pollution-storage-machine.png", icon_size = 32}, {icon = "__NauvisDay__/graphics/technology/effect/pollution-storage-2.png", icon_size = 64, mipmap_count = 2}},
 		effect_description = {"modifier-description.storage-effects"}
       },
     },

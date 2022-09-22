@@ -46,6 +46,7 @@ if Config.enableSteamFurnace then
 	local tech = "advanced-material-processing"--mods["EarlyExtensions"] and "steam-power" or "advanced-material-processing"
 	table.insert(data.raw.technology[tech].effects, {type="unlock-recipe", recipe="steam-furnace"})
 	table.insert(data.raw.technology[tech].effects, {type="unlock-recipe", recipe="steam-furnace-uncraft"})
+	table.insert(data.raw.technology[tech].effects, {type="unlock-recipe", recipe="stone-to-steam-furnace"})
 	table.insert(data.raw.technology["advanced-material-processing-2"].effects, {type="unlock-recipe", recipe="steam-furnace-upcraft"})
 	if data.raw.technology["chemical-steel-furnace"] then
 		table.insert(data.raw.technology["chemical-steel-furnace"].effects, {type="unlock-recipe", recipe="chemical-steam-furnace"})

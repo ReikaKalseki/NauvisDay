@@ -63,7 +63,25 @@ script.on_configuration_changed(function()
 		n = n+1
 		--entity.force.print("NauvisDay: Recaching Deaero #" .. entity.unit_number .. " @ " .. serpent.block(entity.position))
 	end
-	game.print("NauvisDay: Recached " .. n .. " deaerosolizers.")
+	local c = 0
+	for chunk in game.surfaces.nauvis.get_chunks() do
+		for x = chunk.x*32,chunk.x*32+31 do
+			for y = chunk.y*32,chunk.y*32+31 do
+				local tile = game.surfaces.nauvis.get_tile(x, y)
+				if tile.valid and stringStartsWith(tile.name, "polluted-") then
+					local pos = {x, y}
+					local hid = game.surfaces.nauvis.get_hidden_tile(pos)
+					if (hid and hid.valid) then
+						
+					else
+						game.surfaces.nauvis.set_hidden_tile(pos, game.tile_prototypes["water"])
+						c = c+1
+					end
+				end
+			end
+		end
+	end
+	game.print("NauvisDay: Recached " .. n .. " deaerosolizers and repaired " .. c .. " sludge tiles in cache.")
 end)
 
 script.on_init(function()
@@ -84,6 +102,22 @@ local function onEntityRotated(event)
 	local nvday = global.nvday
 	
 	rotatePollutionFan(nvday, event.entity)
+end
+
+local function onTileMined(event)
+	local amt = 0
+	local miner = event.player_index and game.players[event.player_index].character or event.robot
+	if miner then
+		for _,pair in ipairs(event.tiles) do
+			if stringStartsWith(pair.old_tile.name, "polluted-") then
+				amt = amt+1
+			end
+		end
+		if amt > 0 then
+			game.surfaces[event.surface_index].pollute(miner.position, Config.pollutedWaterTileCleanup*Config.pollutedWaterTileRelease*2)
+			miner.damage(miner.prototype.max_health*0.05, miner.force, "poison")
+		end
+	end
 end
 
 local function onEntityAdded(event)
@@ -207,6 +241,9 @@ script.on_event(defines.events.script_raised_destroy, onEntityRemoved)
 
 script.on_event(defines.events.on_built_entity, onEntityAdded)
 script.on_event(defines.events.on_robot_built_entity, onEntityAdded)
+
+script.on_event(defines.events.on_player_mined_tile, onTileMined)
+script.on_event(defines.events.on_robot_mined_tile, onTileMined)
 
 script.on_event(defines.events.on_player_rotated_entity, onEntityRotated)
 

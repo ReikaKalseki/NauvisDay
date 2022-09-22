@@ -180,5 +180,13 @@ if Config.enableSteamFurnace and data.raw.item["stone-pipe"] then
 		result = "steam-furnace",
 	  }
 	})
+
+	local rec = createConversionRecipe("stone-furnace", "steam-furnace-2", false, nil, true)
+	rec.enabled = false
+	rec.name = "stone-to-steam-furnace-2"
+	rec.energy_required = data.raw.recipe["steam-furnace"].energy_required
+	data:extend({rec})
+	
 	table.insert(data.raw.technology["advanced-material-processing"].effects, {type="unlock-recipe", recipe="steam-furnace-2"})
+	table.insert(data.raw.technology["advanced-material-processing"].effects, {type="unlock-recipe", recipe=rec.name})
 end

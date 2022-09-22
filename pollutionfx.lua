@@ -200,6 +200,9 @@ function doWaterPollution(surface, chunk, tick)
 		end
 	end
 	if #tile_changes > 0 then
+		for _,change in ipairs(tile_changes) do
+			surface.set_hidden_tile(change.position, surface.get_tile(change.position.x, change.position.y))
+		end
 		surface.set_tiles(tile_changes)
 	end
 	return true

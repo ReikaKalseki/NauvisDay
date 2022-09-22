@@ -77,7 +77,40 @@ well.stages =
 
 data:extend(
 {
-	well
+	well,
+	   {
+		type = "item",
+		name = "mined-sludge",
+		icon = "__NauvisDay__/graphics/icons/mined-sludge.png",
+		flags = {},
+		subgroup = "intermediate-product",
+		--order = "f[stone-wall]-f[tough-wall-1-2]",
+		stack_size = 50,
+		icon_size = 32
+	  },
+	  {
+		type = "recipe",
+		name = "mined-sludge-liquefaction",
+		category = "chemistry",
+		--order = "f[plastic-bar]-f[venting]",
+		icon = data.raw.fluid["waste"].icon,
+		icon_size = data.raw.fluid["waste"].icon_size,
+		energy_required = 4,
+		enabled = "false",
+		subgroup = "bob-fluid",
+		ingredients = {
+		  {type="item", name="mined-sludge", amount=1},
+		  {type="fluid", name="water", amount=20},
+		},
+		results = {{type="fluid", name="waste", amount=200}},
+		crafting_machine_tint =
+		{
+		  primary = data.raw.fluid["waste"].base_color,
+		  secondary = data.raw.fluid["waste"].base_color,
+		  tertiary = data.raw.fluid["waste"].base_color,
+		  quaternary = data.raw.fluid["waste"].base_color,
+		}
+	  },
 })
 
 local waters = {}
@@ -104,6 +137,12 @@ for name,tile in pairs(data.raw.tile) do
 		water.name = "polluted-water"
 		replaceSpritesDynamic("NauvisDay", "landfill", water)
 		water.name = watername
+		water.minable = {
+			mining_time = 5,
+			result = "mined-sludge",
+			count = 10,
+		}
+		water.mined_sound = {filename = "__NauvisDay__/sound/mine-sludge.ogg", volume = 1.5}
 		--log(serpent.block(water))
 		table.insert(waters, water)
 	end

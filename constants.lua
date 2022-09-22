@@ -59,7 +59,7 @@ pollutionAndEvo = {
 		enemy_attack_pollution_consumption_modifier = 1.5 --new to 0.18 (or 0.17), default is 1
 	},
 	["enemy_evolution"] = {
-		time_factor = {-0.000025, -0.00004},-- -0.000025,-- -0.00003,--0 --default is 0.000004
+		time_factor = {-0.000025, -0.00003},-- -0.000025,-- -0.00003,--0 --default is 0.000004
 		destroy_factor = 0.0075, --default is 0.002
 		pollution_factor = {0.000015/pollutionScale*pollutionSpawnIncrease, 0.0000125/pollutionScale*pollutionSpawnIncrease}, --default is 0.000015
 	}
