@@ -12,6 +12,7 @@ function parseIngredient(entry)
 end
 
 local function createRefinery(base)
+	if base.next_upgrade and not base.fast_replaceable_group then error("Detected an invalid refinery: " .. base.name .. " missing replace group while having upgrade. See log for prototype table.") log(serpent.block(base)) end
 	local refinery = table.deepcopy(base)
 	refinery.name = "clean-" .. base.name
 	refinery.minable.result = refinery.name

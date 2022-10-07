@@ -82,6 +82,7 @@ script.on_configuration_changed(function()
 		end
 	end
 	game.print("NauvisDay: Recached " .. n .. " deaerosolizers and repaired " .. c .. " sludge tiles in cache.")
+	log("NauvisDay: Recached " .. n .. " deaerosolizers and repaired " .. c .. " sludge tiles in cache.")
 end)
 
 script.on_init(function()
