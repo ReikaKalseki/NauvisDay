@@ -135,7 +135,7 @@ local function onEntityAdded(event)
 	if string.find(entity.name, "air-filter-machine-", 1, 1) then
 		if entity.type == "assembling-machine" then --check type since AirFilter mod is otherwise going to be caught here
 			entity.set_recipe("air-cleaning-action")
-			game.print("Initializing Deaero.")
+			--game.print("Initializing Deaero.")
 			--entity.operable = false
 		else
 			if event.player_index then

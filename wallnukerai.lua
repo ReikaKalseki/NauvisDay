@@ -22,6 +22,7 @@ local function createNukerCrater(nuker, radius)
 	local x = math.floor(nuker.position.x)
 	local y = math.floor(nuker.position.y)
 	local tiles = {}
+	local eggs = math.max(1, math.min(4, math.ceil(radius*radius/4)))
 	for dx = -radius,radius do
 		for dy = -radius,radius do
 			local d = math.sqrt(dx*dx+dy*dy)
@@ -48,6 +49,16 @@ local function createNukerCrater(nuker, radius)
 	end
 	if #tiles > 0 then
 		nuker.surface.set_tiles(tiles)
+		local placed = 0
+		local tries = 0
+		while placed < eggs and tries < 100 do
+			local e = tiles[math.random(1, #tiles)]
+			tries = tries+1
+			if nuker.surface.can_place_entity ({name="soft-resin-egg", position=e.position, force=nuker.force, build_check_type=defines.build_check_type.blueprint_ghost, forced=true}) then
+				nuker.surface.create_entity({name="soft-resin-egg", position=e.position, force=nuker.force})
+				placed = placed+1
+			end
+		end
 	end
 end
 
@@ -78,8 +89,10 @@ function onWallNukerDeath(event)
 		player.add_custom_alert(nuker, {type = "virtual", name = "nuker-alert"}, {"virtual-signal-name.nuker-alert", serpent.block(pos)}, true)
 	end
 	
-	if killed or math.random() < 0.25 then
-		createNukerCrater(nuker, killed and math.random(2, 5) or math.random(1, 3))
+	if killed and math.random() < 0.5 then
+		--skip
+	else
+		createNukerCrater(nuker, killed and math.random(1, 3) or math.random(2, 5))
 	end
 end
 
