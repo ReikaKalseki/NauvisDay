@@ -61,7 +61,7 @@ data:extend({
     {
       type = "electric",
       usage_priority = "secondary-input",
-      emissions_per_minute = 80, --from 8
+      emissions_per_minute = 90000, --from 8
       smoke =
       {
         {

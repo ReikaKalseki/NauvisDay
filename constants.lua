@@ -43,6 +43,18 @@ acidFogSizes = { --the keys are the ratios of pollution to minimum threshold
 	{10/3, ""}, --just here for a "100% huge at this value" - 300k at default
 }
 
+baseWormHatchTime = 60*60*15 --15 min
+
+local wormHatchSpeedCurve = {
+	{0, 1},
+	{0.25, 1.5},
+	{0.5, 2.5},
+	{0.75, 5},
+	{0.9, 10},
+	{1, 25},
+}
+wormHatchSpeedCurveLookup = buildLinearInterpolation(wormHatchSpeedCurve, 0.05)
+
 --These forcibly override map settings at all times to get the intended effect
 pollutionAndEvo = {
 	["pollution"] = {

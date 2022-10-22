@@ -44,8 +44,33 @@ function initGlobal(markDirty)
 	if nvday.deaeros.cache == nil then
 		nvday.deaeros.cache = {}
 	end
+	if nvday.worm_eggs == nil then
+		nvday.worm_eggs = {}
+	end
 	nvday.dirty = markDirty
 end
+
+local function addCommands()
+	commands.add_command("hatchAllWormEggs", {"cmd.identify-help"}, function(event)
+		for _,egg in ipairs(global.nvday.worm_eggs) do
+			hatchWormEgg(egg, game.forces.enemy.evolution_factor)
+		end
+		global.nvday.worm_eggs = {}
+	end)
+	commands.add_command("spawnNuker", {"cmd.identify-help"}, function(event)
+		local player = game.players[event.player_index]
+		local sel = player.selected
+		if not (sel and sel.valid) then player.print("No entity is selected.") return end
+		local target = player.character
+		local targets = sel.surface.find_entities_filtered{type = "wall", force = player.force, area = box}
+		if targets and #targets > 0 then
+			target = targets[math.random(1, #targets)]
+		end
+		spawnNuker(sel.surface, sel, target)
+	end)
+end
+
+addCommands()
 
 script.on_configuration_changed(function()
 	initGlobal(true)
@@ -227,6 +252,16 @@ local function onGameTick(event)
 		cap = math.max(10, math.ceil(cap*Config.attackSize))
 		if not cap then game.print("ERROR: NULL INTERPOLATE FROM " .. serpent.block(evo) .. " into " .. serpent.block(maxAttackSizeCurveLookup.values)) end
 		game.map_settings.unit_group.max_unit_group_size = math.ceil(cap) --200 is vanilla
+		for i,egg in ipairs(nvday.worm_eggs) do
+			if egg.entity.valid then
+				local age = tick-egg.laid
+				if age > baseWormHatchTime/getInterpolatedValue(wormHatchSpeedCurveLookup, evo) then
+					hatchWormEgg(egg, evo)
+					table.remove(nvday.worm_eggs, i)
+					break
+				end
+			end
+		end
 	end
 	if game.forces.enemy.evolution_factor < 0 then
 		game.forces.enemy.evolution_factor = 0

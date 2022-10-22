@@ -62,9 +62,8 @@ end
 
 	local rec = createConversionRecipe("venting-machine", "air-filter-machine-1", false, nil, true)
 	rec.enabled = false
-	rec.name = recipe.name .. "-upcraft"
 	data:extend({rec})
-	table.insert(data.raw.technology["pollution-handling"].effects, {type="unlock-recipe", recipe=rec.name})
+	table.insert(data.raw.technology["pollution-capture"].effects, {type="unlock-recipe", recipe=rec.name})
 
 data:extend(
   {

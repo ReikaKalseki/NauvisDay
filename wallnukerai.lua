@@ -1,5 +1,7 @@
-local function spawnNuker(surface, spawner, target)
-	local pos = {x = math.random(spawner.position.x-12, spawner.position.x+12), y = math.random(spawner.position.y-12, spawner.position.y+12)}
+require "__DragonIndustries__.tiles"
+
+function spawnNuker(surface, source, target)
+	local pos = {x = math.random(source.position.x-12, source.position.x+12), y = math.random(source.position.y-12, source.position.y+12)}
 	--local evo = game.forces.enemy.evolution_factor
 	--local size = math.floor(1 + evo*4)
 	--for i = 1,size do
@@ -18,7 +20,7 @@ local function getBox(entity)
 end
 
 --need a tile that counts as water for building but does not look like water, but is fillable like water
-local function createNukerCrater(nuker, radius)
+local function createNukerCrater(nvday, nuker, radius)
 	local x = math.floor(nuker.position.x)
 	local y = math.floor(nuker.position.y)
 	local tiles = {}
@@ -47,19 +49,35 @@ local function createNukerCrater(nuker, radius)
 			end
 		end
 	end
+	--game.print("Tried to spawn " .. eggs .. " eggs in " .. #tiles .. " tiles")
+	local placed = 0
 	if #tiles > 0 then
 		nuker.surface.set_tiles(tiles)
-		local placed = 0
 		local tries = 0
 		while placed < eggs and tries < 100 do
 			local e = tiles[math.random(1, #tiles)]
 			tries = tries+1
-			if nuker.surface.can_place_entity ({name="soft-resin-egg", position=e.position, force=nuker.force, build_check_type=defines.build_check_type.blueprint_ghost, forced=true}) then
-				nuker.surface.create_entity({name="soft-resin-egg", position=e.position, force=nuker.force})
+			if nuker.surface.can_place_entity ({name="soft-resin-egg", position=e.position, force=nuker.force, build_check_type=defines.build_check_type.blueprint_ghost, forced=true}) then--not isWaterEdge(nuker.surface, e.position.x, e.position.y) then
+				local egg = nuker.surface.create_entity({name="soft-resin-egg", position=e.position, force=nuker.force})
+				table.insert(nvday.worm_eggs, {entity=egg, laid=game.tick})
 				placed = placed+1
 			end
 		end
 	end
+	--game.print("Successfully placed " .. placed)
+end
+
+function hatchWormEgg(entry, evo)
+	if not (entry.entity and entry.entity.valid) then return end
+	local type = "small-worm-turret"
+	if evo > 0.75 and math.random() < 0.33 then
+		type = "medium-worm-turret"
+	end
+	if evo > 0.9 and math.random() < 0.2 then
+		type = "big-worm-turret"
+	end
+	entry.entity.surface.create_entity({name=type, position=entry.entity.position, force=entry.entity.force})
+	entry.entity.destroy()
 end
 
 function onWallNukerDeath(event)
@@ -89,10 +107,10 @@ function onWallNukerDeath(event)
 		player.add_custom_alert(nuker, {type = "virtual", name = "nuker-alert"}, {"virtual-signal-name.nuker-alert", serpent.block(pos)}, true)
 	end
 	
-	if killed and math.random() < 0.5 then
+	if killed and math.random() < 1-game.forces.enemy.evolution_factor*0.5 then
 		--skip
 	else
-		createNukerCrater(nuker, killed and math.random(1, 3) or math.random(2, 5))
+		createNukerCrater(global.nvday, nuker, killed and math.random(1, 3) or math.random(2, 5))
 	end
 end
 
