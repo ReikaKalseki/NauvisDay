@@ -97,7 +97,7 @@ data:extend(
 		icon_size = data.raw.fluid["waste"].icon_size,
 		energy_required = 4,
 		enabled = "false",
-		subgroup = "bob-fluid",
+		subgroup = "fluid",
 		ingredients = {
 		  {type="item", name="mined-sludge", amount=1},
 		  {type="fluid", name="water", amount=20},

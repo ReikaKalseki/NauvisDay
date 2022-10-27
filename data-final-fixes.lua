@@ -1,22 +1,34 @@
 require "config"
 require "constants"
 
+require "__DragonIndustries__.recipe"
+
 local recipes = {}
 
 local function modifyIngredients(recipe, wateramt, expensive)
-	if recipe == nil or recipe.ingredients == nil then return end		
+	if recipe == nil or recipe.ingredients == nil then return end
 	if recipe.energy_required then
 		recipe.energy_required = recipe.energy_required/refineryItemConsumption
 	end
 	local added = false
 	for _,ingredient in pairs(recipe.ingredients) do
+		local parse = parseIngredient(ingredient, true)
+		if not parse.name then
+			log("Found a refinery recipe ('" .. recipe.name .. "') input '" .. serpent.block(ingredient) .. "' with no name specified!")
+			return
+		end
+		if not parse.amount then
+			log("Found a refinery recipe ('" .. recipe.name .. "') input '" .. serpent.block(ingredient) .. "' with no amount specified! Setting to 1")
+			parse.amount = 1
+		end
 		ingredient.fluidbox_index = nil
-		if ingredient.name == "water" then
-			ingredient.amount = ingredient.amount+wateramt
+		if parse.name == "water" then
+			parse.amount = parse.amount+wateramt
 			added = true
 		else
-			ingredient.amount = ingredient.amount/refineryItemConsumption
+			parse.amount = parse.amount/refineryItemConsumption
 		end
+		ingredient.amount = parse.amount
 	end
 	if not added then
 		table.insert(recipe.ingredients, 1, {type="fluid", name="water", amount=wateramt*refineryWasteProductionRatio/refineryItemConsumption})
@@ -53,33 +65,44 @@ if Config.enableRefinery then
 			if not results then
 				results = recipe.normal.results
 			end
+			local viable = true
 			if results then
 				for _,result in pairs(results) do
-					amt = amt+result.amount
-					result.amount = result.amount/refineryItemConsumption
+					local parse = parseIngredient(result, true)
+					if not parse.name then
+						log("Found a refinery recipe ('" .. name .. "') output '" .. serpent.block(result) .. "' with no name specified! WTF is this?!")
+						viable = false
+					end
+					if not parse.amount then
+						log("Found a refinery recipe ('" .. name .. "') output '" .. serpent.block(result) .. "' with no result amount specified! Setting to 1")
+						parse.amount = 1
+					end
+					amt = amt+parse.amount
+					result.amount = parse.amount/refineryItemConsumption
 				end
 			end
-			amt = 5*math.floor((amt/4)/5+0.5)
-			
-			modifyIngredients(recipe, amt)
-			modifyIngredients(recipe.normal, amt, false)
-			modifyIngredients(recipe.expensive, amt, true)
-			
-			table.insert(results, {type="fluid", name="waste", amount=amt*refineryWasteProductionRatio/refineryItemConsumption})
-						
-			if data.raw.item["air-filter-case"] then
-				table.insert(results, {type = "item", name = "air-filter-case", amount = 1, catalyst_amount = 1})
+			if viable then
+				amt = 5*math.floor((amt/4)/5+0.5)
+				
+				modifyIngredients(recipe, amt)
+				modifyIngredients(recipe.normal, amt, false)
+				modifyIngredients(recipe.expensive, amt, true)
+				
+				table.insert(results, {type="fluid", name="waste", amount=amt*refineryWasteProductionRatio/refineryItemConsumption})
+							
+				if data.raw.item["air-filter-case"] then
+					table.insert(results, {type = "item", name = "air-filter-case", amount = 1, catalyst_amount = 1})
+				end
+				
+				for _,result in pairs(results) do
+					result.fluidbox_index = nil
+				end
+				
+				log("Added a clean version of " .. name)
+				data:extend({recipe})
+				
+				table.insert(recipes, recipe)
 			end
-			
-			for _,result in pairs(results) do
-				result.fluidbox_index = nil
-			end
-			
-			log("Added a clean version of " .. name)
-			data:extend({recipe})
-			
-			table.insert(recipes, recipe)
-			
 		end
 	end
 
