@@ -60,10 +60,10 @@ if Config.enableSteamFurnace then
 	end
 end
 
-	local rec = createConversionRecipe("venting-machine", "air-filter-machine-1", false, nil, true)
-	rec.enabled = false
-	data:extend({rec})
-	table.insert(data.raw.technology["pollution-capture"].effects, {type="unlock-recipe", recipe=rec.name})
+local rec = createConversionRecipe("venting-machine", "air-filter-machine-1", false, nil, true)
+rec.enabled = false
+data:extend({rec})
+table.insert(data.raw.technology["pollution-capture"].effects, {type="unlock-recipe", recipe=rec.name})
 
 data:extend(
   {

@@ -107,6 +107,8 @@ pollutionProcessingConsumption = 0.75--1
 
 pollutionStorageSpeedCoefficient = 5 --multiplied against the base 6/s
 
+STEAM_FURNACES = {}
+
 waterConversionPatterns = { --weighted random
 	{50, {{1}}},
 	{25, {{1, 1}, {1, 1}}},

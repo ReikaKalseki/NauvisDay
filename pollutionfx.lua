@@ -201,6 +201,10 @@ function doWaterPollution(surface, chunk, tick)
 	end
 	if #tile_changes > 0 then
 		for _,change in ipairs(tile_changes) do
+			if change and not change.position.x and change.position[1] then
+				change.position.x = change.position[1]
+				change.position.y = change.position[2]
+			end
 			if not (change and change.position and change.position.x and change.position.y) then
 				game.print("Got invalid tile change @ " .. serpent.block(change))
 			else

@@ -235,6 +235,8 @@ local function createSteamPoweredFurnace(base, upcraft)
 	local unc = createUncraftingRecipe(recipe, item)
 	unc.energy_required = 0.5
 	data:extend({rec, unc})
+	
+	table.insert(STEAM_FURNACES, furnace.name)
 end
 
 createSteamPoweredFurnace("steel-furnace", "electric-furnace")

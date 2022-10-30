@@ -5,6 +5,12 @@ require "__DragonIndustries__.recipe"
 
 local recipes = {}
 
+if data.raw["recipe-category"]["kiln"] then
+	for _,name in pairs(STEAM_FURNACES) do
+		table.insert(data.raw.furnace[name].crafting_categories, "kiln");
+	end
+end
+
 local function modifyIngredients(recipe, wateramt, expensive)
 	if recipe == nil or recipe.ingredients == nil then return end
 	if recipe.energy_required then
