@@ -208,7 +208,10 @@ function doWaterPollution(surface, chunk, tick)
 			if not (change and change.position and change.position.x and change.position.y) then
 				game.print("Got invalid tile change @ " .. serpent.block(change))
 			else
-				surface.set_hidden_tile(change.position, surface.get_tile(change.position.x, change.position.y))
+				local at = surface.get_tile(change.position.x, change.position.y)
+				if at and at.valid then
+					surface.set_hidden_tile(change.position, at.name)
+				end
 			end
 		end
 		surface.set_tiles(tile_changes)
