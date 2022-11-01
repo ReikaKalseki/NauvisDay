@@ -6,8 +6,7 @@ local function createFilter(tier, speedFactor, efficiency) --efficiency can be >
 	{
     type = "assembling-machine",
     name = "air-filter-machine-" .. tier,
-    icon = "__NauvisDay__/graphics/icons/air-filter-machine.png",
-	icon_size = 32,
+	icons = {{icon="__NauvisDay__/graphics/icons/air-filter-machine.png", icon_size = 32}, {icon="__DragonIndustries__/graphics/icons/overlay_" .. tier .. ".png", icon_size = 32}},
     flags = {"placeable-neutral", "placeable-player", "player-creation"},
     minable = {mining_time = 0.5, result = "air-filter-machine-" .. tier},
     fast_replaceable_group = "air-filter-machine",
@@ -88,8 +87,7 @@ for tier = 1,4 do
 	  {
 		type = "item",
 		name = n,
-		icon = "__NauvisDay__/graphics/icons/" .. n .. ".png",
-		icon_size = 32,
+		icons = {{icon="__NauvisDay__/graphics/icons/air-filter-machine.png", icon_size = 32}, {icon="__DragonIndustries__/graphics/icons/overlay_" .. tier .. ".png", icon_size = 32}},
 		flags = {  },
 		subgroup = "production-machine",
 		order = "f[air-filter-machine]",
@@ -147,8 +145,6 @@ data:extend({
   {
     type = "recipe",
     name = "air-filter-machine-1",
-    icon = "__NauvisDay__/graphics/icons/air-filter-machine-1.png",
-	icon_size = 32,
     energy_required = 6,
     enabled = "false",
     ingredients =
@@ -162,8 +158,6 @@ data:extend({
   {
     type = "recipe",
     name = "air-filter-machine-2",
-    icon = "__NauvisDay__/graphics/icons/air-filter-machine-2.png",
-	icon_size = 32,
     energy_required = 8,
     enabled = "false",
     ingredients =
@@ -177,8 +171,6 @@ data:extend({
   {
     type = "recipe",
     name = "air-filter-machine-3",
-    icon = "__NauvisDay__/graphics/icons/air-filter-machine-3.png",
-	icon_size = 32,
     energy_required = 10,
     enabled = "false",
     ingredients =
@@ -192,8 +184,6 @@ data:extend({
   {
     type = "recipe",
     name = "air-filter-machine-4",
-    icon = "__NauvisDay__/graphics/icons/air-filter-machine-4.png",
-	icon_size = 32,
     energy_required = 15,
     enabled = "false",
     ingredients =
