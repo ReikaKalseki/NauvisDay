@@ -82,7 +82,11 @@ data:extend({
     render_layer = "object",
     collision_box = {{-0.7, -0.7}, {0.7, 0.7}},
     selection_box = {{-1.0, -1.0}, {1.0, 1.0}},
-    pictures =
+	is_military_target = true,
+    dying_explosion = "medium-worm-die",
+    corpse = "resin-egg-corpse",
+    dying_sound = sounds.worm_dying_small(0.65),
+    animations =
     {
       filename = "__NauvisDay__/graphics/entity/worm-egg.png",
       priority = "high",
@@ -94,7 +98,34 @@ data:extend({
       line_length = 5,
       shift = {0, 0},
 	  scale = 0.5,
-      animation_speed = 0.33,
+      animation_speed = 0.1,
+    },
+  },
+  {
+    type = "corpse",
+    name = "resin-egg-corpse",
+    icon = "__NauvisDay__/graphics/icons/resin-egg.png",
+    icon_size = 32,
+    selection_box = {{-0.8, -0.8}, {0.8, 0.8}},
+    selectable_in_game = false,
+    subgroup="corpses",
+    order = "c[corpse]-c[worm]-b[medium]",
+    flags = {"placeable-neutral", "placeable-off-grid", "building-direction-8-way", "not-repairable", "not-on-map"},
+    dying_speed = 0.01,
+    time_before_removed = 15 * 60 * 60,
+    final_render_layer = "lower-object-above-shadow",
+    animation =
+    {
+		direction_count = 1,
+      filename = "__NauvisDay__/graphics/entity/worm-egg-die.png",
+      priority = "high",
+      width = 143,
+      height = 104,
+      apply_projection = false,
+      frame_count = 1,
+      line_length = 1,
+      shift = {0.05, 0.15},
+	  scale = 0.5,
     },
   },
   {

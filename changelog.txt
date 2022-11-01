@@ -1,4 +1,25 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.148.1
+Date: Oct 31 2022
+	- Removed "initializing deaero" debug print
+	- Added recipe to convert venting machine to deaero tier 1
+	- Fixed invalid entity script error when fans are destroyed
+	- Added worm eggs, laid in soft resin when tunnel nukers die, which will hatch into full worms given time (less as evo rises), unless killed in time
+	- Reworked soft resin patch spawning behavior; now killing nukers reduces the chance of getting it (less as evo rises), from 100% for nukers left unchallenged
+	- Fixed invalid tile errors in water pollution
+	- Fixed insanely low pollution value for venting machine
+	- Fixed issues with weird modded refineries or recipes therein
+	- Added SE "kiln" compatibility to steam furnaces
+---------------------------------------------------------------------------------------------------
+Version: 1.144.1
+Date: Oct 7 2022
+	- Reduced negative evo contribution from time on expensive recipes
+	- Polluted sludge water can now be mined, to clear water at the cost of giving solid sludge
+	- Added stone-to-steam furnace conversion recipe
+	- Added new technology effect icons
+	- Fixed missing locale for "wall nuker detected" alert
+	- Added error handling for invalid refinery prototypes
+---------------------------------------------------------------------------------------------------
 Version: 1.105.1
 Date: Apr 28 2021
 	- Update to 1.1
