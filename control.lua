@@ -89,6 +89,19 @@ script.on_configuration_changed(function()
 		--entity.force.print("NauvisDay: Recaching Deaero #" .. entity.unit_number .. " @ " .. serpent.block(entity.position))
 	end
 	local c = 0
+	local tiles = game.surfaces.nauvis.find_tiles_filtered{name = "polluted-water"}
+	c = #tiles
+	for _,tile in pairs(tiles) do
+		if tile.valid then
+			local hid = game.surfaces.nauvis.get_hidden_tile(tile.position)
+			if hid and hid.valid then
+				
+			else
+				game.surfaces.nauvis.set_hidden_tile(tile.position, game.tile_prototypes["water"])
+			end
+		end
+	end
+	--[[
 	for chunk in game.surfaces.nauvis.get_chunks() do
 		for x = chunk.x*32,chunk.x*32+31 do
 			for y = chunk.y*32,chunk.y*32+31 do
@@ -106,6 +119,7 @@ script.on_configuration_changed(function()
 			end
 		end
 	end
+	--]]
 	game.print("NauvisDay: Recached " .. n .. " deaerosolizers and repaired " .. c .. " sludge tiles in cache.")
 	log("NauvisDay: Recached " .. n .. " deaerosolizers and repaired " .. c .. " sludge tiles in cache.")
 end)

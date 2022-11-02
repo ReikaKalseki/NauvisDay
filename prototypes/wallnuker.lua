@@ -124,7 +124,7 @@ data:extend({
       apply_projection = false,
       frame_count = 1,
       line_length = 1,
-      shift = {0.05, 0.15},
+      shift = {0.0, 0.1},
 	  scale = 0.5,
     },
   },

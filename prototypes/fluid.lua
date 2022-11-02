@@ -113,19 +113,13 @@ data:extend(
 	  },
 })
 
-local waters = {}
-for name,tile in pairs(data.raw.tile) do
-	if string.find(name, "water") then
-		log("Creating polluted form of " .. name)
-		--log("Parsing " .. name)
 		local water = table.deepcopy(data.raw.tile.landfill)
-		local watername = "polluted-" .. name
-		water.name = watername
+		water.name = "polluted-water"
 		water.autoplace = nil
 		--log("Inserting " .. name .. " into " .. (water.allowed_neighbors and (#water.allowed_neighbors .. " @ " .. name) or "nil") .. " for " .. watername)
 		water.pollution_absorption_per_second=-0.0625---20---0.125 instead of making it emit pollution (net), make it only reduce absorption, but not work for offshore pumps and the like
 		water.map_color={r=64, g=77, b=29}
-		water.localised_name = {"polluted-fluid.fluid", {"tile-name." .. name}}
+		--water.localised_name = {"polluted-fluid.fluid", {"tile-name." .. name}}
 		water.collision_mask =
 		{
 		  --"water-tile", --removing this prevents offshore pumps from being placed on it.....not anymore
@@ -134,21 +128,17 @@ for name,tile in pairs(data.raw.tile) do
 		  "player-layer",
 		  "doodad-layer"
 		}
-		water.name = "polluted-water"
 		replaceSpritesDynamic("NauvisDay", "landfill", water)
-		water.name = watername
 		water.minable = {
 			mining_time = 5,
 			result = "mined-sludge",
 			count = 10,
 		}
 		water.mined_sound = {filename = "__NauvisDay__/sound/mine-sludge.ogg", volume = 1.5}
-		--log(serpent.block(water))
-		table.insert(waters, water)
-	end
-end
 
-registerObjectArray(waters)
+data:extend({
+	water
+})
 
 local pumps = {}
 for name,val in pairs(data.raw["offshore-pump"]) do

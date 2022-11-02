@@ -13,7 +13,7 @@ Config.depleteWells = settings.startup["use-depleted-oil-for-well"].value--true
 
 Config.enableSteamFurnace = settings.startup["steam-furnace"].value--true
 Config.enableGasBoiler = settings.startup["gas-boiler"].value--true
-Config.enableRefinery = settings.startup["clean-refinery"].value--true
+Config.enableRefinery = settings.startup["clean-refinery"].value and not mods["AAI"]--true
 
 Config.wallNukerThresh = settings.startup["wall-nuker-pollution"].value--true
 

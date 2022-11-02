@@ -12,7 +12,7 @@ if data.raw["recipe-category"]["kiln"] then
 end
 
 local function modifyIngredients(recipe, wateramt, expensive)
-	if recipe == nil or recipe.ingredients == nil then return end
+	if recipe == nil or recipe.ingredients == nil or recipe.name == nil then return end
 	if recipe.energy_required then
 		recipe.energy_required = recipe.energy_required/refineryItemConsumption
 	end
