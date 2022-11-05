@@ -16,6 +16,12 @@ local function modifyIngredients(recipe, wateramt, expensive)
 	if recipe.energy_required then
 		recipe.energy_required = recipe.energy_required/refineryItemConsumption
 	end
+	if recipe.normal and recipe.normal.energy_required then
+		recipe.normal.energy_required = recipe.normal.energy_required/refineryItemConsumption
+	end
+	if recipe.expensive and recipe.expensive.energy_required then
+		recipe.expensive.energy_required = recipe.expensive.energy_required/refineryItemConsumption
+	end
 	local added = false
 	for _,ingredient in pairs(recipe.ingredients) do
 		local parse = parseIngredient(ingredient, true)
@@ -37,25 +43,25 @@ local function modifyIngredients(recipe, wateramt, expensive)
 		ingredient.amount = parse.amount
 	end
 	if not added then
-		table.insert(recipe.ingredients, 1, {type="fluid", name="water", amount=wateramt*refineryWasteProductionRatio/refineryItemConsumption})
+		addItemToRecipe(recipe, "water", wateramt*refineryWasteProductionRatio/refineryItemConsumption)
 	end
 	
 	if data.raw.item["carbon"] then
-		table.insert(recipe.ingredients, {"carbon", expensive and 2 or 1})
+		addItemToRecipe(recipe, "carbon", 1, 2)
 	else
 		--table.insert(recipe.ingredients, {"coal", 2})
 	end
 	
 	if data.raw.item["calcium-chloride"] then
-		table.insert(recipe.ingredients, {"calcium-chloride", expensive and 2 or 1})
+		addItemToRecipe(recipe, "calcium-chloride", 1, 2)
 	end
 	
 	if data.raw.item["sodium-hydroxide"] then
-		table.insert(recipe.ingredients, {"sodium-hydroxide", expensive and 3 or 2})
+		addItemToRecipe(recipe, "sodium-hydroxide", 2, 3)
 	end
 	
 	if data.raw.item["air-filter-case"] then
-		table.insert(recipe.ingredients, {type = "item", name = "air-filter", amount = 1, catalyst_amount = 1})
+		addItemToRecipe(recipe, "air-filter", 1, 1, false, 1)
 	end
 end
 
@@ -91,8 +97,6 @@ if Config.enableRefinery then
 				amt = 5*math.floor((amt/4)/5+0.5)
 				
 				modifyIngredients(recipe, amt)
-				modifyIngredients(recipe.normal, amt, false)
-				modifyIngredients(recipe.expensive, amt, true)
 				
 				table.insert(results, {type="fluid", name="waste", amount=amt*refineryWasteProductionRatio/refineryItemConsumption})
 							
@@ -105,6 +109,7 @@ if Config.enableRefinery then
 				end
 				
 				log("Added a clean version of " .. name)
+				log(serpent.block(recipe))
 				data:extend({recipe})
 				
 				table.insert(recipes, recipe)
