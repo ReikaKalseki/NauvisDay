@@ -8,6 +8,7 @@ require "__DragonIndustries__.biters"
 require "__DragonIndustries__.ores"
 require "__DragonIndustries__.strings"
 require "__DragonIndustries__.items"
+require "__DragonIndustries__.boxes"
 
 function getDeaeroRecipeName(efficiency)
 	--game.print("Efficiency is " .. efficiency)
@@ -24,13 +25,13 @@ end
 local function hasNoMining()
 	local names = getAllOreDrops()
 	local force = game.forces.player
-	for _,item in pairs(names) do
+	for name,item in pairs(names) do
 		local prod = getAmountProduced(force, item)
-		if item == stone then --too many things produce it as a byproduct
+		if item == "stone" then --too many things produce it as a byproduct
 			prod = 0
 		end
 		--game.print(item .. " > " .. prod)
-		--if prod > 0 then return false end
+		if prod > 0 then return false end
 	end
 	return true
 end

@@ -13,7 +13,6 @@ else
 			subgroup = "intermediate-product",
 			order = "f[charcoal]",
 			stack_size = 200,
-			icon_size = 32
 		},--[[ this causes furnaces which run out of the intended smelting item to start making charcoal and backing up
 	  {
 		type = "recipe",
@@ -58,7 +57,6 @@ if data.raw.item["carbon"] == nil then
 			subgroup = "intermediate-product",
 			order = "f[air-filter]",
 			stack_size = 25,
-			icon_size = 32
 		},
 		{
 			type = "item",
@@ -69,7 +67,6 @@ if data.raw.item["carbon"] == nil then
 			subgroup = "intermediate-product",
 			order = "f[air-filter-case]",
 			stack_size = 25,
-			icon_size = 32
 		},
 	  {
 		type = "recipe",

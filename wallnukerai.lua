@@ -115,12 +115,16 @@ function onWallNukerDeath(event)
 end
 
 local function getNukerChance()
-	local thresh = 0.4
-	if game.forces.enemy.evolution_factor < thresh then
+	if game.forces.enemy.evolution_factor < WALL_NUKER_MINIMUM_EVO then
 		return 0
 	end
-	local f = (game.forces.enemy.evolution_factor-thresh)/(1-thresh)
+	local f = (game.forces.enemy.evolution_factor-WALL_NUKER_MINIMUM_EVO)/(1-WALL_NUKER_MINIMUM_EVO)
 	return math.min(1, math.max(0.2, f*1.5-0.25))
+end
+
+local function getNukerSpawnSearchArea()
+	local f = (game.forces.enemy.evolution_factor-WALL_NUKER_MINIMUM_EVO)/(1-WALL_NUKER_MINIMUM_EVO)
+	return 12+f*f*48;
 end
 
 function trySpawnNuker(surface, x, y, s)
@@ -128,7 +132,7 @@ function trySpawnNuker(surface, x, y, s)
 		local pos = {x = x+s/2, y = y+s/2}
 		local pollution = surface.get_pollution(pos)
 		if pollution > Config.wallNukerThresh then
-			local r = 12
+			local r = getNukerSpawnSearchArea()
 			local box = {{pos.x-r, pos.y-r}, {pos.x+r, pos.y+r}}
 			local spawners = surface.find_entities_filtered{type = "unit-spawner", force = game.forces.enemy, area = box}
 			if spawners and #spawners > 0 then
@@ -138,6 +142,7 @@ function trySpawnNuker(surface, x, y, s)
 				local pos2 = {x = player.position.x, y = player.position.y}
 				pos2.x = pos2.x+math.random(-128, 128)
 				pos2.y = pos2.y+math.random(-128, 128)
+				r = 32
 				box = {{pos2.x-r, pos2.y-r}, {pos2.x+r, pos2.y+r}}
 				local targets = surface.find_entities_filtered{type = "wall", force = player.force, area = box}
 				if targets and #targets > 0 then

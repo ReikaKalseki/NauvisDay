@@ -62,7 +62,7 @@ local function addCommands()
 		local sel = player.selected
 		if not (sel and sel.valid) then player.print("No entity is selected.") return end
 		local target = player.character
-		local targets = sel.surface.find_entities_filtered{type = "wall", force = player.force, area = box}
+		local targets = sel.surface.find_entities_filtered{type = "wall", force = player.force, area = getRadiusAABB(player, 200)}
 		if targets and #targets > 0 then
 			target = targets[math.random(1, #targets)]
 		end
@@ -72,7 +72,7 @@ end
 
 addCommands()
 
-script.on_configuration_changed(function()
+script.on_configuration_changed(function(data)
 	initGlobal(true)
 	--setupTrackers()
 	setPollutionAndEvoSettings(global.nvday)
@@ -94,7 +94,7 @@ script.on_configuration_changed(function()
 	for _,tile in pairs(tiles) do
 		if tile.valid then
 			local hid = game.surfaces.nauvis.get_hidden_tile(tile.position)
-			if hid and hid.valid then
+			if hid then
 				
 			else
 				game.surfaces.nauvis.set_hidden_tile(tile.position, game.tile_prototypes["water"])
@@ -171,7 +171,7 @@ local function onEntityAdded(event)
 	
 	trackEntityAddition(entity, nvday)
 	
-	if string.find(entity.name, "air-filter-machine-", 1, 1) then
+	if string.find(entity.name, "air-filter-machine-", 1, true) then
 		if entity.type == "assembling-machine" then --check type since AirFilter mod is otherwise going to be caught here
 			entity.set_recipe("air-cleaning-action")
 			--game.print("Initializing Deaero.")
@@ -265,7 +265,7 @@ local function onGameTick(event)
 		local cap = getInterpolatedValue(maxAttackSizeCurveLookup, evo)
 		cap = math.max(10, math.ceil(cap*Config.attackSize))
 		if not cap then game.print("ERROR: NULL INTERPOLATE FROM " .. serpent.block(evo) .. " into " .. serpent.block(maxAttackSizeCurveLookup.values)) end
-		game.map_settings.unit_group.max_unit_group_size = math.ceil(cap) --200 is vanilla
+		game.map_settings.unit_group.max_unit_group_size = math.ceil(cap) --[[@as uint]] --200 is vanilla
 		for i,egg in ipairs(nvday.worm_eggs) do
 			if egg.entity.valid then
 				local age = tick-egg.laid
@@ -325,12 +325,12 @@ script.on_event(defines.events.on_chunk_generated, function(event)
 		return
 	end
 	
-	table.insert(global.nvday.chunk_cache, chunk)
+	table.insert(global.nvday.chunk_cache, event.area)
 	
 	local rand = game.create_random_generator()
 	local x = (event.area.left_top.x+event.area.right_bottom.x)/2
 	local y = (event.area.left_top.y+event.area.right_bottom.y)/2
-	local seed = createSeed(event.surface, x+4, y+4)
+	local seed = createSeed(event.surface, x+4, y+4) --[[@as uint]]
 	rand.re_seed(seed)
 	local f0 = 1/160 --was 512, then 256, then 192
 	local f1 = rand(0, 2147483647)/2147483647

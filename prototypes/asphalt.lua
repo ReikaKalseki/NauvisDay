@@ -9,7 +9,6 @@ data:extend(
     subgroup = "terrain",
     order = "b[asphalt]-a[plain]",
     stack_size = 100,
-	icon_size = 32,
     place_as_tile =
     {
       result = "asphalt",

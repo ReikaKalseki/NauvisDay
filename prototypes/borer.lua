@@ -100,7 +100,6 @@ data:extend({
     order = "f[borer]",
     place_result = "borer",
     stack_size = 10,
-	icon_size = 32
   }
 })
 

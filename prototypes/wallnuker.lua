@@ -65,7 +65,7 @@ data:extend({
 	icon = "__NauvisDay__/graphics/icons/nuker-alert.png",
 	icon_size = 64,
 	subgroup = "virtual-signal-special",
-	order = name,
+	order = "nuker-alert",
 	hidden = true,
 },
   {
@@ -75,7 +75,6 @@ data:extend({
 	icon_size = 32,
     flags = {"placeable-enemy", "placeable-off-grid", "not-repairable", "breaths-air"},
     max_health = 3000,
-    order = "b-b-a",
     subgroup="enemies",
 	collision_mask = {"ground-tile"},--{"item-layer", "object-layer", "player-layer"},
 	order = "z",
@@ -152,7 +151,7 @@ data:extend({
 		sound = {
 			{
 			  filename = "__NauvisDay__/sound/wallnuker-detonate.ogg",
-			  volume = volume
+			  volume = 1
 			},
 		},
 		animation = create_attack_animation()

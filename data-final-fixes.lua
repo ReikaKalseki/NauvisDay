@@ -112,10 +112,16 @@ if Config.enableRefinery then
 				log(serpent.block(recipe))
 				data:extend({recipe})
 				
+				markForProductivityAllowed(recipe.name);
 				table.insert(recipes, recipe)
 			end
 		end
 	end
+
+	if data.raw.recipe["charcoal-2"] then markForProductivityAllowed("charcoal-2") end
+	if data.raw.recipe["air-filter-case"] then markForProductivityAllowed("air-filter-case") end
+	if data.raw.recipe["pollution-to-sulfuric"] then markForProductivityAllowed("pollution-to-sulfuric") end
+	if data.raw.recipe["pollution-to-sulfuric-2"] then markForProductivityAllowed("pollution-to-sulfuric-2") end
 
 	for _,tech in pairs(data.raw.technology) do
 		if tech.effects then

@@ -14,7 +14,6 @@ data:extend({
     order = "b[gas-boiler]",
     place_result = "gas-boiler",
     stack_size = 50,
-	icon_size = 32
   },
   {
 	type = "recipe",

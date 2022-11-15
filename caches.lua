@@ -96,6 +96,7 @@ function addBorehole(nvday, entity)
 	if #hole == 1 then
 		if game.entity_prototypes[hole[1].name].resource_category == "borehole" then
 			table.insert(nvday.boreholes, {well=entity, hole=hole[1]})
+			entity.operable = false
 		end
 	end
   end

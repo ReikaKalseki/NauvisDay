@@ -17,6 +17,8 @@ deaeroExponent = 1.4 -- was 1.25 until the same
 
 noMiningCalmingFactor = 3.5 --how much more time evo (which is negative) increases if you have no mining of any kind ongoing
 
+WALL_NUKER_MINIMUM_EVO = 0.4
+
 local maxAttackSizeCurve = {
 	{0, 10},
 	{0.05, 25},--{0.05, 10},
@@ -267,7 +269,6 @@ liquidEvaporationFactors = {
 	["nitrogen"] = 5,
 	["oxygen"] = 5,
 	["ozone"] = 4,
-	["nitrogen"] = 5,
 	["hydrogen"] = 10,
 	["petroleum-gas"] = 2,
 	["chlorine"] = 1.5,

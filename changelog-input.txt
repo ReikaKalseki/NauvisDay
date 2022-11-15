@@ -1,4 +1,19 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.152.1
+Date: Nov 15 2022
+	- Wall nukers now get even more common at high evolution factors
+	- Major code cleanup and associated bugfixes
+	- Fixed and reintroduced "no active mining" biter-calming condition
+	- Added productivity support to air filter, pollution processing, and charcoal recipes
+	- Well storage machines can no longer have their GUI accessed
+---------------------------------------------------------------------------------------------------
+Version: 1.150.1
+Date: Nov 4 2022
+	- Added death animations and sound and corpses to worm eggs
+	- More attempts to fix AAI/SE compat with clean refineries
+	- Massively reduced on-load lag spike after changing mods or settings
+	- Removed all variants of polluted water in favor of a universal one
+---------------------------------------------------------------------------------------------------
 Version: 1.148.1
 Date: Oct 31 2022
 	- Removed "initializing deaero" debug print
