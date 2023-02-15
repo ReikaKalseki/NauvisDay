@@ -136,8 +136,31 @@ data:extend(
 		}
 		water.mined_sound = {filename = "__NauvisDay__/sound/mine-sludge.ogg", volume = 1.5}
 
+		local deepwater = table.deepcopy(data.raw.tile.landfill)
+		deepwater.name = "polluted-deepwater"
+		deepwater.autoplace = nil
+		--log("Inserting " .. name .. " into " .. (deepwater.allowed_neighbors and (#deepwater.allowed_neighbors .. " @ " .. name) or "nil") .. " for " .. deepwatername)
+		deepwater.pollution_absorption_per_second=-0.125---20---0.125 instead of making it emit pollution (net), make it only reduce absorption, but not work for offshore pumps and the like
+		deepwater.map_color={r=29, g=38, b=2}
+		--deepwater.localised_name = {"polluted-fluid.fluid", {"tile-name." .. name}}
+		deepwater.collision_mask =
+		{
+		  --"deepwater-tile", --removing this prevents offshore pumps from being placed on it.....not anymore
+		  "item-layer",
+		  "resource-layer",
+		  "player-layer",
+		  "doodad-layer"
+		}
+		replaceSpritesDynamic("NauvisDay", "landfill", deepwater)
+		deepwater.minable = {
+			mining_time = 10,
+			result = "mined-sludge",
+			count = 20,
+		}
+		deepwater.mined_sound = {filename = "__NauvisDay__/sound/mine-sludge.ogg", volume = 1.5}
+
 data:extend({
-	water
+	water,deepwater
 })
 
 local pumps = {}
